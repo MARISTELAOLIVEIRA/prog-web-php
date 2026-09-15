@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PHP.exe — Conceitos Iniciais de Programação WEB</title>
+<meta name="description" content="Mini curso interativo de PHP: sintaxe, tipos de dados, variáveis, estruturas de controle e funções. Programação WEB II — Senac DF." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💾</text></svg>" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<a class="skip-link" href="#view">Pular para o conteúdo</a>
+
+<!-- Fundo cyberpunk: grade animada + partículas em canvas -->
+<div class="bg-grid" aria-hidden="true"></div>
+<canvas id="fx-canvas" aria-hidden="true"></canvas>
+<div class="scanlines" aria-hidden="true"></div>
+
+<header class="site-header">
+  <a class="brand" href="#/" aria-label="Ir para o painel inicial">
+    <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+    <h1 class="glitch" data-text="PHP.exe">PHP.exe</h1>
+  </a>
+
+  <div class="header-actions">
+    <button id="btn-home" class="icon-btn" type="button" title="Voltar ao início" aria-label="Voltar ao início">
+      <span aria-hidden="true">⌂</span>
+      <span class="visually-hidden">Início</span>
+    </button>
+    <div class="student-badge" id="student-badge" hidden>
+      <span class="badge-icon" aria-hidden="true">◈</span>
+      <span id="student-name-display"></span>
+      <button id="btn-switch-student" class="icon-btn" type="button" title="Trocar aluno(a)" aria-label="Trocar aluno(a)">⇄</button>
+    </div>
+    <button id="theme-toggle" class="icon-btn" type="button" aria-pressed="false" title="Alternar tema claro/escuro">
+      <span id="theme-icon" aria-hidden="true">☾</span>
+      <span class="visually-hidden">Alternar tema</span>
+    </button>
+  </div>
+</header>
+
+<nav class="progress-nav" id="progress-nav" aria-label="Progresso do curso" hidden>
+  <div class="progress-track">
+    <div class="progress-fill" id="global-progress-fill"></div>
+  </div>
+  <span id="global-progress-label">0% concluído</span>
+</nav>
+
+<main id="view" class="view" tabindex="-1">
+  <!-- Conteúdo renderizado dinamicamente via JS -->
+</main>
+
+<footer class="site-footer">
+  <p>Programação WEB II — Faculdade de Tecnologia e Inovação Senac DF · Profª Maristela</p>
+</footer>
+
+<div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
