@@ -1,0 +1,7 @@
+# arquivos do Mac
+.DS_Store
+
+# notas pessoais (para a Stela e o Copilot) e configurações locais do Claude Code
+leia.txt
+CLAUDE.md
+.claude/
