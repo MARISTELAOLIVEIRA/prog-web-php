@@ -1,6 +1,6 @@
 /*
   disciplina.css: modelo de página inicial das disciplinas.
-  versão 1 · 2026-10-05
+  versão 3 · 2026-10-05
 
   Usa as cores, fontes e peças do estilo.css (carregue o estilo.css antes).
   Este arquivo é igual em todas as disciplinas: o que muda de uma para
@@ -631,4 +631,179 @@ a.unidade:hover {
   .curiosidades .destaque {
     grid-row: auto;
   }
+}
+
+
+/* ========== avaliação (opcional): um card por bimestre ========== */
+
+.avaliacao {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.avaliacao h3 {
+  font-size: 1.25rem;
+}
+
+/* barra de pontos: cada parte ocupa a largura do seu valor (--pts, de 0 a 10) */
+.pontos {
+  display: flex;
+  gap: 4px;
+  height: .7rem;
+  margin: .6rem 0 .4rem;
+}
+
+.pontos span {
+  flex: var(--pts) 0 0;
+  border-radius: 999px;
+  background: var(--ouro);
+}
+
+.pontos span:nth-child(2) {
+  background: var(--menta);
+}
+
+.pontos span:nth-child(3) {
+  background: var(--texto-3);
+}
+
+.partes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partes li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .6rem 0;
+  color: var(--texto-2);
+}
+
+.partes li + li {
+  border-top: 1px solid var(--borda);
+}
+
+.partes strong {
+  flex: none;
+  font-family: var(--f-mono);
+  font-weight: 500;
+  color: var(--texto);
+}
+
+/* bolinha com a cor da parte, igual à da barra */
+.partes li span::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: .55rem;
+  border-radius: 50%;
+  background: var(--ouro);
+}
+
+.partes li:nth-child(2) span::before {
+  background: var(--menta);
+}
+
+.partes li:nth-child(3) span::before {
+  background: var(--texto-3);
+}
+
+.aprovacao {
+  margin-top: 1rem;
+  color: var(--texto-2);
+}
+
+@media (max-width: 760px) {
+  .avaliacao {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ========== bibliografia (opcional) ========== */
+
+.biblio {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+  gap: 1rem;
+}
+
+.biblio ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.biblio li {
+  padding-left: 1rem;
+  border-left: 2px solid var(--ouro);
+  color: var(--texto-2);
+}
+
+.biblio li strong {
+  display: block;
+  font-family: var(--f-titulo);
+  font-size: 1.05rem;
+  color: var(--texto);
+}
+
+@media (max-width: 760px) {
+  .biblio {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ========== logos das tecnologias ========== */
+
+/* abertura: logo grande da linguagem flutuando sobre a janela de código */
+.vitrine {
+  position: relative;
+}
+
+.logo-flutua {
+  --t: clamp(4.4rem, 8vw, 6.2rem);
+  position: absolute;
+  z-index: 2;
+  top: -2.4rem;
+  right: -1.2rem;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, .7) inset,
+    0 0 0 1px rgba(0, 0, 0, .07),
+    0 24px 50px -18px rgba(0, 0, 0, .7),
+    0 0 70px -10px var(--brilho-1);
+  animation: flutua 6s ease-in-out infinite;
+}
+
+@keyframes flutua {
+  50% {
+    transform: translateY(-10px) rotate(-4deg);
+  }
+}
+
+@media (max-width: 860px) {
+  .logo-flutua {
+    top: -1.8rem;
+    right: .6rem;
+  }
+}
+
+/* logo pequeno dentro de uma etiqueta (ferramentas) */
+.etiqueta .tec {
+  --t: 1.15rem;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+/* logo no card de destaque do raio-x */
+.destaque > .tec {
+  --t: 3rem;
+  margin-bottom: auto;
 }
