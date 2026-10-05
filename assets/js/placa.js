@@ -1,5 +1,5 @@
 /* placa.js: comportamento comum a todos os sites.
-   versão 3 · 2026-10-05 (cada site tem a sua cópia; mantenha igual ao estilo.css)
+   versão 4 · 2026-10-05 (cada site tem a sua cópia; mantenha igual ao estilo.css)
 
    Carregue no <head>, ANTES do CSS e SEM "defer":
      <script src="assets/js/placa.js"></script>

@@ -1,5 +1,5 @@
 /* estilo.css: visual comum de todos os sites (portal, cursos e disciplinas).
-   versão 3 · 2026-10-05
+   versão 4 · 2026-10-05
    github.com + Apple/macOS + a placa de circuito da Stela.
    Escuro por padrão; o botão de tema da barra troca para o claro.
 
@@ -167,6 +167,24 @@ body::before{content:""; position:fixed; inset:0; z-index:-1; pointer-events:non
 .botao:hover{color:var(--fundo); opacity:.9; transform:translateY(-1px)}
 .botao.contorno{color:var(--texto); background:transparent; border-color:var(--borda-forte)}
 .botao.contorno:hover{color:var(--texto); border-color:var(--ouro)}
+
+/* ---------- logos das tecnologias: azulejo claro, como os ícones do macOS ----------
+   Fundo claro nos dois temas: assim logos escuros (GitHub, AWS) continuam visíveis.
+   Tamanho pela variável --t (padrão 2.2rem). Logos em assets/img/tec/ (Devicon e Simple Icons). */
+.tec{display:inline-grid; place-items:center; flex:none; width:var(--t,2.2rem); height:var(--t,2.2rem); border-radius:24%; background:#fbfaf6;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 0 0 1px rgba(0,0,0,.07), 0 8px 18px -10px rgba(0,0,0,.6)}
+.tec img{width:62%; height:62%; object-fit:contain}
+.tecs{display:flex; flex-wrap:wrap; gap:.45rem; margin-top:auto; padding-top:.6rem}
+.tecs .tec{--t:1.9rem}
+
+/* faixa de tecnologias deslizando, como o Dock do Mac (a lista vem duas vezes para o giro não ter emenda) */
+.doca{overflow:hidden; padding-block:1.6rem; border-top:1px solid var(--borda);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.doca-trilho{display:flex; gap:1.1rem; width:max-content; animation:desliza 45s linear infinite}
+.doca .tec{--t:3.2rem; transition:transform .25s var(--suave)}
+.doca .tec:hover{transform:translateY(-6px) scale(1.12)}
+.doca:hover .doca-trilho{animation-play-state:paused}
+@keyframes desliza{to{transform:translateX(calc(-50% - .55rem))}}
 
 /* ---------- histórico de commits (formação no portal; cronograma e prazos nas disciplinas) ---------- */
 .repo-topo{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.4rem; font-size:.9rem; color:var(--texto-2)}
