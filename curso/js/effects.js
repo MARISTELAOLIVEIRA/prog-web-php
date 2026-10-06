@@ -1,6 +1,9 @@
 // Efeitos visuais cyberpunk: chuva de código estilo Matrix + glitch periódico no logo.
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// o botão "Pausar animações" da barra do topo coloca a classe pausado no <html>
+const pausado = () => document.documentElement.classList.contains('pausado');
+
 export function initParticles() {
   const canvas = document.getElementById('fx-canvas');
   if (!canvas || reduceMotion) return;
@@ -20,6 +23,11 @@ export function initParticles() {
   setup();
 
   function tick() {
+    if (pausado()) {
+      ctx.clearRect(0, 0, w, h);
+      requestAnimationFrame(tick);
+      return;
+    }
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
 
     // véu semitransparente sobre o quadro anterior: cria o rastro esmaecido da cascata
@@ -51,13 +59,14 @@ export function initGlitch() {
   const el = document.querySelector('.glitch');
   if (!el || reduceMotion) return;
   setInterval(() => {
+    if (pausado()) return;
     el.classList.add('glitching');
     setTimeout(() => el.classList.remove('glitching'), 180);
   }, 3500);
 }
 
 export function burstConfetti() {
-  if (reduceMotion) return;
+  if (reduceMotion || pausado()) return;
   const canvas = document.getElementById('fx-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -88,7 +97,7 @@ export function burstConfetti() {
 }
 
 export function typewrite(element, text, speed = 18) {
-  if (reduceMotion) { element.textContent = text; return; }
+  if (reduceMotion || pausado()) { element.textContent = text; return; }
   element.textContent = '';
   let i = 0;
   const id = setInterval(() => {

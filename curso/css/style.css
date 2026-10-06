@@ -1,5 +1,5 @@
 /* ============================================================
-   PHP.exe — Estilos cyberpunk (dark padrão / light alternativo)
+   Curso Básico de PHP — estilos do curso (neon; o tema segue o botão da barra do topo)
    ============================================================ */
 
 :root {
@@ -446,3 +446,17 @@ pre.code-block {
   .view { width: 94%; padding: 1.25rem 0 3rem; }
   .module-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Integração com os sites da Stela: barra do topo e rodapé comuns (estilo.css) ---------- */
+/* a barra do topo já fica fixa no alto; o cabeçalho do curso rola junto com a página */
+.site-header { position: static; backdrop-filter: none; }
+.brand-title { font-family: var(--font-mono); font-weight: 700; }
+.barra { z-index: 60; }   /* acima das linhas de monitor do fundo */
+.rodape { position: relative; z-index: 30; }
+.rodape { margin-top: 3rem; }
+
+/* celular: "/ Curso" sai da barra para ela caber numa linha (os módulos ficam no Menu) */
+@media (max-width: 520px) {
+  .barra .marca-disc + .marca-disc { display: none; }
+}
+.barra .nav a[aria-current="page"] { color: var(--ouro-forte); }
