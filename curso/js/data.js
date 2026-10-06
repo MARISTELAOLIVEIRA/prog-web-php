@@ -640,6 +640,431 @@ echo $pdo->query('SELECT COUNT(*) FROM clientes')->fetchColumn();` },
       { kind: 'mc', prompt: "Onde o arquivo loja.sqlite deve ficar fora do GitHub?", options: ["Em lugar nenhum, ele deve ir", "No .gitignore", "No README", "No index.php"], answer: 1, explain: "Dados de clientes não vão para o repositório." },
     ],
   },
+  {
+    id: 'm7',
+    icon: "✎",
+    title: "CRUD completo",
+    description: "Listar, alterar e excluir: o cadastro inteiro, do C ao D.",
+    lessons: [
+      {
+        id: 'm7-l1',
+        title: "Listar com ações",
+        blocks: [
+          { type: 'text', html: "<p><strong>CRUD</strong> é o apelido das quatro operações de quase todo sistema: <em>Create</em> (cadastrar), <em>Read</em> (listar e consultar), <em>Update</em> (alterar) e <em>Delete</em> (excluir). O cadastro já sabe as duas primeiras. Agora a lista ganha um link de ação em cada linha, levando o <code class=\"inline\">id</code> do cliente no endereço.</p>" },
+          { type: 'code', code: `<?php foreach ($clientes as $cliente): ?>
+  <tr>
+    <td><?= htmlspecialchars($cliente['nome']) ?></td>
+    <td><?= htmlspecialchars($cliente['email']) ?></td>
+    <td><a href="editar.php?id=<?= $cliente['id'] ?>">Editar</a></td>
+  </tr>
+<?php endforeach; ?>` },
+          { type: 'text', html: "<p>Na página <code class=\"inline\">editar.php</code>, o <code class=\"inline\">id</code> chega em <code class=\"inline\">$_GET</code>, como texto. O <code class=\"inline\">(int)</code> transforma em número e descarta o resto: <code class=\"inline\">(int) '7; DROP TABLE'</code> vira <code class=\"inline\">7</code>. Depois, busque o cliente e trate o caso de ele não existir.</p>" },
+          { type: 'code', code: `<?php
+require_once __DIR__ . '/banco.php';
+
+$id = (int) ($_GET['id'] ?? 0);
+$stmt = $pdo->prepare('SELECT * FROM clientes WHERE id = :id');
+$stmt->execute([':id' => $id]);
+$cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$cliente) {
+    http_response_code(404);
+    exit('Cliente não encontrado.');
+}` },
+          { type: 'question', q: { kind: 'mc', prompt: "No CRUD, a letra U corresponde a:", options: ["Usar", "Update (alterar)", "Upload", "Unir tabelas"], answer: 1, explain: "Create, Read, Update, Delete." } },
+          { type: 'question', q: { kind: 'mc', prompt: "O que (int) faz com o texto \"12abc\"?", options: ["Dá erro", "Vira 12", "Vira 0", "Continua \"12abc\""], answer: 1, explain: "O cast para int pega o número do começo e descarta o resto." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual método do PDO devolve uma única linha do resultado?", answers: ["fetch", "fetch()"], explain: "fetch() devolve uma linha; fetchAll() devolve todas." } },
+        ],
+      },
+      {
+        id: 'm7-l2',
+        title: "Alterar com UPDATE",
+        blocks: [
+          { type: 'text', html: "<p>A tela de edição é o formulário de cadastro com os campos já preenchidos com os dados do banco. Ao enviar, o <code class=\"inline\">UPDATE</code> troca os valores <strong>daquela</strong> linha, que é escolhida pelo <code class=\"inline\">WHERE id = :id</code>.</p>" },
+          { type: 'code', code: `<?php
+$sql = 'UPDATE clientes
+        SET nome = :nome, email = :email, cidade = :cidade
+        WHERE id = :id';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([
+    ':nome' => $nome,
+    ':email' => $email,
+    ':cidade' => $cidade,
+    ':id' => $id,
+]);
+echo $stmt->rowCount() . ' cliente alterado.';` },
+          { type: 'text', html: "<p><strong>Cuidado com o UPDATE sem WHERE:</strong> ele altera todas as linhas da tabela. É o famoso \"mudei o nome de todo mundo para Ana\". Antes de rodar, leia o comando em voz alta: \"altere... onde o id for...\". O <code class=\"inline\">rowCount()</code> conta quantas linhas foram alteradas.</p>" },
+          { type: 'code', code: `<input id="nome" name="nome"
+       value="<?= htmlspecialchars($cliente['nome']) ?>">
+<input type="hidden" name="id" value="<?= $cliente['id'] ?>">` },
+          { type: 'question', q: { kind: 'mc', prompt: "O que acontece com UPDATE clientes SET cidade = 'Gama' sem WHERE?", options: ["Nada", "Todos os clientes passam a ser do Gama", "Só o primeiro cliente muda", "O banco recusa"], answer: 1, explain: "Sem WHERE, o UPDATE vale para todas as linhas." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Para o formulário de edição já vir preenchido, usamos:", options: ["O atributo placeholder", "O value de cada campo com os dados do banco", "Um novo INSERT", "O $_SESSION"], answer: 1, explain: "O value recebe o valor atual, passado pelo htmlspecialchars." } },
+        ],
+      },
+      {
+        id: 'm7-l3',
+        title: "Excluir com DELETE (e com cuidado)",
+        blocks: [
+          { type: 'text', html: "<p>Excluir não se faz com um link simples: links podem ser abertos sem querer, até por robôs de busca. Use um pequeno formulário com <code class=\"inline\">method=\"post\"</code> e uma pergunta de confirmação. No PHP, o <code class=\"inline\">DELETE</code> leva o mesmo cuidado do <code class=\"inline\">UPDATE</code>: sempre com <code class=\"inline\">WHERE</code>.</p>" },
+          { type: 'code', code: `<form method="post" action="excluir.php">
+  <input type="hidden" name="id" value="<?= $cliente['id'] ?>">
+  <button type="submit">Excluir <?= htmlspecialchars($cliente['nome']) ?></button>
+</form>` },
+          { type: 'code', code: `<?php
+require_once __DIR__ . '/banco.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = (int) ($_POST['id'] ?? 0);
+    $stmt = $pdo->prepare('DELETE FROM clientes WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+}
+
+// volta para a lista: um F5 não repete a exclusão
+header('Location: index.php');
+exit;` },
+          { type: 'text', html: "<p>Esse \"faz e redireciona\" tem nome: <strong>Post/Redirect/Get</strong>. Depois de qualquer gravação, mande o navegador para outra página com <code class=\"inline\">header('Location: ...')</code> e <code class=\"inline\">exit</code>. Assim o F5 não envia o formulário de novo.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Por que excluir com um formulário POST, e não com um link?", options: ["Porque é mais bonito", "Porque um link pode ser aberto sem querer, até por robôs", "Porque o DELETE só funciona com POST", "Tanto faz"], answer: 1, explain: "Ações que mudam dados devem usar POST." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual função do PHP manda o navegador para outra página? (header com qual cabeçalho? escreva só a palavra)", answers: ["Location", "location"], explain: "header('Location: index.php') redireciona." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "Qual comando SQL altera um registro?", options: ["INSERT", "UPDATE", "ALTER", "CHANGE"], answer: 1, explain: "UPDATE ... SET ... WHERE." },
+      { kind: 'mc', prompt: "Qual comando SQL apaga um registro?", options: ["DROP", "REMOVE", "DELETE", "ERASE"], answer: 2, explain: "DELETE FROM ... WHERE. (DROP apaga a tabela inteira!)" },
+      { kind: 'mc', prompt: "O que o rowCount() informa depois de um UPDATE?", options: ["Quantas colunas a tabela tem", "Quantas linhas foram alteradas", "O id do cliente", "O tempo da consulta"], answer: 1, explain: "rowCount() conta as linhas afetadas." },
+      { kind: 'fill', prompt: "Como se chama o padrão de redirecionar depois de gravar, para o F5 não repetir a ação? (Post/Redirect/___)", answers: ["Get", "get"], explain: "Post/Redirect/Get." },
+      { kind: 'mc', prompt: "editar.php?id=5: em que variável o 5 chega?", options: ["$_POST['id']", "$_GET['id']", "$_SESSION['id']", "$id automaticamente"], answer: 1, explain: "Dados do endereço chegam em $_GET." },
+    ],
+  },
+  {
+    id: 'm8',
+    icon: "⧉",
+    title: "Includes e organização",
+    description: "include, require e um projeto dividido em arquivos com uma tarefa cada.",
+    lessons: [
+      {
+        id: 'm8-l1',
+        title: "include e require",
+        blocks: [
+          { type: 'text', html: "<p>Copiar a conexão com o banco e o cabeçalho em cada página é pedir para esquecer uma delas na próxima mudança. Com <code class=\"inline\">require</code>, o PHP \"cola\" outro arquivo naquele ponto. Mudou o cabeçalho? Muda em um lugar só.</p>" },
+          { type: 'text', html: "<p><code class=\"inline\">include</code> e <code class=\"inline\">require</code> fazem a mesma coisa, mas reagem diferente quando o arquivo não existe: o <code class=\"inline\">include</code> só avisa e segue; o <code class=\"inline\">require</code> para tudo. Para a conexão com o banco, use <code class=\"inline\">require_once</code>: ele para se faltar e não carrega duas vezes. O <code class=\"inline\">__DIR__</code> é a pasta do arquivo atual e evita caminho quebrado.</p>" },
+          { type: 'code', code: `<?php
+// index.php
+require_once __DIR__ . '/banco.php';
+$titulo = 'Clientes';
+require __DIR__ . '/parciais/cabecalho.php';
+?>
+<h1>Clientes</h1>
+<?php require __DIR__ . '/parciais/rodape.php'; ?>` },
+          { type: 'code', code: `<!-- parciais/cabecalho.php -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title><?= htmlspecialchars($titulo ?? 'Loja') ?></title>
+</head>
+<body>
+  <nav><a href="index.php">Clientes</a> · <a href="novo.php">Novo</a></nav>` },
+          { type: 'text', html: "<p>Repare no <code class=\"inline\">$titulo</code>: a página define a variável antes do <code class=\"inline\">require</code>, e o cabeçalho usa. O arquivo incluído enxerga as variáveis de quem incluiu.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Se o arquivo não existir, qual dos dois para a página com erro fatal?", options: ["include", "require", "os dois só avisam", "nenhum"], answer: 1, explain: "require para tudo; include só avisa." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual constante mágica guarda a pasta do arquivo atual? (com os sublinhados)", answers: ["__DIR__"], explain: "__DIR__ evita caminhos quebrados." } },
+        ],
+      },
+      {
+        id: 'm8-l2',
+        title: "Uma pasta organizada",
+        blocks: [
+          { type: 'text', html: "<p>Regra de bolso: <strong>cada arquivo com uma tarefa</strong>. Quem conecta, conecta. Quem valida, valida. As páginas só juntam as peças. Um projeto pequeno pode ficar assim:</p>" },
+          { type: 'code', code: `loja/
+├── banco.php           # conexão PDO e criação das tabelas
+├── funcoes.php         # validarCliente() e outras funções
+├── parciais/
+│   ├── cabecalho.php
+│   └── rodape.php
+├── index.php           # lista os clientes
+├── novo.php            # cadastra
+├── editar.php          # altera
+├── excluir.php         # exclui
+├── .gitignore          # loja.sqlite fica de fora
+└── loja.sqlite         # o banco (criado sozinho)` },
+          { type: 'text', html: "<p>Os nomes contam a história: qualquer colega abre a pasta e sabe onde mexer. E o dia em que o cadastro virar MySQL, você muda um arquivo só, o <code class=\"inline\">banco.php</code>.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Onde deve ficar a conexão com o banco?", options: ["Copiada em cada página", "Num arquivo próprio, incluído com require_once", "No cabeçalho HTML", "No .gitignore"], answer: 1, explain: "Um arquivo só: muda em um lugar." } },
+          { type: 'question', q: { kind: 'mc', prompt: "O que vai no .gitignore deste projeto?", options: ["index.php", "loja.sqlite", "banco.php", "parciais/"], answer: 1, explain: "O arquivo do banco, com dados de clientes, fica fora do GitHub." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "Para incluir a conexão com o banco, o mais seguro é:", options: ["include", "require_once", "echo", "import"], answer: 1, explain: "Para se faltar e não carrega duas vezes." },
+      { kind: 'mc', prompt: "Uma variável definida antes do require pode ser usada no arquivo incluído?", options: ["Não", "Sim", "Só se for global", "Só se for constante"], answer: 1, explain: "O arquivo incluído enxerga o escopo de quem incluiu." },
+      { kind: 'mc', prompt: "Qual a vantagem de ter cabeçalho e rodapé em arquivos separados?", options: ["O site fica mais rápido", "Mudou em um lugar, muda em todas as páginas", "O PHP exige", "Nenhuma"], answer: 1, explain: "Manutenção em um lugar só." },
+      { kind: 'fill', prompt: "Complete: require_once __DIR__ . '/____.php'; para incluir a conexão chamada banco", answers: ["banco"], explain: "require_once __DIR__ . '/banco.php';" },
+    ],
+  },
+  {
+    id: 'm9',
+    icon: "◎",
+    title: "Classes e objetos",
+    description: "A classe como molde: atributos, construtor, métodos e uma classe que fala com o banco.",
+    lessons: [
+      {
+        id: 'm9-l1',
+        title: "Do array ao objeto",
+        blocks: [
+          { type: 'text', html: "<p>Até aqui, um cliente era um array: <code class=\"inline\">$cliente['nome']</code>. Funciona, mas nada impede alguém de escrever <code class=\"inline\">$cliente['nmoe']</code> e só descobrir o erro depois. Uma <strong>classe</strong> é o molde do cliente: diz quais dados ele tem (atributos) e o que ele sabe fazer (métodos). Cada cliente criado com <code class=\"inline\">new</code> é um <strong>objeto</strong>.</p>" },
+          { type: 'code', code: `<?php
+class Cliente
+{
+    public function __construct(
+        public string $nome,
+        public string $email,
+        public string $cidade = ''
+    ) {
+    }
+
+    public function apresentar(): string
+    {
+        return "{$this->nome} ({$this->email})";
+    }
+}
+
+$ana = new Cliente('Ana Souza', 'ana@exemplo.com', 'Brasília');
+echo $ana->apresentar();   // Ana Souza (ana@exemplo.com)
+echo $ana->cidade;         // Brasília` },
+          { type: 'text', html: "<p>O <code class=\"inline\">__construct</code> roda na hora do <code class=\"inline\">new</code> e, com <code class=\"inline\">public</code> na frente dos parâmetros, já cria os atributos. Dentro da classe, <code class=\"inline\">$this</code> é \"este objeto\". Fora dela, a seta <code class=\"inline\">-></code> acessa atributos e métodos.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Qual palavra cria um objeto a partir de uma classe?", options: ["class", "new", "create", "this"], answer: 1, explain: "$ana = new Cliente(...);" } },
+          { type: 'question', q: { kind: 'fill', prompt: "Dentro de um método, qual variável representa o próprio objeto?", answers: ["$this", "this"], explain: "$this é \"este objeto\"." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Na classe Cliente, apresentar() é:", options: ["Um atributo", "Um método", "Um construtor", "Uma tabela"], answer: 1, explain: "Método é uma função que pertence à classe." } },
+        ],
+      },
+      {
+        id: 'm9-l2',
+        title: "Uma classe que conversa com o banco",
+        blocks: [
+          { type: 'text', html: "<p>O SQL do cliente estava espalhado pelas páginas. Juntando tudo numa classe, as páginas só pedem: \"salve este cliente\", \"me dê a lista\". Esse tipo de classe costuma se chamar <strong>repositório</strong>.</p>" },
+          { type: 'code', code: `<?php
+require_once __DIR__ . '/Cliente.php';
+
+class ClienteRepositorio
+{
+    public function __construct(private PDO $pdo)
+    {
+    }
+
+    public function salvar(Cliente $cliente): int
+    {
+        $sql = 'INSERT INTO clientes (nome, email, cidade)
+                VALUES (:nome, :email, :cidade)';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':nome' => $cliente->nome,
+            ':email' => $cliente->email,
+            ':cidade' => $cliente->cidade,
+        ]);
+        return (int) $this->pdo->lastInsertId();
+    }
+
+    public function listar(): array
+    {
+        $sql = 'SELECT nome, email, cidade FROM clientes ORDER BY nome';
+        $clientes = [];
+        foreach ($this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC) as $linha) {
+            $clientes[] = new Cliente($linha['nome'], $linha['email'], $linha['cidade'] ?? '');
+        }
+        return $clientes;
+    }
+}` },
+          { type: 'code', code: `<?php
+// numa página qualquer
+$repo = new ClienteRepositorio($pdo);
+$repo->salvar(new Cliente('Davi Rocha', 'davi@exemplo.com'));
+
+foreach ($repo->listar() as $cliente) {
+    echo htmlspecialchars($cliente->apresentar()) . '<br>';
+}` },
+          { type: 'text', html: "<p>O <code class=\"inline\">private</code> esconde a conexão: só a própria classe usa o <code class=\"inline\">$this->pdo</code>. E os tipos (<code class=\"inline\">Cliente $cliente</code>, <code class=\"inline\">: int</code>) fazem o PHP reclamar na hora se alguém passar a coisa errada.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "O que o private na frente de $pdo garante?", options: ["Que a senha do banco fica criptografada", "Que só a própria classe acessa $this->pdo", "Que o objeto não pode ser criado", "Nada"], answer: 1, explain: "private: visível só dentro da classe." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Qual a vantagem de um repositório?", options: ["O SQL fica num lugar só e as páginas ficam simples", "O banco fica mais rápido", "Não precisa mais de PDO", "Dispensa o htmlspecialchars"], answer: 0, explain: "As páginas pedem; o repositório sabe o SQL." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "Classe e objeto são, respectivamente:", options: ["Objeto e molde", "Molde e coisa criada a partir do molde", "Tabela e linha do banco", "Função e variável"], answer: 1, explain: "A classe é o molde; o objeto, o que sai dele." },
+      { kind: 'mc', prompt: "Qual método roda automaticamente quando fazemos new?", options: ["__start", "__construct", "init", "main"], answer: 1, explain: "__construct é o construtor." },
+      { kind: 'fill', prompt: "Qual símbolo acessa um método do objeto: $ana__apresentar() (dois caracteres)", answers: ["->"], explain: "$ana->apresentar()." },
+      { kind: 'mc', prompt: "public, private: o que eles definem?", options: ["O tipo do dado", "Quem pode acessar o atributo ou método", "A velocidade", "O banco usado"], answer: 1, explain: "Visibilidade." },
+      { kind: 'mc', prompt: "Num ClienteRepositorio, o SQL dos clientes fica:", options: ["Espalhado pelas páginas", "Dentro da classe", "No HTML", "No .gitignore"], answer: 1, explain: "Centralizado na classe." },
+    ],
+  },
+  {
+    id: 'm10',
+    icon: "⚿",
+    title: "Login e sessão",
+    description: "Senha protegida com password_hash e a sessão que lembra quem entrou.",
+    lessons: [
+      {
+        id: 'm10-l1',
+        title: "Senha não se guarda: se embaralha",
+        blocks: [
+          { type: 'text', html: "<p>Senha nunca vai para o banco do jeito que foi digitada. Se o banco vazar, ninguém deve conseguir ler as senhas. O PHP faz isso com uma função: <code class=\"inline\">password_hash()</code> transforma a senha num código que não dá para desfazer. Para conferir no login, <code class=\"inline\">password_verify()</code> compara a senha digitada com esse código.</p>" },
+          { type: 'code', code: `<?php
+// no cadastro do usuário
+$hash = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+$stmt = $pdo->prepare('INSERT INTO usuarios (email, senha_hash) VALUES (:email, :hash)');
+$stmt->execute([':email' => $email, ':hash' => $hash]);
+
+// $hash parece com: $2y$12$Qk... (60 caracteres, diferente a cada vez)` },
+          { type: 'code', code: `<?php
+// no login
+$stmt = $pdo->prepare('SELECT id, senha_hash FROM usuarios WHERE email = :email');
+$stmt->execute([':email' => $email]);
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($usuario && password_verify($senha, $usuario['senha_hash'])) {
+    // senha certa
+} else {
+    $erro = 'E-mail ou senha incorretos.';
+}` },
+          { type: 'text', html: "<p>Repare na mensagem de erro: ela não diz se foi o e-mail ou a senha que errou. Isso não dá pista para quem está tentando adivinhar.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Como a senha deve ser guardada no banco?", options: ["Como foi digitada", "Com password_hash()", "Em maiúsculas", "Num cookie"], answer: 1, explain: "password_hash() gera um código que não dá para desfazer." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual função confere a senha digitada contra o hash guardado?", answers: ["password_verify", "password_verify()"], explain: "password_verify($senha, $hash)." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Por que a mensagem diz \"E-mail ou senha incorretos\" sem dizer qual?", options: ["Por preguiça", "Para não dar pista a quem tenta adivinhar", "Porque o PHP não sabe", "Por causa do SQLite"], answer: 1, explain: "Mensagem genérica protege as contas." } },
+        ],
+      },
+      {
+        id: 'm10-l2',
+        title: "Sessão: lembrar quem entrou",
+        blocks: [
+          { type: 'text', html: "<p>Cada página PHP começa do zero: ela não lembra que você acabou de fazer login. A <strong>sessão</strong> resolve isso. O <code class=\"inline\">session_start()</code>, sempre no topo, abre uma \"gaveta\" só daquele visitante, a <code class=\"inline\">$_SESSION</code>, que dura enquanto ele navega.</p>" },
+          { type: 'code', code: `<?php
+// login.php, depois do password_verify dar certo
+session_start();
+session_regenerate_id(true);   // troca o crachá da sessão
+$_SESSION['usuario_id'] = $usuario['id'];
+header('Location: painel.php');
+exit;` },
+          { type: 'code', code: `<?php
+// painel.php: só entra quem fez login
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: login.php');
+    exit;
+}` },
+          { type: 'code', code: `<?php
+// sair.php
+session_start();
+$_SESSION = [];
+session_destroy();
+header('Location: login.php');
+exit;` },
+          { type: 'text', html: "<p>O <code class=\"inline\">session_regenerate_id(true)</code> troca o identificador da sessão na hora do login: se alguém tinha pegado o antigo, ele deixa de valer. E coloque a verificação do painel num arquivo, como <code class=\"inline\">protegido.php</code>, incluído com <code class=\"inline\">require_once</code> em toda página restrita.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Onde o session_start() deve ficar?", options: ["No fim da página", "No topo, antes de qualquer HTML", "Só no login", "No banco"], answer: 1, explain: "A sessão precisa começar antes de qualquer saída." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Em qual variável superglobal guardamos o id de quem fez login?", answers: ["$_SESSION", "$_session"], explain: "$_SESSION['usuario_id']." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Uma página restrita sem $_SESSION['usuario_id'] deve:", options: ["Mostrar tudo mesmo assim", "Redirecionar para o login", "Apagar o banco", "Criar um usuário"], answer: 1, explain: "Sem login, volta para a porta." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "password_hash(\"123\") executado duas vezes gera:", options: ["O mesmo código", "Códigos diferentes, e os dois são aceitos pelo password_verify", "Erro", "\"123\" de novo"], answer: 1, explain: "O hash tem um sal aleatório; cada vez sai diferente." },
+      { kind: 'mc', prompt: "Para sair do sistema, usamos:", options: ["session_start()", "session_destroy()", "password_hash()", "header()"], answer: 1, explain: "session_destroy() encerra a sessão." },
+      { kind: 'fill', prompt: "Qual função troca o identificador da sessão na hora do login? session_______(true)", answers: ["regenerate_id", "session_regenerate_id", "_regenerate_id"], explain: "session_regenerate_id(true)." },
+      { kind: 'mc', prompt: "Guardar a senha \"como foi digitada\" é problema porque:", options: ["Ocupa espaço", "Se o banco vazar, todo mundo lê as senhas", "O PHP não aceita", "Não é problema"], answer: 1, explain: "Por isso usamos hash." },
+      { kind: 'mc', prompt: "As páginas restritas checam o login:", options: ["Só na primeira página", "Em todas, de preferência com um arquivo incluído", "Só no logout", "No CSS"], answer: 1, explain: "Toda página restrita confere a sessão." },
+    ],
+  },
+  {
+    id: 'm11',
+    icon: "▤",
+    title: "Relatórios, gráficos e Web Services",
+    description: "Contar e agrupar com SQL, desenhar um gráfico e conversar com APIs.",
+    lessons: [
+      {
+        id: 'm11-l1',
+        title: "Relatórios com SQL",
+        blocks: [
+          { type: 'text', html: "<p>Relatório é pergunta feita ao banco: quantos clientes por cidade? Qual o total vendido no mês? As <strong>funções de agregação</strong> respondem: <code class=\"inline\">COUNT</code> conta, <code class=\"inline\">SUM</code> soma, <code class=\"inline\">AVG</code> tira a média. O <code class=\"inline\">GROUP BY</code> separa a conta por grupo.</p>" },
+          { type: 'code', code: `<?php
+$sql = 'SELECT cidade, COUNT(*) AS total
+        FROM clientes
+        GROUP BY cidade
+        ORDER BY total DESC';
+$linhas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($linhas as $linha) {
+    echo htmlspecialchars($linha['cidade']) . ': ' . $linha['total'] . '<br>';
+}
+// Brasília: 12
+// Taguatinga: 7 ...` },
+          { type: 'text', html: "<p>O <code class=\"inline\">AS total</code> dá um apelido para a coluna calculada, e é por ele que o PHP lê o resultado. Relatório bom cabe numa tabela HTML simples: ninguém precisa de 30 colunas.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Qual função conta as linhas de cada grupo?", options: ["SUM", "COUNT", "AVG", "MAX"], answer: 1, explain: "COUNT(*) conta." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual cláusula separa a contagem por cidade? (duas palavras)", answers: ["GROUP BY", "group by"], explain: "GROUP BY cidade." } },
+        ],
+      },
+      {
+        id: 'm11-l2',
+        title: "Um gráfico sem biblioteca",
+        blocks: [
+          { type: 'text', html: "<p>Antes de instalar uma biblioteca de gráficos, um truque: barras são retângulos, e a largura pode ser a porcentagem. O PHP calcula, o CSS desenha. É matemática virando imagem.</p>" },
+          { type: 'code', code: `<?php
+$maior = max(array_column($linhas, 'total'));
+
+foreach ($linhas as $linha):
+    $largura = round($linha['total'] / $maior * 100); ?>
+  <div class="barra-grafico">
+    <span><?= htmlspecialchars($linha['cidade']) ?></span>
+    <div style="width: <?= $largura ?>%"><?= $linha['total'] ?></div>
+  </div>
+<?php endforeach; ?>` },
+          { type: 'code', code: `.barra-grafico div {
+  background: #39ff8a;
+  color: #060810;
+  padding: 4px 8px;
+  margin: 4px 0 12px;
+}` },
+          { type: 'text', html: "<p>A barra maior fica com 100% e as outras ficam proporcionais a ela. Quando o projeto pedir algo mais elaborado, bibliotecas como o Chart.js recebem os mesmos dados em JSON (próxima lição).</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Se a maior cidade tem 20 clientes e outra tem 5, a barra da segunda terá:", options: ["5%", "25%", "50%", "20%"], answer: 1, explain: "5 / 20 × 100 = 25%." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual função do PHP devolve o maior valor de um array?", answers: ["max", "max()"], explain: "max() pega o maior." } },
+        ],
+      },
+      {
+        id: 'm11-l3',
+        title: "Consumindo uma API (e criando a sua)",
+        blocks: [
+          { type: 'text', html: "<p><strong>Web Service</strong> (ou API) é um site feito para programas, não para pessoas: ele responde dados, geralmente em <strong>JSON</strong>. O ViaCEP, por exemplo, devolve o endereço de um CEP. O PHP busca com <code class=\"inline\">file_get_contents()</code> e transforma o JSON em array com <code class=\"inline\">json_decode(..., true)</code>.</p>" },
+          { type: 'code', code: `<?php
+$cep = '01001000';
+$resposta = @file_get_contents("https://viacep.com.br/ws/$cep/json/");
+
+if ($resposta === false) {
+    echo 'Não consegui falar com o ViaCEP.';
+} else {
+    $endereco = json_decode($resposta, true);
+    echo $endereco['logradouro'] . ' - ' . $endereco['localidade'] . '/' . $endereco['uf'];
+    // Praça da Sé - São Paulo/SP
+}` },
+          { type: 'text', html: "<p>Sempre trate o caso de a API não responder: internet cai, serviço sai do ar. E o caminho inverso também vale: o seu sistema pode ser uma API. Basta responder JSON em vez de HTML.</p>" },
+          { type: 'code', code: `<?php
+// api-clientes.php: a sua própria API
+require_once __DIR__ . '/banco.php';
+header('Content-Type: application/json; charset=utf-8');
+
+$clientes = $pdo->query('SELECT nome, cidade FROM clientes ORDER BY nome')
+                ->fetchAll(PDO::FETCH_ASSOC);
+echo json_encode($clientes, JSON_UNESCAPED_UNICODE);
+// [{"nome":"Ana Souza","cidade":"Brasília"}, ...]` },
+          { type: 'question', q: { kind: 'mc', prompt: "Em que formato as APIs costumam responder?", options: ["HTML", "JSON", "PDF", "PNG"], answer: 1, explain: "JSON é o formato mais comum." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual função transforma um texto JSON em array do PHP?", answers: ["json_decode", "json_decode()"], explain: "json_decode($texto, true)." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Por que testar se file_get_contents() devolveu false?", options: ["Porque a API pode não responder", "Porque o PHP exige", "Para deixar mais rápido", "Não precisa"], answer: 0, explain: "Serviço fora do ar não pode quebrar a sua página." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "SELECT cidade, COUNT(*) FROM clientes GROUP BY cidade devolve:", options: ["Uma linha por cliente", "Uma linha por cidade, com a contagem", "Só o total geral", "Um erro"], answer: 1, explain: "GROUP BY agrupa por cidade." },
+      { kind: 'mc', prompt: "Para dar um nome à coluna calculada, usamos:", options: ["AS", "NAME", "LABEL", "ALIAS ="], answer: 0, explain: "COUNT(*) AS total." },
+      { kind: 'fill', prompt: "Qual função transforma um array do PHP em texto JSON?", answers: ["json_encode", "json_encode()"], explain: "json_encode($dados)." },
+      { kind: 'mc', prompt: "Para a sua página responder como API, qual cabeçalho enviar?", options: ["Content-Type: application/json", "Location: api.php", "Content-Type: text/html", "Nenhum"], answer: 0, explain: "Assim quem chama sabe que vem JSON." },
+      { kind: 'mc', prompt: "O ViaCEP é exemplo de:", options: ["Banco de dados local", "Web Service (API) pública", "Biblioteca de gráficos", "Framework PHP"], answer: 1, explain: "Um serviço que responde dados em JSON." },
+    ],
+  },
 ];
 
 
