@@ -542,3 +542,7 @@ pre.code-block {
     grid-template-columns: 1fr;
   }
 }
+
+/* o brilho neon do link da disciplina na barra (estilo.css) usa --neon e --neon-brilho; aqui são as cores do curso */
+:root { --neon: #39ff8a; --neon-brilho: rgba(57, 255, 138, 0.45); }
+[data-tema="claro"] { --neon: #12a454; --neon-brilho: rgba(18, 164, 84, 0.2); }
