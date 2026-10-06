@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: número e tema da aula -->
+  <title>Aula 9: Do formulário ao banco de dados · Web II: PHP · Stela</title>
+  <meta name="description" content="Aula 9 de Linguagem de Programação para Web II: formulários com validação em PHP e o primeiro banco de dados do Cadastro de Clientes, com PDO.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css">
+  <link rel="stylesheet" href="../assets/css/aula.css">
+  <link rel="stylesheet" href="../assets/css/neon.css">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+        <a class="marca-disc" href="../" title="Página inicial da disciplina">PHP</a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da aula">
+        <a href="../#aulas">← Todas as aulas</a>
+        <a href="#conceitos">Conceitos</a>
+        <a href="#caso">Caso</a>
+        <a href="#atividade">Atividade</a>
+        <a href="#materiais">Materiais</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO DA AULA ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">PHP</a> <span aria-hidden="true">/</span>
+          <a href="../#atividades">Aulas</a> <span aria-hidden="true">/</span>
+          <span>Aula 9</span>
+        </p>
+
+        <!-- EDITE AQUI: número, tipo de aula, unidade e título -->
+        <div class="aula-etiquetas">
+          <span class="etiqueta ouro">Aula 9</span>
+          <span class="etiqueta">Projeto</span>
+          <span class="etiqueta">Cadastro de Clientes, parte I</span>
+        </div>
+        <h1>Onde vai parar o que o cliente digita?</h1>
+        <p class="subtitulo">Formulário com validação e o primeiro banco de dados do Cadastro de Clientes.</p>
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da aula">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Objetivo do dia</span>
+            <p>Receber e validar os dados de um formulário com PHP e guardar cada cliente num banco de dados.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Antes da aula</span>
+            <p>Deixar o PHP rodando (XAMPP ou o servidor embutido do Lab-PHP) e revisar o <code>$_POST</code>.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Como conta ponto</span>
+            <p>Exercícios no laboratório, com commit no GitHub.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <!-- ===================== O PROBLEMA ===================== -->
+        <section class="parte" id="problema">
+          <div class="cab">
+            <span class="olho">P1 · o problema</span>
+            <h2>O cliente que sumiu</h2>
+          </div>
+          <div class="texto">
+            <p>
+              Você preenche o formulário, o PHP responde "Cadastro feito!" e, quando a página recarrega, o cliente
+              sumiu. Não é bug: variável só vive enquanto a página está sendo montada.
+            </p>
+            <p>
+              Para o Cadastro de Clientes lembrar de alguém amanhã, os dados precisam de um lugar que não esquece.
+              Hoje vocês fazem as duas coisas: um formulário caprichado, que confere tudo antes de aceitar, e o
+              primeiro banco de dados do projeto.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== CONCEITOS ===================== -->
+        <section class="parte" id="conceitos">
+          <div class="cab">
+            <span class="olho">C1–C6 · conceitos</span>
+            <h2>Do formulário ao banco, em seis peças</h2>
+          </div>
+
+          <!-- conceito 1 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C1</span>
+              <h3>O formulário certo</h3>
+              <p>O <code>method="post"</code> manda os dados escondidos no corpo da requisição, e não no endereço. Cada campo precisa de um <code>name</code>: é por ele que o PHP encontra o valor. O <code>id</code> é do <code>&lt;label&gt;</code> e do CSS.</p>
+              <p class="dica cuidado"><strong>Pegadinha clássica:</strong> campo sem <code>name</code> não chega no PHP. Nem dá erro: simplesmente some.</p>
+            </div>
+            <pre class="codigo" aria-label="Formulário de cadastro em HTML"><code><span class="linha"><span class="num">1</span>&lt;form method=<span class="str">"post"</span>&gt;</span><span class="linha"><span class="num">2</span>  &lt;label for=<span class="str">"nome"</span>&gt;Nome&lt;/label&gt;</span><span class="linha"><span class="num">3</span>  &lt;input id=<span class="str">"nome"</span> name=<span class="str">"nome"</span>&gt;</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span>  &lt;label for=<span class="str">"email"</span>&gt;E-mail&lt;/label&gt;</span><span class="linha"><span class="num">6</span>  &lt;input id=<span class="str">"email"</span> name=<span class="str">"email"</span> type=<span class="str">"email"</span>&gt;</span><span class="linha"><span class="num">7</span></span><span class="linha"><span class="num">8</span>  &lt;label for=<span class="str">"telefone"</span>&gt;Telefone&lt;/label&gt;</span><span class="linha"><span class="num">9</span>  &lt;input id=<span class="str">"telefone"</span> name=<span class="str">"telefone"</span>&gt;</span><span class="linha"><span class="num">10</span></span><span class="linha"><span class="num">11</span>  &lt;button type=<span class="str">"submit"</span>&gt;Cadastrar&lt;/button&gt;</span><span class="linha"><span class="num">12</span>&lt;/form&gt;</span></code></pre>
+          </div>
+
+          <!-- conceito 2 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C2</span>
+              <h3>Receber e limpar</h3>
+              <p>O PHP só processa quando o formulário foi enviado: é isso que o <code>REQUEST_METHOD</code> confere. Tudo chega dentro de <code>$_POST</code>, sempre como texto.</p>
+              <p>O <code>trim()</code> tira os espaços do começo e do fim, para ninguém passar na validação digitando só espaço.</p>
+            </div>
+            <pre class="codigo" aria-label="Recebendo os dados com $_POST"><code><span class="linha"><span class="num">1</span><span class="tag">if</span> (<span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>] === <span class="str">'POST'</span>) {</span><span class="linha"><span class="num">2</span>    // ?? <span class="str">''</span> evita erro se o campo não vier</span><span class="linha"><span class="num">3</span>    <span class="var">$nome</span> = <span class="fn">trim</span>(<span class="var">$_POST</span>[<span class="str">'nome'</span>] ?? <span class="str">''</span>);</span><span class="linha"><span class="num">4</span>    <span class="var">$email</span> = <span class="fn">trim</span>(<span class="var">$_POST</span>[<span class="str">'email'</span>] ?? <span class="str">''</span>);</span><span class="linha"><span class="num">5</span>    <span class="var">$telefone</span> = <span class="fn">trim</span>(<span class="var">$_POST</span>[<span class="str">'telefone'</span>] ?? <span class="str">''</span>);</span><span class="linha"><span class="num">6</span>}</span></code></pre>
+          </div>
+
+          <!-- conceito 3 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C3</span>
+              <h3>Validar antes de usar</h3>
+              <p>Dado de usuário é suspeito até prova em contrário. A função devolve uma lista de erros: lista vazia quer dizer que está tudo certo.</p>
+              <p>O <code>filter_var()</code> com <code>FILTER_VALIDATE_EMAIL</code> já sabe o formato de um e-mail. Não precisa inventar a regra.</p>
+            </div>
+            <pre class="codigo" aria-label="Função que valida nome e e-mail"><code><span class="linha"><span class="num">1</span><span class="com">// recebe e confere os dados do formulário</span></span><span class="linha"><span class="num">2</span><span class="tag">function</span> <span class="fn">validarCliente</span>(<span class="tag">string</span> <span class="var">$nome</span>, <span class="tag">string</span> <span class="var">$email</span>): <span class="tag">array</span></span><span class="linha"><span class="num">3</span>{</span><span class="linha"><span class="num">4</span>    <span class="var">$erros</span> = [];</span><span class="linha"><span class="num">5</span>    <span class="tag">if</span> (<span class="fn">strlen</span>(<span class="var">$nome</span>) &lt; 3) {</span><span class="linha"><span class="num">6</span>        <span class="var">$erros</span>[] = <span class="str">'O nome precisa de pelo menos 3 letras.'</span>;</span><span class="linha"><span class="num">7</span>    }</span><span class="linha"><span class="num">8</span>    <span class="tag">if</span> (!<span class="fn">filter_var</span>(<span class="var">$email</span>, FILTER_VALIDATE_EMAIL)) {</span><span class="linha"><span class="num">9</span>        <span class="var">$erros</span>[] = <span class="str">'Digite um e-mail válido.'</span>;</span><span class="linha"><span class="num">10</span>    }</span><span class="linha"><span class="num">11</span>    <span class="tag">return</span> <span class="var">$erros</span>;</span><span class="linha"><span class="num">12</span>}</span></code></pre>
+          </div>
+
+          <!-- conceito 4 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C4</span>
+              <h3>Errou? Não apague o que foi digitado</h3>
+              <p>Quando der erro, a página volta com os campos preenchidos e o aviso na tela. Ninguém merece digitar tudo de novo.</p>
+              <p class="dica cuidado"><strong>Segurança:</strong> o <code>htmlspecialchars()</code> mostra o texto como texto. Sem ele, quem digitar <code>&lt;b&gt;</code> ou um <code>&lt;script&gt;</code> no nome muda a sua página.</p>
+            </div>
+            <pre class="codigo" aria-label="Mantendo o valor e mostrando os erros"><code><span class="linha"><span class="num">1</span>&lt;input id=<span class="str">"nome"</span> name=<span class="str">"nome"</span></span><span class="linha"><span class="num">2</span>       value=<span class="str">"&lt;?= htmlspecialchars($nome) ?&gt;"</span>&gt;</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span>&lt;?php <span class="tag">foreach</span> (<span class="var">$erros</span> <span class="tag">as</span> <span class="var">$erro</span>): ?&gt;</span><span class="linha"><span class="num">5</span>  &lt;p class=<span class="str">"erro"</span>&gt;&lt;?= <span class="fn">htmlspecialchars</span>(<span class="var">$erro</span>) ?&gt;&lt;/p&gt;</span><span class="linha"><span class="num">6</span>&lt;?php <span class="tag">endforeach</span>; ?&gt;</span></code></pre>
+          </div>
+
+          <!-- conceito 5 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C5</span>
+              <h3>Banco de dados: a memória que não esquece</h3>
+              <p>Variável vive só enquanto a página está sendo montada. O banco guarda os dados num arquivo, e eles continuam lá amanhã.</p>
+              <p>Uma <strong>tabela</strong> é uma planilha com regras: cada <strong>coluna</strong> é um campo e cada <strong>linha</strong> é um cliente. O <code>id</code> numera as linhas sozinho, e o <code>UNIQUE</code> não deixa repetir e-mail.</p>
+              <p>Hoje a gente usa o SQLite, que já vem com o PHP: o banco é um arquivo, o <code>clientes.sqlite</code>. Mais à frente vem o MySQL, e o resto do código fica igual.</p>
+            </div>
+            <pre class="codigo" aria-label="Criando o banco e a tabela de clientes"><code><span class="linha"><span class="num">1</span><span class="com">// abre (ou cria) o arquivo do banco e a tabela de clientes</span></span><span class="linha"><span class="num">2</span><span class="var">$pdo</span> = <span class="tag">new</span> PDO(<span class="str">'sqlite:'</span> . __DIR__ . <span class="str">'/clientes.sqlite'</span>);</span><span class="linha"><span class="num">3</span><span class="var">$pdo</span>-&gt;<span class="fn">setAttribute</span>(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="var">$pdo</span>-&gt;<span class="fn">exec</span>('CREATE TABLE IF NOT EXISTS clientes (</span><span class="linha"><span class="num">6</span>    id INTEGER PRIMARY KEY AUTOINCREMENT,</span><span class="linha"><span class="num">7</span>    nome TEXT NOT NULL,</span><span class="linha"><span class="num">8</span>    email TEXT NOT NULL UNIQUE,</span><span class="linha"><span class="num">9</span>    telefone TEXT</span><span class="linha"><span class="num">10</span>)');</span><span class="linha"><span class="num">11</span></span><span class="linha"><span class="num">12</span><span class="com">// no MySQL do XAMPP, só a conexão muda:</span></span><span class="linha"><span class="num">13</span>// <span class="tag">new</span> PDO(<span class="str">'mysql:host=localhost;dbname=loja;charset=utf8mb4'</span>, <span class="str">'root'</span>, <span class="str">''</span>);</span></code></pre>
+          </div>
+
+          <!-- conceito 6 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C6</span>
+              <h3>Gravar e listar com segurança</h3>
+              <p>O <code>prepare()</code> monta o comando com marcadores (<code>:nome</code>, <code>:email</code>) e o <code>execute()</code> encaixa os valores. Assim o banco nunca confunde o que o usuário digitou com um comando.</p>
+              <p class="dica cuidado"><strong>Nunca</strong> cole <code>$_POST</code> direto dentro do SQL. Isso abre a porta para o ataque de SQL injection.</p>
+            </div>
+            <pre class="codigo" aria-label="Gravando e listando clientes com PDO"><code><span class="linha"><span class="num">1</span><span class="var">$sql</span> = 'INSERT INTO clientes (nome, email, telefone)</span><span class="linha"><span class="num">2</span>        VALUES (:nome, :email, :telefone)';</span><span class="linha"><span class="num">3</span><span class="var">$stmt</span> = <span class="var">$pdo</span>-&gt;<span class="fn">prepare</span>(<span class="var">$sql</span>);</span><span class="linha"><span class="num">4</span><span class="var">$stmt</span>-&gt;<span class="fn">execute</span>([</span><span class="linha"><span class="num">5</span>    <span class="str">':nome'</span> =&gt; <span class="var">$nome</span>,</span><span class="linha"><span class="num">6</span>    <span class="str">':email'</span> =&gt; <span class="var">$email</span>,</span><span class="linha"><span class="num">7</span>    <span class="str">':telefone'</span> =&gt; <span class="var">$telefone</span>,</span><span class="linha"><span class="num">8</span>]);</span><span class="linha"><span class="num">9</span></span><span class="linha"><span class="num">10</span><span class="com">// e para listar:</span></span><span class="linha"><span class="num">11</span><span class="var">$sql</span> = <span class="str">'SELECT nome, email FROM clientes ORDER BY nome'</span>;</span><span class="linha"><span class="num">12</span><span class="var">$clientes</span> = <span class="var">$pdo</span>-&gt;<span class="fn">query</span>(<span class="var">$sql</span>)-&gt;<span class="fn">fetchAll</span>(PDO::FETCH_ASSOC);</span></code></pre>
+          </div>
+
+          <p class="dica"><strong>Para rodar:</strong> na pasta do projeto, abra o terminal e digite <code>php -S localhost:8000</code>. Depois abra <code>http://localhost:8000/cadastro.php</code>. No XAMPP, coloque a pasta dentro de <code>htdocs</code>.</p>
+        </section>
+
+        <!-- ===================== CASO DE USO ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Cadastrar um cliente</h2>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Atendente da loja</p>
+            <p><strong>Objetivo:</strong> Cadastrar um cliente novo e ver o nome dele na lista.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>O atendente preenche nome, e-mail e telefone.</li>
+              <li>O sistema confere os dados.</li>
+              <li>Grava o cliente no banco.</li>
+              <li>Mostra a confirmação e a lista atualizada.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>O nome é curto ou o e-mail é inválido: o sistema avisa e mantém o que foi digitado.</li>
+              <li>O e-mail já está cadastrado: o sistema avisa e não grava duas vezes.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Em que passo entra cada arquivo: <code>cadastro.php</code>, <code>validar.php</code> e <code>banco.php</code>?</li>
+              <li>O que acontece com os clientes se você fechar o navegador? E se apagar o <code>clientes.sqlite</code>?</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== ATIVIDADE ===================== -->
+        <section class="parte" id="atividade">
+          <div class="cab">
+            <span class="olho">A1 · atividade</span>
+            <h2>Cadastro de Clientes, parte I</h2>
+            <p>Vá marcando os passos: o que você marcar fica salvo neste navegador.</p>
+          </div>
+
+          <div class="cartao">
+            <div class="progresso-atividade" data-progresso="passos-aula-09">
+              <span class="contagem">0 de 10</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <ol class="checklist" id="passos-aula-09">
+              <li><label><input type="checkbox"><span>Crie a pasta <code>cadastro-clientes</code> no seu repositório, com <code>cadastro.php</code>, <code>validar.php</code> e <code>banco.php</code>.</span></label></li>
+              <li><label><input type="checkbox"><span>Monte o formulário com nome, e-mail e telefone: <code>method="post"</code> e <code>name</code> em cada campo.</span></label></li>
+              <li><label><input type="checkbox"><span>Receba os dados com <code>$_POST</code> e <code>trim()</code>.</span></label></li>
+              <li><label><input type="checkbox"><span>Valide o nome (pelo menos 3 letras) e o e-mail (<code>filter_var</code>) e mostre os erros na página.</span></label></li>
+              <li><label><input type="checkbox"><span>Quando der erro, mantenha nos campos o que foi digitado.</span></label></li>
+              <li><label><input type="checkbox"><span>Crie a tabela <code>clientes</code> no <code>banco.php</code>.</span></label></li>
+              <li><label><input type="checkbox"><span>Grave o cliente com <code>prepare()</code> e <code>execute()</code>.</span></label></li>
+              <li><label><input type="checkbox"><span>Liste os clientes embaixo do formulário.</span></label></li>
+              <li><label><input type="checkbox"><span>Coloque o <code>clientes.sqlite</code> no <code>.gitignore</code>: dado de cliente não vai para o GitHub.</span></label></li>
+              <li><label><input type="checkbox"><span>Faça o commit e o push.</span></label></li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== CONEXÃO STEAM ===================== -->
+        <section class="parte" id="steam">
+          <div class="cab">
+            <span class="olho">S1 · conexão STEAM</span>
+            <h2>Memória que não esquece</h2>
+          </div>
+          <div class="steam">
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">E</span>
+              <h3>Eletrônica</h3>
+              <p>Variável é como a memória RAM: some quando desliga. O banco é como o SSD: fica gravado. Num ESP32 é igual, e quem não salva na memória flash perde tudo quando a placa reinicia.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">M</span>
+              <h3>Matemática</h3>
+              <p>Uma tabela é uma matriz: linhas vezes colunas. O <code>id</code> é a posição de cada linha, como o número de série de um componente.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">A</span>
+              <h3>Arte</h3>
+              <p>O formulário é a vitrine do sistema. Rótulo claro, espaço entre os campos e erro escrito em português de gente fazem o cliente terminar o cadastro.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== DESAFIO EXTRA ===================== -->
+        <section class="parte" id="desafio">
+          <div class="cab">
+            <span class="olho">D1 · desafio extra</span>
+            <h2>Terminou antes? Tem mais.</h2>
+          </div>
+          <div class="cartao">
+            <p>Coloque um campo de busca em cima da lista. Ele mostra só os clientes cujo nome contém o que foi digitado, com <code>WHERE nome LIKE :busca</code> e, claro, <code>prepare()</code>. Dica: o valor do marcador é <code>'%' . $busca . '%'</code>.</p>
+          </div>
+        </section>
+
+        <!-- ===================== MATERIAIS ===================== -->
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para estudar e praticar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="https://www.php.net/manual/pt_BR/book.pdo.php">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>php.net</span>
+              <h4>Manual do PHP: PDO</h4>
+              <p>Tudo sobre conectar, preparar e executar comandos no banco, em português.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">consulta</span></span>
+            </a>
+            <a class="repo luz" href="https://www.php.net/manual/pt_BR/function.filter-var.php">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>php.net</span>
+              <h4>Manual do PHP: filter_var</h4>
+              <p>Os filtros prontos para validar e-mail, número, URL e mais.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">consulta</span></span>
+            </a>
+            <a class="repo luz" href="https://github.com/MARISTELAOLIVEIRA/Lab-PHP">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>Lab-PHP</span>
+              <h4>Kit de laboratório</h4>
+              <p>Servidor PHP embutido para testar sem instalar o XAMPP.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/github.svg" alt="" width="20" height="20"></span>PHP no GitHub</span><span class="etiqueta">praticar</span></span>
+            </a>
+            <a class="repo luz" href="https://github.com/MARISTELAOLIVEIRA/Cadastro-PHP">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>Cadastro-PHP</span>
+              <h4>Cadastro e login com SQLite</h4>
+              <p>Um sistema completo para espiar depois da aula: cadastro, login e sessão.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/github.svg" alt="" width="20" height="20"></span>PHP no GitHub</span><span class="etiqueta">inspiração</span></span>
+            </a>
+            <a class="repo luz" href="../curso/">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>prog-web-php/curso</span>
+              <h4>Curso Básico de PHP</h4>
+              <p>Para revisar variáveis, condicionais e funções no seu ritmo.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">revisar</span></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ===================== ENTREGA ===================== -->
+        <section class="parte" id="entrega">
+          <div class="cartao entrega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <div>
+              <span class="olho">E1 · entrega</span>
+              <h3>Commit da pasta <code>cadastro-clientes</code></h3>
+              <p>Até o fim da aula. Na próxima, a gente continua o Cadastro de Clientes a partir daqui.</p>
+            </div>
+          </div>
+        </section>
+
+        <nav class="nav-aulas" aria-label="Outras aulas">
+          <!-- EDITE AQUI: use <a href="aula-NN.html"> quando a página da aula vizinha existir; <span> enquanto não existir -->
+          <span class="anterior" style="visibility:hidden"></span>
+          <span class="proxima" style="visibility:hidden"></span>
+        </nav>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Linguagem de Programação para Web II</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>&lt;?php echo "bons estudos!"; ?&gt;</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="../assets/js/aulas.js"></script>
+  <script src="../assets/js/matrix.js"></script>
+</body>
+</html>

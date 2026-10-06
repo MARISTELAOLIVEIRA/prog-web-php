@@ -4,7 +4,7 @@ import { highlightPhp } from './highlight.js';
 import { renderQuestion } from './question-ui.js';
 import { goTo } from './router.js';
 import { showToast } from './toast.js';
-import { burstConfetti, typewrite } from './effects.js';
+import { burstConfetti, typewrite } from './effects.js?v=2';
 
 function el(tag, opts = {}) {
   const node = document.createElement(tag);
@@ -42,47 +42,10 @@ function breadcrumb(...parts) {
   return nav;
 }
 
-export function renderWelcome(container, { onSubmit }) {
-  container.innerHTML = '';
-  const wrap = el('section', { className: 'welcome' });
-  wrap.innerHTML = `
-    <h2>Bem-vindo(a) ao PHP.exe</h2>
-    <p>Um mini curso interativo com os conceitos iniciais de programação WEB com PHP — sintaxe, variáveis, estruturas de controle e funções.</p>
-  `;
-  const form = el('form');
-  form.innerHTML = `
-    <div class="field">
-      <label for="student-name">Digite seu nome completo</label>
-      <input id="student-name" name="student-name" type="text" autocomplete="name" required minlength="3" placeholder="Ex: Maria da Silva" />
-      <span class="error" id="name-error"></span>
-    </div>
-  `;
-  const submitBtn = el('button', { className: 'btn', text: 'Iniciar jornada ▹' });
-  submitBtn.type = 'submit';
-  form.appendChild(submitBtn);
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const input = form.querySelector('#student-name');
-    const errorEl = form.querySelector('#name-error');
-    const value = input.value.trim();
-    if (value.split(/\s+/).filter(Boolean).length < 2) {
-      errorEl.textContent = 'Informe seu nome completo (nome e sobrenome).';
-      input.focus();
-      return;
-    }
-    errorEl.textContent = '';
-    onSubmit(value);
-  });
-
-  wrap.appendChild(form);
-  container.appendChild(wrap);
-}
-
 export function renderDashboard(container, progress) {
   container.innerHTML = '';
   const head = el('div', { className: 'dashboard-head' });
-  head.innerHTML = `<h2>Painel de Módulos</h2><p>Continue de onde parou, ${progress.fullName.split(' ')[0]}.</p>`;
+  head.innerHTML = `<h2>Painel de módulos</h2><p>Escolha um módulo. Pode começar por qualquer um e voltar quando quiser.</p>`;
   container.appendChild(head);
 
   const grid = el('div', { className: 'module-grid' });
@@ -91,26 +54,19 @@ export function renderDashboard(container, progress) {
     const completedCount = lessonIds.filter(id => progress.completedLessons[id]).length;
     const quiz = progress.quizScores[mod.id];
     const complete = isModuleComplete(progress, mod.id, lessonIds);
-    const prevMod = MODULES[idx - 1];
-    const locked = prevMod ? !isModuleComplete(progress, prevMod.id, allLessonIds(prevMod)) : false;
 
-    const card = el('article', { className: 'module-card' + (locked ? ' locked' : '') });
+    const card = el('article', { className: 'module-card' });
     card.innerHTML = `
       <span class="module-icon" aria-hidden="true">${mod.icon}</span>
       <h3>${mod.title}</h3>
       <p>${mod.description}</p>
       <span class="card-progress">${completedCount}/${lessonIds.length} lições ${quiz ? `· quiz ${quiz.score}/${quiz.total}` : ''} ${complete ? '· ✔ concluído' : ''}</span>
-      ${locked ? '<span class="lock-note">🔒 Conclua o módulo anterior para desbloquear</span>' : ''}
     `;
-    if (!locked) {
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      const activate = () => goTo(`/module/${mod.id}`);
-      card.addEventListener('click', activate);
-      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
-    } else {
-      card.addEventListener('click', () => showToast('🔒 Conclua o módulo anterior primeiro.'));
-    }
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    const activate = () => goTo(`/module/${mod.id}`);
+    card.addEventListener('click', activate);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
     grid.appendChild(card);
   });
   container.appendChild(grid);
@@ -139,14 +95,11 @@ export function renderModule(container, moduleId, progress) {
   });
   container.appendChild(list);
 
-  const allDone = mod.lessons.every(l => progress.completedLessons[l.id]);
   const quiz = progress.quizScores[mod.id];
   const row = el('div', { className: 'btn-row' });
   const quizBtn = el('button', { className: 'btn secondary', text: quiz ? `Refazer quiz (última nota: ${quiz.score}/${quiz.total})` : 'Fazer quiz do módulo ▹' });
-  quizBtn.disabled = !allDone;
   quizBtn.addEventListener('click', () => goTo(`/module/${mod.id}/quiz`));
   row.appendChild(quizBtn);
-  if (!allDone) row.appendChild(el('span', { className: 'lock-note', text: 'Conclua todas as lições para liberar o quiz.' }));
   container.appendChild(row);
 }
 

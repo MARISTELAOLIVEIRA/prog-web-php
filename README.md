@@ -1,4 +1,4 @@
-# 💾 PHP.exe — Conceitos Iniciais de Programação WEB
+# 💾 Curso Básico de PHP — Conceitos Iniciais de Programação WEB
 
 ```
  ██▓███   ██░ ██  ██▓███      ▓█████ ▒██   ██▒▓█████
@@ -23,16 +23,16 @@
 
 ## 🖥️ O que é isso?
 
-`PHP.exe` é um **mini curso web interativo** com os conceitos iniciais de programação com **PHP**, criado para a disciplina **Programação WEB II** da Faculdade de Tecnologia e Inovação **Senac DF**, sob orientação da Profª Maristela.
+O **Curso Básico de PHP** é um **mini curso web interativo** com os conceitos iniciais de programação com **PHP**, criado para a disciplina **Programação WEB II** da Faculdade de Tecnologia e Inovação **Senac DF**, sob orientação da Profª Maristela.
 
 Nada de slides parados: aqui você navega por **módulos**, lê explicações + exemplos de código, responde **perguntas interativas** com feedback na hora, encara um **quiz** ao final de cada módulo e desbloqueia o próximo nível — tudo num visual **cyberpunk** com verde neon, laranja e uma pitada de glitch. ⚡
 
 ## ✨ Funcionalidades
 
 - 🌓 **Modo escuro (padrão) e claro**, com preferência salva
-- 👤 **Cadastro do aluno** por nome completo — o progresso é salvo automaticamente no navegador
+- 💾 **Progresso salvo no navegador**: lições concluídas, notas dos quizzes e XP ficam guardados neste aparelho
 - 📊 **Barra de progresso global** (lições + quizzes) e XP acumulado
-- 🔓 **Módulos desbloqueados progressivamente**: só avança quem concluir os pré-requisitos
+- 🔓 **Todos os módulos liberados**: comece por qualquer um (sem banco de dados, travar módulos não faria sentido)
 - ❓ **Perguntas interativas** (múltipla escolha e "complete o código") com feedback instantâneo
 - 🧠 **Quiz por módulo** com nota mínima de 60% para aprovação
 - 🎨 **Realce de sintaxe PHP** feito à mão em JavaScript puro (sem libs externas)
@@ -61,7 +61,7 @@ Só o essencial, sem frameworks:
 📁 PHP-Conceitos-Iniciais/
 ├── index.html          → shell da aplicação (SPA)
 ├── css/
-│   └── style.css       → tema cyberpunk (dark/light)
+│   └── style.css       → visual neon do curso (o tema segue o botão da barra do topo)
 └── js/
     ├── app.js          → bootstrap + orquestração
     ├── router.js       → roteador baseado em hash (#/...)
@@ -97,7 +97,7 @@ Depois é só abrir `http://localhost:8765` no navegador. 🎮
 
 ## 🎓 Como o progresso é salvo
 
-Não há backend: tudo roda no navegador. Ao informar o nome completo, o progresso (lições concluídas, notas dos quizzes e XP) fica salvo em `localStorage`, associado ao nome do aluno — então é possível fechar a aba e continuar de onde parou depois. Use o botão **⇄ Trocar aluno(a)** para começar com outro nome sem perder o progresso salvo do anterior.
+Não há backend: tudo roda no navegador. O progresso (lições concluídas, notas dos quizzes e XP) fica salvo em `localStorage`, só neste navegador. Por isso nenhum módulo é travado: sem banco de dados, não dá para garantir quem fez o quê.
 
 ## 📜 Créditos
 
