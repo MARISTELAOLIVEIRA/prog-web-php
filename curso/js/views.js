@@ -1,4 +1,4 @@
-import { MODULES, getModule, getLesson, allLessonIds } from './data.js?v=3';
+import { MODULES, getModule, getLesson, allLessonIds } from './data.js?v=4';
 import { markLessonComplete, saveQuizScore, isModuleComplete } from './storage.js';
 import { highlightPhp } from './highlight.js';
 import { renderQuestion } from './question-ui.js';
