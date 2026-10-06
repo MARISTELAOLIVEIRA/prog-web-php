@@ -1,5 +1,5 @@
 /* estilo.css: visual comum de todos os sites (portal, cursos e disciplinas).
-   versão 5 · 2026-10-05
+   versão 6 · 2026-10-06
    github.com + Apple/macOS + a placa de circuito da Stela.
    Escuro por padrão; o botão de tema da barra troca para o claro.
 
@@ -98,7 +98,12 @@ body::before{content:""; position:fixed; inset:0; z-index:-1; pointer-events:non
 .marca-disc{display:flex; align-items:center; gap:.55rem; font-family:var(--f-titulo); font-weight:600; font-size:1rem; color:var(--texto-2); text-decoration:none; white-space:nowrap}
 .marca-disc::before{content:"/"; font-weight:400; color:var(--texto-3)}
 .marca-disc:hover{color:var(--ouro-forte)}
-@media (max-width:420px){.marcas .marca-texto{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}}
+/* nos sites de disciplina, a esquerda é da disciplina: o primeiro link vem sem a barra "/" e com mais destaque */
+.marcas>.marca-disc:first-child{color:var(--texto); font-weight:700}
+.marcas>.marca-disc:first-child::before{content:none}
+/* e o link "Stela" (portal) fica sempre à direita, depois dos botões */
+.ajustes .marca{margin-left:.35rem; font-size:.95rem}
+@media (max-width:420px){.marca .marca-texto{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}}
 /* telas bem estreitas: botões mais justos para a barra caber numa linha */
 @media (max-width:360px){.barra .envolve{gap:.6rem}.ajustes{gap:.25rem}.ajustes button,.btn-menu{padding:.3rem .6rem}#btn-tema,#btn-movimento{width:1.95rem}}
 .nav{display:flex; gap:1.3rem; flex-wrap:wrap; font-size:.88rem}

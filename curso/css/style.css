@@ -460,3 +460,85 @@ pre.code-block {
   .barra .marca-disc + .marca-disc { display: none; }
 }
 .barra .nav a[aria-current="page"] { color: var(--ouro-forte); }
+
+/* ---------- Rodapé em colunas (cópia das regras do assets/css/disciplina.css, que o curso não carrega) ---------- */
+.rodape {
+  padding-block: clamp(3rem, 7vw, 4.5rem) 2rem;
+}
+
+/* o estilo.css deixa o rodapé simples em uma linha; aqui ele tem colunas */
+.rodape .envolve {
+  display: block;
+}
+
+.rodape-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.rodape h2 {
+  margin-bottom: .9rem;
+  font-family: var(--f-mono);
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--ouro);
+}
+
+.rodape ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.rodape a {
+  color: var(--texto-2);
+  text-decoration: none;
+}
+
+.rodape a:hover {
+  color: var(--texto);
+}
+
+.rodape-marca {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  max-width: 30ch;
+}
+
+.rodape-marca img {
+  width: 40px;
+}
+
+.rodape-fim {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--borda);
+  font-size: .88rem;
+  color: var(--texto-3);
+}
+
+.rodape-fim span:last-child {
+  font-family: var(--f-mono);
+}
+
+@media (max-width: 860px) {
+  .rodape-grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .rodape-grade {
+    grid-template-columns: 1fr;
+  }
+}
