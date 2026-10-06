@@ -268,7 +268,7 @@
 
 .cs-msg {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto auto minmax(0, 1fr);
   column-gap: .7rem;
   align-items: center;
   padding: .7rem .9rem;
@@ -287,7 +287,6 @@
 }
 
 .cs-seta {
-  grid-row: span 3;
   font-size: 1.6rem;
   color: var(--cor-msg);
   animation: cs-vai 1.6s ease-in-out infinite;
@@ -385,4 +384,79 @@
   .cs-tabela code {
     overflow-wrap: anywhere;
   }
+}
+
+/* C1 para leigos: cartão-postal, envelope e página desenhados nas mensagens */
+.cs-objeto {
+  width: 3.4rem;
+  height: auto;
+  fill: none;
+  stroke: var(--cor-msg);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cs-objeto .cs-luz {
+  fill: var(--cor-msg);
+}
+
+.cs-texto {
+  display: grid;
+  gap: .3rem;
+}
+
+.cs-endereco {
+  justify-self: start;
+  padding: .2rem .5rem;
+  font-size: .82rem;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-p);
+  background: var(--superficie-2);
+}
+
+/* barra de endereço de mentirinha (ao lado do texto do C1) */
+.cs-barras {
+  display: grid;
+  gap: .7rem;
+  padding: clamp(1rem, 3vw, 1.4rem);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--superficie);
+  color: var(--texto-2);
+}
+
+.cs-barras-titulo {
+  font-family: var(--f-titulo);
+  color: var(--texto);
+}
+
+.cs-barra {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem .9rem;
+  font-family: var(--f-mono);
+  font-size: .88rem;
+  color: var(--texto);
+  border: 1px solid var(--borda-forte);
+  border-radius: 999px;
+  background: var(--superficie-2);
+  overflow-wrap: anywhere;
+}
+
+.cs-barra mark {
+  padding: 0 .2rem;
+  border-radius: 4px;
+  color: var(--fundo);
+  background: var(--ouro);
+}
+
+.cs-cadeado {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: var(--menta);
+  stroke-width: 2;
 }

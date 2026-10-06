@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="../assets/css/disciplina.css">
   <link rel="stylesheet" href="../assets/css/aula.css">
   <link rel="stylesheet" href="../assets/css/neon.css">
-  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=4">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=5">
 </head>
 <body>
 
@@ -136,45 +136,56 @@
             <div class="texto">
               <span class="olho">C1</span>
               <h3>Cliente e servidor: quem pede e quem responde</h3>
-              <p>Quando você digita <code>maristelaoliveira.github.io</code>, o seu navegador (o <strong>cliente</strong>) manda um pedido pela internet. Do outro lado, um computador do GitHub (o <strong>servidor</strong>) recebe, procura os arquivos e devolve o site. Toda página funciona assim: pedido e resposta.</p>
-              <p>Todo pedido leva um <strong>método</strong>, que diz o que o cliente quer. Os dois do dia a dia: <strong>GET</strong> ("me mostra") e <strong>POST</strong> ("toma, guarda isto").</p>
-              <p class="dica"><strong>Por que o PHP não roda no GitHub?</strong> O GitHub Pages só entrega arquivos prontos: HTML, CSS, JavaScript e imagens. Quem monta página com PHP é um servidor com PHP. No nosso cadastro, ele é o seu próprio computador, com <code>php -S localhost:8000</code>.</p>
+              <p>Quando você digita o endereço de um site, o seu navegador (o <strong>cliente</strong>) manda um pedido pela internet. Do outro lado, um computador sempre ligado (o <strong>servidor</strong>) recebe o pedido e devolve a página. É uma conversa: pedido e resposta.</p>
+              <p>Todo pedido vai de um jeito, o <strong>método</strong>. Pense no correio: o <strong>GET</strong> é um cartão-postal (o pedido vai escrito por fora e todo mundo lê) e o <strong>POST</strong> é uma carta no envelope (os dados vão dentro).</p>
+              <p class="dica"><strong>Por que o PHP não roda no GitHub?</strong> O GitHub Pages só entrega páginas prontas. Para o PHP trabalhar, precisa de um servidor com PHP: na aula, é o seu próprio computador, com <code>php -S localhost:8000</code>.</p>
             </div>
-            <pre class="codigo" aria-label="A conversa entre o navegador e o servidor"><code><span class="linha"><span class="num">1</span><span class="com"># 1. o navegador pede (método GET)</span></span><span class="linha"><span class="num">2</span><span class="tag">GET</span> /prog-web-php/ HTTP/1.1</span><span class="linha"><span class="num">3</span><span class="var">Host:</span> maristelaoliveira.github.io</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="com"># 2. o servidor responde (200 = deu certo)</span></span><span class="linha"><span class="num">6</span>HTTP/1.1 <span class="str">200 OK</span></span><span class="linha"><span class="num">7</span><span class="var">Content-Type:</span> text/html</span><span class="linha"><span class="num">8</span></span><span class="linha"><span class="num">9</span>&lt;!DOCTYPE html&gt;</span><span class="linha"><span class="num">10</span>&lt;html lang="pt-br"&gt;...</span></code></pre>
+            <div class="cs-barras" aria-label="Como fica a barra de endereço do navegador">
+              <p class="cs-barras-titulo">Repare na barra de endereço</p>
+              <div class="cs-barra"><svg class="cs-cadeado" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>localhost:8000/cadastro.php?<mark>busca=ana</mark></span></div>
+              <p><strong class="cs-get">GET:</strong> o pedido aparece no endereço. Dá para copiar, salvar e mandar para alguém.</p>
+              <div class="cs-barra"><svg class="cs-cadeado" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>localhost:8000/cadastro.php</span></div>
+              <p><strong class="cs-post">POST:</strong> nome e e-mail foram no envelope. O endereço não mostra nada.</p>
+            </div>
           </div>
 
           <figure class="cs-figura" id="cliente-servidor">
             <div class="cs-cena">
-              <h4 class="cs-titulo">Cena 1 · <span class="cs-get">GET</span>: visitar o site</h4>
+              <h4 class="cs-titulo">Cena 1 · <span class="cs-get">GET</span>: pedir para ver (o cartão-postal)</h4>
               <div class="cs-ponta" style="--cor: var(--neon)">
                 <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="15" r="7"/><path d="M17 41c0-9 6.5-15 15-15s15 6 15 15"/><rect class="cs-tampa" x="13" y="33" width="38" height="21" rx="2"/><path d="M27 41l-4 3.5 4 3.5"/><path d="M37 41l4 3.5-4 3.5"/><path d="M7 57h50"/></svg>
                 <span class="cs-papel">cliente</span>
                 <strong>Você no navegador</strong>
-                <span class="cs-detalhe">Digita <code>maristelaoliveira.github.io</code> e aperta Enter.</span>
+                <span class="cs-detalhe">Quer ver o site da Stela e digita o endereço.</span>
               </div>
               <div class="cs-meio">
                 <div class="cs-msg cs-pedido">
                   <span class="cs-seta" aria-hidden="true">→</span>
-                  <span class="cs-rotulo">pedido</span>
-                  <code>GET /prog-web-php/</code>
-                  <span class="cs-fala">"Me mostra essa página?"</span>
+                  <svg class="cs-objeto" viewBox="0 0 64 48" aria-hidden="true" focusable="false"><rect x="3" y="5" width="58" height="38" rx="3"/><path d="M34 10v28"/><rect x="45" y="10" width="11" height="12" rx="1"/><path d="M9 16h19"/><path d="M9 23h19"/><path d="M9 30h13"/><path d="M39 30h17"/><path d="M39 36h17"/></svg>
+                  <div class="cs-texto">
+                    <span class="cs-rotulo">pedido · GET</span>
+                    <span class="cs-fala">"Quero ver o site da Stela." O pedido vai escrito por fora, no endereço, e todo mundo lê:</span>
+                    <code class="cs-endereco">maristelaoliveira.github.io/prog-web-php/</code>
+                  </div>
                 </div>
                 <div class="cs-msg cs-resposta">
                   <span class="cs-seta" aria-hidden="true">←</span>
-                  <span class="cs-rotulo">resposta</span>
-                  <code>200 OK + index.html, estilo.css...</code>
-                  <span class="cs-fala">"Aqui está!" O navegador monta o site.</span>
+                  <svg class="cs-objeto" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M16 6h22l10 10v42H16z"/><path d="M38 6v10h10"/><path d="M22 28h20"/><path d="M22 35h20"/><path d="M22 42h14"/></svg>
+                  <div class="cs-texto">
+                    <span class="cs-rotulo">resposta</span>
+                    <span class="cs-fala">"Aqui está!" O servidor manda a página, e o navegador mostra o site.</span>
+                  </div>
                 </div>
               </div>
               <div class="cs-ponta" style="--cor: var(--texto-2)">
                 <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="14" y="5" width="36" height="54" rx="4"/><path d="M14 23h36"/><path d="M14 41h36"/><circle class="cs-luz" cx="22" cy="14" r="2"/><circle class="cs-luz" cx="22" cy="32" r="2"/><circle class="cs-luz" cx="22" cy="50" r="2"/><path d="M30 14h12"/><path d="M30 32h12"/><path d="M30 50h12"/></svg>
                 <span class="cs-papel">servidor</span>
-                <strong>O servidor do GitHub Pages</strong>
-                <span class="cs-detalhe">Guarda os arquivos do repositório e entrega prontos. Não roda PHP.</span>
+                <strong>O servidor do GitHub</strong>
+                <span class="cs-detalhe">Um computador sempre ligado, que guarda o site e entrega a página para quem pedir.</span>
               </div>
             </div>
             <div class="cs-cena">
-              <h4 class="cs-titulo">Cena 2 · <span class="cs-post">POST</span>: enviar o cadastro</h4>
+              <h4 class="cs-titulo">Cena 2 · <span class="cs-post">POST</span>: entregar dados (a carta no envelope)</h4>
               <div class="cs-ponta" style="--cor: var(--neon)">
                 <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="15" r="7"/><path d="M17 41c0-9 6.5-15 15-15s15 6 15 15"/><rect class="cs-tampa" x="13" y="33" width="38" height="21" rx="2"/><path d="M27 41l-4 3.5 4 3.5"/><path d="M37 41l4 3.5-4 3.5"/><path d="M7 57h50"/></svg>
                 <span class="cs-papel">cliente</span>
@@ -184,25 +195,30 @@
               <div class="cs-meio">
                 <div class="cs-msg cs-pedido">
                   <span class="cs-seta" aria-hidden="true">→</span>
-                  <span class="cs-rotulo">pedido</span>
-                  <code>POST /cadastro.php<br>nome=Ana Souza&amp;email=ana@exemplo.com</code>
-                  <span class="cs-fala">"Toma, guarda este cliente."</span>
+                  <svg class="cs-objeto" viewBox="0 0 64 48" aria-hidden="true" focusable="false"><rect x="3" y="7" width="58" height="36" rx="3"/><path d="M5 10l27 18 27-18"/><circle class="cs-luz" cx="32" cy="28" r="4"/></svg>
+                  <div class="cs-texto">
+                    <span class="cs-rotulo">pedido · POST</span>
+                    <span class="cs-fala">"Toma, cadastra esta cliente." Nome e e-mail vão dentro do envelope. Por fora, só o endereço:</span>
+                    <code class="cs-endereco">localhost:8000/cadastro.php</code>
+                  </div>
                 </div>
                 <div class="cs-msg cs-resposta">
                   <span class="cs-seta" aria-hidden="true">←</span>
-                  <span class="cs-rotulo">resposta</span>
-                  <code>200 OK + página "Cliente cadastrado!"</code>
-                  <span class="cs-fala">O PHP montou o HTML na hora.</span>
+                  <svg class="cs-objeto" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M16 6h22l10 10v42H16z"/><path d="M38 6v10h10"/><path d="M22 28h20"/><path d="M22 35h20"/><path d="M22 42h14"/></svg>
+                  <div class="cs-texto">
+                    <span class="cs-rotulo">resposta</span>
+                    <span class="cs-fala">"Recebido!" O servidor abre o envelope, lê os dados e responde com uma página nova.</span>
+                  </div>
                 </div>
               </div>
               <div class="cs-ponta" style="--cor: var(--menta)">
                 <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="6" y="8" width="52" height="34" rx="3"/><path d="M16 20l6 5-6 5"/><path d="M27 31h10"/><path d="M32 42v8"/><path d="M22 52h20"/></svg>
                 <span class="cs-papel">servidor</span>
-                <strong>O seu computador</strong>
-                <span class="cs-detalhe"><code>php -S localhost:8000</code> roda o PHP, grava no SQLite e responde.</span>
+                <strong>Um servidor com PHP</strong>
+                <span class="cs-detalhe">Na aula, é o seu computador, ligado com <code>php -S localhost:8000</code>.</span>
               </div>
             </div>
-            <figcaption>Toda página da internet é uma conversa: o cliente pede, o servidor responde. O método diz o que o cliente quer.</figcaption>
+            <figcaption>O cliente pede, o servidor responde. O GET pede para ver; o POST entrega dados para o servidor.</figcaption>
           </figure>
 
           <div class="tabela-rola">
@@ -213,10 +229,10 @@
               </thead>
               <tbody>
                 <tr><th scope="row">Pensa assim</th><td>Cartão-postal: o que está escrito fica à vista.</td><td>Carta no envelope: os dados vão dentro.</td></tr>
-                <tr><th scope="row">Onde vão os dados</th><td>No endereço: <code>?busca=ana</code></td><td>No corpo do pedido, fora do endereço.</td></tr>
-                <tr><th scope="row">No PHP</th><td><code>$_GET['busca']</code></td><td><code>$_POST['nome']</code></td></tr>
+                <tr><th scope="row">Onde vão os dados</th><td>No endereço: <code>?busca=ana</code></td><td>Dentro do pedido, fora do endereço.</td></tr>
+                <tr><th scope="row">Dá para salvar o link?</th><td>Sim: o pedido inteiro está no endereço.</td><td>Não. Recarregou a página? O navegador pergunta se quer reenviar o formulário.</td></tr>
                 <tr><th scope="row">Use para</th><td>Ver páginas, buscar e filtrar.</td><td>Cadastrar, alterar e enviar senha.</td></tr>
-                <tr><th scope="row">No nosso cadastro</th><td>A busca (versão 5 do tutorial).</td><td>O formulário de cadastro.</td></tr>
+                <tr><th scope="row">No PHP</th><td><code>$_GET['busca']</code></td><td><code>$_POST['nome']</code></td></tr>
               </tbody>
             </table>
           </div>
