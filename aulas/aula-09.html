@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="../assets/css/disciplina.css">
   <link rel="stylesheet" href="../assets/css/aula.css">
   <link rel="stylesheet" href="../assets/css/neon.css">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=2">
 </head>
 <body>
 
@@ -32,6 +33,7 @@
       <nav class="nav" id="menu" aria-label="Partes da aula">
         <a href="../#aulas">← Todas as aulas</a>
         <a href="#conceitos">Conceitos</a>
+        <a href="#tutorial">Tutorial</a>
         <a href="#caso">Caso</a>
         <a href="#atividade">Atividade</a>
         <a href="#materiais">Materiais</a>
@@ -197,6 +199,876 @@
           </div>
 
           <p class="dica"><strong>Para rodar:</strong> na pasta do projeto, abra o terminal e digite <code>php -S localhost:8000</code>. Depois abra <code>http://localhost:8000/cadastro.php</code>. No XAMPP, coloque a pasta dentro de <code>htdocs</code>.</p>
+        </section>
+
+        <!-- ===================== TUTORIAL ===================== -->
+        <section class="parte" id="tutorial">
+          <div class="cab">
+            <span class="olho">T1 · tutorial</span>
+            <h2>Mão na massa: o Cadastro de Clientes em 4 versões</h2>
+            <p>
+              Cada versão é o projeto inteiro, pronto para copiar. Faça uma de cada vez: copie, rode, teste, entenda o
+              que mudou e só depois passe para a próxima. Aprender programação é isso: fazer, melhorar, acrescentar.
+            </p>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Antes de começar</span>
+            <h3>Prepare a pasta e ligue o servidor</h3>
+            <ol>
+            <li>Crie uma pasta chamada <code>cadastro-clientes</code> dentro do seu repositório.</li>
+            <li>Abra a pasta no VS Code: <strong>Arquivo › Abrir pasta</strong>.</li>
+            <li>Abra o terminal do VS Code (<strong>Terminal › Novo terminal</strong>) e ligue o servidor do PHP: <code>php -S localhost:8000</code>. No laboratório, use o PHP do XAMPP: <code>C:\xampp\php\php.exe -S localhost:8000</code>.</li>
+            <li>No navegador, abra <code>http://localhost:8000/cadastro.php</code>.</li>
+          </ol>
+            <p class="dica"><strong>Dica:</strong> deixe o servidor ligado o tempo todo. Mudou o código? Salve (<code>Ctrl + S</code>) e recarregue o navegador (<code>F5</code>). Para desligar, <code>Ctrl + C</code> no terminal.</p>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 1</span>
+            <h3>O formulário responde</h3>
+            <p>Um arquivo só: o mesmo <code>cadastro.php</code> mostra o formulário e, quando ele é enviado, responde com o nome. Crie o arquivo no VS Code, cole o código e salve.</p>
+          </div>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="novo">
+<?php
+$nome = '';
+$mensagem = '';
+
+// só entra aqui quando o formulário é enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $mensagem = 'Olá, ' . htmlspecialchars($nome) . '! Seu cadastro chegou ao PHP.';
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <?php if ($mensagem): ?>
+    <p><?= $mensagem ?></p>
+  <?php endif; ?>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Primeira visita">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome">
+    <button type="submit">Enviar</button>
+  </form>
+
+  </body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Depois de enviar "Ana Souza"">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome">
+    <button type="submit">Enviar</button>
+  </form>
+
+      <p>Olá, Ana Souza! Seu cadastro chegou ao PHP.</p>
+  </body>
+</html>
+</script>
+          </div>
+          <p><strong>Teste:</strong></p>
+          <ol>
+            <li>Envie o formulário com o seu nome.</li>
+            <li>Envie o formulário vazio. O que aparece? Por quê?</li>
+            <li>No navegador, clique com o botão direito e escolha <em>Exibir código-fonte</em>. Procure o PHP: ele não está lá.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+            <li>Acrescente o campo E-mail (<code>&lt;label&gt;</code> e <code>&lt;input name="email"&gt;</code>) e mostre o e-mail na mensagem.</li>
+            <li>Troque o texto do botão de "Enviar" para "Cadastrar".</li>
+            <li>Se o nome vier vazio, mostre "Escreva o seu nome" em vez da saudação.</li>
+          </ul>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 1: o formulário responde"</code>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 2</span>
+            <h3>Valida e avisa</h3>
+            <p>Agora o PHP confere os dados antes de aceitar. Os erros aparecem na tela e o que foi digitado continua nos campos.</p>
+            <p><strong>O que mudou:</strong> apareceu o arquivo <code>validar.php</code>, com a função que confere os dados. O <code>cadastro.php</code> chama essa função com <code>require_once</code>, mostra os erros e mantém os valores com <code>value</code>.</p>
+          </div>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+require_once __DIR__ . '/validar.php';
+
+$nome = '';
+$email = '';
+$erros = [];
+$mensagem = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $erros = validarCliente($nome, $email);
+
+    if (!$erros) {
+        $mensagem = 'Tudo certo, ' . htmlspecialchars($nome) . '! Os dados passaram na conferência.';
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="validar.php" data-estado="novo">
+<?php
+// confere os dados e devolve a lista de erros (vazia = tudo certo)
+function validarCliente(string $nome, string $email): array
+{
+    $erros = [];
+    if (strlen($nome) < 3) {
+        $erros[] = 'O nome precisa de pelo menos 3 letras.';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erros[] = 'Digite um e-mail válido.';
+    }
+    return $erros;
+}
+</script>
+            <script type="text/plain" data-previa="Enviando "Al" e "semarroba"">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+      <p class="erro">O nome precisa de pelo menos 3 letras.</p>
+      <p class="erro">Digite um e-mail válido.</p>
+    
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="Al">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="semarroba">
+
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Enviando dados certos">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+        <p class="sucesso">Tudo certo, Ana Souza! Os dados passaram na conferência.</p>
+  
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="Ana Souza">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="ana@exemplo.com">
+
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+</html>
+</script>
+          </div>
+          <p><strong>Teste:</strong></p>
+          <ol>
+            <li>Envie "Al" no nome e "semarroba" no e-mail. Repare que os campos continuam preenchidos.</li>
+            <li>Envie dados certos e veja a mensagem de sucesso.</li>
+            <li>Digite <code>&lt;b&gt;Oi&lt;/b&gt;</code> no nome. O texto aparece como texto, sem negrito: é o <code>htmlspecialchars()</code> trabalhando.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+            <li>Acrescente o campo Telefone, que pode ficar vazio (não entra na validação).</li>
+            <li>Crie a regra: o nome pode ter no máximo 60 letras.</li>
+            <li>Coloque o erro de cada campo logo abaixo do campo, e não no topo.</li>
+          </ul>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 2: validação com erros na tela"</code>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 3</span>
+            <h3>Guarda no banco de dados</h3>
+            <p>Chegou a hora do banco. Cada cliente cadastrado vai para o arquivo <code>clientes.sqlite</code> e aparece na lista, mesmo se você fechar o navegador.</p>
+            <p><strong>O que mudou:</strong> apareceu o <code>banco.php</code>, que conecta e cria a tabela, e o <code>.gitignore</code>, que deixa o banco fora do GitHub. O <code>cadastro.php</code> grava com <code>INSERT</code>, lista com <code>SELECT</code> e avisa quando o e-mail já existe. O <code>validar.php</code> não mudou.</p>
+          </div>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+require_once __DIR__ . '/banco.php';
+require_once __DIR__ . '/validar.php';
+
+$nome = '';
+$email = '';
+$erros = [];
+$mensagem = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $erros = validarCliente($nome, $email);
+
+    if (!$erros) {
+        try {
+            $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':nome' => $nome, ':email' => $email]);
+            $mensagem = 'Cliente cadastrado!';
+            $nome = '';
+            $email = '';
+        } catch (PDOException $erro) {
+            $erros[] = 'Este e-mail já está cadastrado.';
+        }
+    }
+}
+
+$clientes = $pdo->query('SELECT nome, email FROM clientes ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+    <?php foreach ($clientes as $cliente): ?>
+      <li><?= htmlspecialchars($cliente['nome']) ?> · <?= htmlspecialchars($cliente['email']) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="novo">
+<?php
+// abre (ou cria) o arquivo do banco e a tabela de clientes
+$pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE
+)');
+</script>
+            <script type="text/plain" data-arquivo="validar.php" data-estado="igual">
+<?php
+// confere os dados e devolve a lista de erros (vazia = tudo certo)
+function validarCliente(string $nome, string $email): array
+{
+    $erros = [];
+    if (strlen($nome) < 3) {
+        $erros[] = 'O nome precisa de pelo menos 3 letras.';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erros[] = 'Digite um e-mail válido.';
+    }
+    return $erros;
+}
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="novo">
+clientes.sqlite
+</script>
+            <script type="text/plain" data-previa="Depois de cadastrar dois clientes">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+        <p class="sucesso">Cliente cadastrado!</p>
+  
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+          <li>Ana Souza · ana@exemplo.com</li>
+          <li>Bruno Lima · bruno@exemplo.com</li>
+      </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Tentando um e-mail repetido">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+      <p class="erro">Este e-mail já está cadastrado.</p>
+    
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="Ana de novo">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="ana@exemplo.com">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+          <li>Ana Souza · ana@exemplo.com</li>
+          <li>Bruno Lima · bruno@exemplo.com</li>
+      </ul>
+</body>
+</html>
+</script>
+          </div>
+          <p><strong>Teste:</strong></p>
+          <ol>
+            <li>Cadastre dois clientes. Feche o navegador, abra de novo: eles continuam lá.</li>
+            <li>Tente cadastrar de novo um e-mail que já existe.</li>
+            <li>Repare no arquivo <code>clientes.sqlite</code> que apareceu na pasta: é o banco.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+            <li>Mostre o total de clientes no título da lista (dica: <code>count($clientes)</code>).</li>
+            <li>Mostre os clientes do mais novo para o mais antigo (<code>ORDER BY id DESC</code>).</li>
+            <li>Acrescente a coluna Cidade. Como a tabela já existe, apague o arquivo <code>clientes.sqlite</code>: o <code>banco.php</code> cria a tabela de novo, já com a coluna nova (os dados de teste somem).</li>
+          </ul>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 3: clientes guardados no SQLite"</code>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 4</span>
+            <h3>Busca e visual caprichado</h3>
+            <p>O cadastro ganha um campo de busca e cara de sistema, com um arquivo de CSS só dele.</p>
+            <p><strong>O que mudou:</strong> apareceu o <code>estilo.css</code>. No <code>cadastro.php</code>, a busca usa <code>$_GET</code> (ela fica no endereço: <code>?busca=ana</code>) e o <code>LIKE</code> do SQL, sempre com <code>prepare()</code>. Os outros arquivos não mudaram.</p>
+          </div>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+require_once __DIR__ . '/banco.php';
+require_once __DIR__ . '/validar.php';
+
+$nome = '';
+$email = '';
+$erros = [];
+$mensagem = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $erros = validarCliente($nome, $email);
+
+    if (!$erros) {
+        try {
+            $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':nome' => $nome, ':email' => $email]);
+            $mensagem = 'Cliente cadastrado!';
+            $nome = '';
+            $email = '';
+        } catch (PDOException $erro) {
+            $erros[] = 'Este e-mail já está cadastrado.';
+        }
+    }
+}
+
+// busca: vem pelo endereço (?busca=ana), por isso usa $_GET
+$busca = trim($_GET['busca'] ?? '');
+$sql = 'SELECT nome, email FROM clientes WHERE nome LIKE :busca ORDER BY nome';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':busca' => '%' . $busca . '%']);
+$clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <main class="cartao">
+    <h1>Cadastro de Clientes</h1>
+
+    <?php foreach ($erros as $erro): ?>
+      <p class="erro"><?= htmlspecialchars($erro) ?></p>
+    <?php endforeach; ?>
+    <?php if ($mensagem): ?>
+      <p class="sucesso"><?= $mensagem ?></p>
+    <?php endif; ?>
+
+    <form method="post">
+      <label for="nome">Nome</label>
+      <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+      <label for="email">E-mail</label>
+      <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Clientes cadastrados (<?= count($clientes) ?>)</h2>
+    <form method="get" class="busca">
+      <label for="busca">Buscar pelo nome</label>
+      <input id="busca" name="busca" value="<?= htmlspecialchars($busca) ?>">
+      <button type="submit">Buscar</button>
+    </form>
+
+    <ul>
+      <?php foreach ($clientes as $cliente): ?>
+        <li><?= htmlspecialchars($cliente['nome']) ?> · <?= htmlspecialchars($cliente['email']) ?></li>
+      <?php endforeach; ?>
+    </ul>
+  </main>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="estilo.css" data-estado="novo">
+body {
+  margin: 0;
+  padding: 24px 16px;
+  font-family: Arial, sans-serif;
+  background: #eef2f0;
+  color: #1a1a2e;
+}
+
+.cartao {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+label {
+  display: block;
+  margin: 12px 0 4px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #c7cbe0;
+  border-radius: 8px;
+}
+
+input:focus {
+  border-color: #2e7d5b;
+  outline: 3px solid #b9e4cf;
+}
+
+button {
+  margin-top: 12px;
+  padding: 8px 18px;
+  font-size: 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #1a1a2e;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.busca {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.busca label {
+  grid-column: 1 / -1;
+}
+
+.erro {
+  color: #c22450;
+}
+
+.sucesso {
+  color: #2e7d5b;
+  font-weight: bold;
+}
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="igual">
+<?php
+// abre (ou cria) o arquivo do banco e a tabela de clientes
+$pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE
+)');
+</script>
+            <script type="text/plain" data-arquivo="validar.php" data-estado="igual">
+<?php
+// confere os dados e devolve a lista de erros (vazia = tudo certo)
+function validarCliente(string $nome, string $email): array
+{
+    $erros = [];
+    if (strlen($nome) < 3) {
+        $erros[] = 'O nome precisa de pelo menos 3 letras.';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erros[] = 'Digite um e-mail válido.';
+    }
+    return $erros;
+}
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="igual">
+clientes.sqlite
+</script>
+            <script type="text/plain" data-previa="Lista com 4 clientes">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+body {
+  margin: 0;
+  padding: 24px 16px;
+  font-family: Arial, sans-serif;
+  background: #eef2f0;
+  color: #1a1a2e;
+}
+
+.cartao {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+label {
+  display: block;
+  margin: 12px 0 4px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #c7cbe0;
+  border-radius: 8px;
+}
+
+input:focus {
+  border-color: #2e7d5b;
+  outline: 3px solid #b9e4cf;
+}
+
+button {
+  margin-top: 12px;
+  padding: 8px 18px;
+  font-size: 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #1a1a2e;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.busca {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.busca label {
+  grid-column: 1 / -1;
+}
+
+.erro {
+  color: #c22450;
+}
+
+.sucesso {
+  color: #2e7d5b;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Cadastro de Clientes</h1>
+
+        
+    <form method="post">
+      <label for="nome">Nome</label>
+      <input id="nome" name="nome" value="">
+
+      <label for="email">E-mail</label>
+      <input id="email" name="email" value="">
+
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Clientes cadastrados (4)</h2>
+    <form method="get" class="busca">
+      <label for="busca">Buscar pelo nome</label>
+      <input id="busca" name="busca" value="">
+      <button type="submit">Buscar</button>
+    </form>
+
+    <ul>
+              <li>Ana Paula Reis · anapaula@exemplo.com</li>
+              <li>Ana Souza · ana@exemplo.com</li>
+              <li>Bruno Lima · bruno@exemplo.com</li>
+              <li>Carla Dias · carla@exemplo.com</li>
+          </ul>
+  </main>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Buscando "ana"">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+body {
+  margin: 0;
+  padding: 24px 16px;
+  font-family: Arial, sans-serif;
+  background: #eef2f0;
+  color: #1a1a2e;
+}
+
+.cartao {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+label {
+  display: block;
+  margin: 12px 0 4px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #c7cbe0;
+  border-radius: 8px;
+}
+
+input:focus {
+  border-color: #2e7d5b;
+  outline: 3px solid #b9e4cf;
+}
+
+button {
+  margin-top: 12px;
+  padding: 8px 18px;
+  font-size: 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #1a1a2e;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.busca {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.busca label {
+  grid-column: 1 / -1;
+}
+
+.erro {
+  color: #c22450;
+}
+
+.sucesso {
+  color: #2e7d5b;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Cadastro de Clientes</h1>
+
+        
+    <form method="post">
+      <label for="nome">Nome</label>
+      <input id="nome" name="nome" value="">
+
+      <label for="email">E-mail</label>
+      <input id="email" name="email" value="">
+
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Clientes cadastrados (2)</h2>
+    <form method="get" class="busca">
+      <label for="busca">Buscar pelo nome</label>
+      <input id="busca" name="busca" value="ana">
+      <button type="submit">Buscar</button>
+    </form>
+
+    <ul>
+              <li>Ana Paula Reis · anapaula@exemplo.com</li>
+              <li>Ana Souza · ana@exemplo.com</li>
+          </ul>
+  </main>
+</body>
+</html>
+</script>
+          </div>
+          <p><strong>Teste:</strong></p>
+          <ol>
+            <li>Cadastre uns quatro clientes e busque por um pedaço do nome.</li>
+            <li>Repare no endereço da página depois da busca: o termo está lá. Copie o endereço e abra numa aba nova.</li>
+            <li>Busque por uma letra que nenhum nome tem.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+            <li>Quando a busca não achar ninguém, mostre "Nenhum cliente encontrado".</li>
+            <li>Crie um link "Limpar busca", que volta para <code>cadastro.php</code>.</li>
+            <li>Já pensando na próxima aula: coloque um link "Editar" ao lado de cada cliente. A tela de edição vem no módulo 7 do curso.</li>
+          </ul>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 4: busca e visual"</code>.</p>
         </section>
 
         <!-- ===================== CASO DE USO ===================== -->
@@ -376,6 +1248,7 @@
   </svg>
 
   <script src="../assets/js/aulas.js"></script>
+  <script src="../assets/js/tutorial-php.js?v=2"></script>
   <script src="../assets/js/matrix.js"></script>
 </body>
 </html>
