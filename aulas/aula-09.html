@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="../assets/css/disciplina.css">
   <link rel="stylesheet" href="../assets/css/aula.css">
   <link rel="stylesheet" href="../assets/css/neon.css">
-  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=5">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=6">
 </head>
 <body>
 
@@ -237,6 +237,22 @@
             </table>
           </div>
           <p class="dica cuidado"><strong>Envelope não é cofre:</strong> o POST só tira os dados do endereço. Quem protege de verdade no caminho é o <code>https</code>, o cadeado do navegador.</p>
+
+          <p class="cs-intro">Toda resposta do servidor vem com um número, o <strong>código de resposta</strong>: é o carimbo do correio dizendo como foi a entrega. O navegador lê esse carimbo antes de mostrar a página.</p>
+          <div class="tabela-rola">
+            <table class="metodos cs-tabela cs-codigos">
+              <caption>E aquele número na resposta?</caption>
+              <thead>
+                <tr><th scope="col">Código</th><th scope="col">Quer dizer</th><th scope="col">No correio</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row"><code>200</code></th><td>Deu certo: aqui está a página. É a resposta de quase todo pedido.</td><td>Carta entregue.</td></tr>
+                <tr><th scope="row"><code>404</code></th><td>Não encontrei essa página. O endereço ou o nome do arquivo está errado.</td><td>Endereço que não existe.</td></tr>
+                <tr><th scope="row"><code>500</code></th><td>Deu erro dentro do servidor: o PHP quebrou no meio do caminho.</td><td>O carteiro tropeçou.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="dica"><strong>Por que eu nunca vejo o 500?</strong> No seu computador, o PHP prefere escrever a mensagem de erro na própria página, para você achar e consertar. Num site publicado, os erros ficam escondidos do visitante, e aí aparece o 500. Quer ver os códigos de verdade? Aperte <code>F12</code>, abra a aba <strong>Rede</strong> (<em>Network</em>) e recarregue a página: a coluna <strong>Status</strong> mostra o código de cada arquivo.</p>
 
 
           <!-- conceito 2 -->
