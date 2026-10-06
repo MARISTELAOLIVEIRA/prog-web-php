@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="../assets/css/disciplina.css">
   <link rel="stylesheet" href="../assets/css/aula.css">
   <link rel="stylesheet" href="../assets/css/neon.css">
-  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=2">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=4">
 </head>
 <body>
 
@@ -127,14 +127,106 @@
         <!-- ===================== CONCEITOS ===================== -->
         <section class="parte" id="conceitos">
           <div class="cab">
-            <span class="olho">C1–C6 · conceitos</span>
-            <h2>Do formulário ao banco, em seis peças</h2>
+            <span class="olho">C1–C8 · conceitos</span>
+            <h2>Do formulário ao banco, em oito peças</h2>
           </div>
 
           <!-- conceito 1 -->
           <div class="conceito">
             <div class="texto">
               <span class="olho">C1</span>
+              <h3>Cliente e servidor: quem pede e quem responde</h3>
+              <p>Quando você digita <code>maristelaoliveira.github.io</code>, o seu navegador (o <strong>cliente</strong>) manda um pedido pela internet. Do outro lado, um computador do GitHub (o <strong>servidor</strong>) recebe, procura os arquivos e devolve o site. Toda página funciona assim: pedido e resposta.</p>
+              <p>Todo pedido leva um <strong>método</strong>, que diz o que o cliente quer. Os dois do dia a dia: <strong>GET</strong> ("me mostra") e <strong>POST</strong> ("toma, guarda isto").</p>
+              <p class="dica"><strong>Por que o PHP não roda no GitHub?</strong> O GitHub Pages só entrega arquivos prontos: HTML, CSS, JavaScript e imagens. Quem monta página com PHP é um servidor com PHP. No nosso cadastro, ele é o seu próprio computador, com <code>php -S localhost:8000</code>.</p>
+            </div>
+            <pre class="codigo" aria-label="A conversa entre o navegador e o servidor"><code><span class="linha"><span class="num">1</span><span class="com"># 1. o navegador pede (método GET)</span></span><span class="linha"><span class="num">2</span><span class="tag">GET</span> /prog-web-php/ HTTP/1.1</span><span class="linha"><span class="num">3</span><span class="var">Host:</span> maristelaoliveira.github.io</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="com"># 2. o servidor responde (200 = deu certo)</span></span><span class="linha"><span class="num">6</span>HTTP/1.1 <span class="str">200 OK</span></span><span class="linha"><span class="num">7</span><span class="var">Content-Type:</span> text/html</span><span class="linha"><span class="num">8</span></span><span class="linha"><span class="num">9</span>&lt;!DOCTYPE html&gt;</span><span class="linha"><span class="num">10</span>&lt;html lang="pt-br"&gt;...</span></code></pre>
+          </div>
+
+          <figure class="cs-figura" id="cliente-servidor">
+            <div class="cs-cena">
+              <h4 class="cs-titulo">Cena 1 · <span class="cs-get">GET</span>: visitar o site</h4>
+              <div class="cs-ponta" style="--cor: var(--neon)">
+                <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="15" r="7"/><path d="M17 41c0-9 6.5-15 15-15s15 6 15 15"/><rect class="cs-tampa" x="13" y="33" width="38" height="21" rx="2"/><path d="M27 41l-4 3.5 4 3.5"/><path d="M37 41l4 3.5-4 3.5"/><path d="M7 57h50"/></svg>
+                <span class="cs-papel">cliente</span>
+                <strong>Você no navegador</strong>
+                <span class="cs-detalhe">Digita <code>maristelaoliveira.github.io</code> e aperta Enter.</span>
+              </div>
+              <div class="cs-meio">
+                <div class="cs-msg cs-pedido">
+                  <span class="cs-seta" aria-hidden="true">→</span>
+                  <span class="cs-rotulo">pedido</span>
+                  <code>GET /prog-web-php/</code>
+                  <span class="cs-fala">"Me mostra essa página?"</span>
+                </div>
+                <div class="cs-msg cs-resposta">
+                  <span class="cs-seta" aria-hidden="true">←</span>
+                  <span class="cs-rotulo">resposta</span>
+                  <code>200 OK + index.html, estilo.css...</code>
+                  <span class="cs-fala">"Aqui está!" O navegador monta o site.</span>
+                </div>
+              </div>
+              <div class="cs-ponta" style="--cor: var(--texto-2)">
+                <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="14" y="5" width="36" height="54" rx="4"/><path d="M14 23h36"/><path d="M14 41h36"/><circle class="cs-luz" cx="22" cy="14" r="2"/><circle class="cs-luz" cx="22" cy="32" r="2"/><circle class="cs-luz" cx="22" cy="50" r="2"/><path d="M30 14h12"/><path d="M30 32h12"/><path d="M30 50h12"/></svg>
+                <span class="cs-papel">servidor</span>
+                <strong>O servidor do GitHub Pages</strong>
+                <span class="cs-detalhe">Guarda os arquivos do repositório e entrega prontos. Não roda PHP.</span>
+              </div>
+            </div>
+            <div class="cs-cena">
+              <h4 class="cs-titulo">Cena 2 · <span class="cs-post">POST</span>: enviar o cadastro</h4>
+              <div class="cs-ponta" style="--cor: var(--neon)">
+                <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="15" r="7"/><path d="M17 41c0-9 6.5-15 15-15s15 6 15 15"/><rect class="cs-tampa" x="13" y="33" width="38" height="21" rx="2"/><path d="M27 41l-4 3.5 4 3.5"/><path d="M37 41l4 3.5-4 3.5"/><path d="M7 57h50"/></svg>
+                <span class="cs-papel">cliente</span>
+                <strong>Você no formulário</strong>
+                <span class="cs-detalhe">Preenche nome e e-mail e clica em Cadastrar.</span>
+              </div>
+              <div class="cs-meio">
+                <div class="cs-msg cs-pedido">
+                  <span class="cs-seta" aria-hidden="true">→</span>
+                  <span class="cs-rotulo">pedido</span>
+                  <code>POST /cadastro.php<br>nome=Ana Souza&amp;email=ana@exemplo.com</code>
+                  <span class="cs-fala">"Toma, guarda este cliente."</span>
+                </div>
+                <div class="cs-msg cs-resposta">
+                  <span class="cs-seta" aria-hidden="true">←</span>
+                  <span class="cs-rotulo">resposta</span>
+                  <code>200 OK + página "Cliente cadastrado!"</code>
+                  <span class="cs-fala">O PHP montou o HTML na hora.</span>
+                </div>
+              </div>
+              <div class="cs-ponta" style="--cor: var(--menta)">
+                <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="6" y="8" width="52" height="34" rx="3"/><path d="M16 20l6 5-6 5"/><path d="M27 31h10"/><path d="M32 42v8"/><path d="M22 52h20"/></svg>
+                <span class="cs-papel">servidor</span>
+                <strong>O seu computador</strong>
+                <span class="cs-detalhe"><code>php -S localhost:8000</code> roda o PHP, grava no SQLite e responde.</span>
+              </div>
+            </div>
+            <figcaption>Toda página da internet é uma conversa: o cliente pede, o servidor responde. O método diz o que o cliente quer.</figcaption>
+          </figure>
+
+          <div class="tabela-rola">
+            <table class="metodos cs-tabela">
+              <caption>GET ou POST?</caption>
+              <thead>
+                <tr><th scope="col"></th><th scope="col">GET</th><th scope="col">POST</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Pensa assim</th><td>Cartão-postal: o que está escrito fica à vista.</td><td>Carta no envelope: os dados vão dentro.</td></tr>
+                <tr><th scope="row">Onde vão os dados</th><td>No endereço: <code>?busca=ana</code></td><td>No corpo do pedido, fora do endereço.</td></tr>
+                <tr><th scope="row">No PHP</th><td><code>$_GET['busca']</code></td><td><code>$_POST['nome']</code></td></tr>
+                <tr><th scope="row">Use para</th><td>Ver páginas, buscar e filtrar.</td><td>Cadastrar, alterar e enviar senha.</td></tr>
+                <tr><th scope="row">No nosso cadastro</th><td>A busca (versão 5 do tutorial).</td><td>O formulário de cadastro.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="dica cuidado"><strong>Envelope não é cofre:</strong> o POST só tira os dados do endereço. Quem protege de verdade no caminho é o <code>https</code>, o cadeado do navegador.</p>
+
+
+          <!-- conceito 2 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C2</span>
               <h3>O formulário certo</h3>
               <p>O <code>method="post"</code> manda os dados escondidos no corpo da requisição, e não no endereço. Cada campo precisa de um <code>name</code>: é por ele que o PHP encontra o valor. O <code>id</code> é do <code>&lt;label&gt;</code> e do CSS.</p>
               <p class="dica cuidado"><strong>Pegadinha clássica:</strong> campo sem <code>name</code> não chega no PHP. Nem dá erro: simplesmente some.</p>
@@ -142,10 +234,10 @@
             <pre class="codigo" aria-label="Formulário de cadastro em HTML"><code><span class="linha"><span class="num">1</span>&lt;form method=<span class="str">"post"</span>&gt;</span><span class="linha"><span class="num">2</span>  &lt;label for=<span class="str">"nome"</span>&gt;Nome&lt;/label&gt;</span><span class="linha"><span class="num">3</span>  &lt;input id=<span class="str">"nome"</span> name=<span class="str">"nome"</span>&gt;</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span>  &lt;label for=<span class="str">"email"</span>&gt;E-mail&lt;/label&gt;</span><span class="linha"><span class="num">6</span>  &lt;input id=<span class="str">"email"</span> name=<span class="str">"email"</span> type=<span class="str">"email"</span>&gt;</span><span class="linha"><span class="num">7</span></span><span class="linha"><span class="num">8</span>  &lt;label for=<span class="str">"telefone"</span>&gt;Telefone&lt;/label&gt;</span><span class="linha"><span class="num">9</span>  &lt;input id=<span class="str">"telefone"</span> name=<span class="str">"telefone"</span>&gt;</span><span class="linha"><span class="num">10</span></span><span class="linha"><span class="num">11</span>  &lt;button type=<span class="str">"submit"</span>&gt;Cadastrar&lt;/button&gt;</span><span class="linha"><span class="num">12</span>&lt;/form&gt;</span></code></pre>
           </div>
 
-          <!-- conceito 2 -->
+          <!-- conceito 3 -->
           <div class="conceito">
             <div class="texto">
-              <span class="olho">C2</span>
+              <span class="olho">C3</span>
               <h3>Receber e limpar</h3>
               <p>O PHP só processa quando o formulário foi enviado: é isso que o <code>REQUEST_METHOD</code> confere. Tudo chega dentro de <code>$_POST</code>, sempre como texto.</p>
               <p>O <code>trim()</code> tira os espaços do começo e do fim, para ninguém passar na validação digitando só espaço.</p>
@@ -153,10 +245,10 @@
             <pre class="codigo" aria-label="Recebendo os dados com $_POST"><code><span class="linha"><span class="num">1</span><span class="tag">if</span> (<span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>] === <span class="str">'POST'</span>) {</span><span class="linha"><span class="num">2</span>    // ?? <span class="str">''</span> evita erro se o campo não vier</span><span class="linha"><span class="num">3</span>    <span class="var">$nome</span> = <span class="fn">trim</span>(<span class="var">$_POST</span>[<span class="str">'nome'</span>] ?? <span class="str">''</span>);</span><span class="linha"><span class="num">4</span>    <span class="var">$email</span> = <span class="fn">trim</span>(<span class="var">$_POST</span>[<span class="str">'email'</span>] ?? <span class="str">''</span>);</span><span class="linha"><span class="num">5</span>    <span class="var">$telefone</span> = <span class="fn">trim</span>(<span class="var">$_POST</span>[<span class="str">'telefone'</span>] ?? <span class="str">''</span>);</span><span class="linha"><span class="num">6</span>}</span></code></pre>
           </div>
 
-          <!-- conceito 3 -->
+          <!-- conceito 4 -->
           <div class="conceito">
             <div class="texto">
-              <span class="olho">C3</span>
+              <span class="olho">C4</span>
               <h3>Validar antes de usar</h3>
               <p>Dado de usuário é suspeito até prova em contrário. A função devolve uma lista de erros: lista vazia quer dizer que está tudo certo.</p>
               <p>O <code>filter_var()</code> com <code>FILTER_VALIDATE_EMAIL</code> já sabe o formato de um e-mail. Não precisa inventar a regra.</p>
@@ -164,10 +256,10 @@
             <pre class="codigo" aria-label="Função que valida nome e e-mail"><code><span class="linha"><span class="num">1</span><span class="com">// recebe e confere os dados do formulário</span></span><span class="linha"><span class="num">2</span><span class="tag">function</span> <span class="fn">validarCliente</span>(<span class="tag">string</span> <span class="var">$nome</span>, <span class="tag">string</span> <span class="var">$email</span>): <span class="tag">array</span></span><span class="linha"><span class="num">3</span>{</span><span class="linha"><span class="num">4</span>    <span class="var">$erros</span> = [];</span><span class="linha"><span class="num">5</span>    <span class="tag">if</span> (<span class="fn">strlen</span>(<span class="var">$nome</span>) &lt; 3) {</span><span class="linha"><span class="num">6</span>        <span class="var">$erros</span>[] = <span class="str">'O nome precisa de pelo menos 3 letras.'</span>;</span><span class="linha"><span class="num">7</span>    }</span><span class="linha"><span class="num">8</span>    <span class="tag">if</span> (!<span class="fn">filter_var</span>(<span class="var">$email</span>, FILTER_VALIDATE_EMAIL)) {</span><span class="linha"><span class="num">9</span>        <span class="var">$erros</span>[] = <span class="str">'Digite um e-mail válido.'</span>;</span><span class="linha"><span class="num">10</span>    }</span><span class="linha"><span class="num">11</span>    <span class="tag">return</span> <span class="var">$erros</span>;</span><span class="linha"><span class="num">12</span>}</span></code></pre>
           </div>
 
-          <!-- conceito 4 -->
+          <!-- conceito 5 -->
           <div class="conceito">
             <div class="texto">
-              <span class="olho">C4</span>
+              <span class="olho">C5</span>
               <h3>Errou? Não apague o que foi digitado</h3>
               <p>Quando der erro, a página volta com os campos preenchidos e o aviso na tela. Ninguém merece digitar tudo de novo.</p>
               <p class="dica cuidado"><strong>Segurança:</strong> o <code>htmlspecialchars()</code> mostra o texto como texto. Sem ele, quem digitar <code>&lt;b&gt;</code> ou um <code>&lt;script&gt;</code> no nome muda a sua página.</p>
@@ -175,10 +267,10 @@
             <pre class="codigo" aria-label="Mantendo o valor e mostrando os erros"><code><span class="linha"><span class="num">1</span>&lt;input id=<span class="str">"nome"</span> name=<span class="str">"nome"</span></span><span class="linha"><span class="num">2</span>       value=<span class="str">"&lt;?= htmlspecialchars($nome) ?&gt;"</span>&gt;</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span>&lt;?php <span class="tag">foreach</span> (<span class="var">$erros</span> <span class="tag">as</span> <span class="var">$erro</span>): ?&gt;</span><span class="linha"><span class="num">5</span>  &lt;p class=<span class="str">"erro"</span>&gt;&lt;?= <span class="fn">htmlspecialchars</span>(<span class="var">$erro</span>) ?&gt;&lt;/p&gt;</span><span class="linha"><span class="num">6</span>&lt;?php <span class="tag">endforeach</span>; ?&gt;</span></code></pre>
           </div>
 
-          <!-- conceito 5 -->
+          <!-- conceito 6 -->
           <div class="conceito">
             <div class="texto">
-              <span class="olho">C5</span>
+              <span class="olho">C6</span>
               <h3>Banco de dados: a memória que não esquece</h3>
               <p>Variável vive só enquanto a página está sendo montada. O banco guarda os dados num arquivo, e eles continuam lá amanhã.</p>
               <p>Uma <strong>tabela</strong> é uma planilha com regras: cada <strong>coluna</strong> é um campo e cada <strong>linha</strong> é um cliente. O <code>id</code> numera as linhas sozinho, e o <code>UNIQUE</code> não deixa repetir e-mail.</p>
@@ -187,16 +279,62 @@
             <pre class="codigo" aria-label="Criando o banco e a tabela de clientes"><code><span class="linha"><span class="num">1</span><span class="com">// abre (ou cria) o arquivo do banco e a tabela de clientes</span></span><span class="linha"><span class="num">2</span><span class="var">$pdo</span> = <span class="tag">new</span> PDO(<span class="str">'sqlite:'</span> . __DIR__ . <span class="str">'/clientes.sqlite'</span>);</span><span class="linha"><span class="num">3</span><span class="var">$pdo</span>-&gt;<span class="fn">setAttribute</span>(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="var">$pdo</span>-&gt;<span class="fn">exec</span>('CREATE TABLE IF NOT EXISTS clientes (</span><span class="linha"><span class="num">6</span>    id INTEGER PRIMARY KEY AUTOINCREMENT,</span><span class="linha"><span class="num">7</span>    nome TEXT NOT NULL,</span><span class="linha"><span class="num">8</span>    email TEXT NOT NULL UNIQUE,</span><span class="linha"><span class="num">9</span>    telefone TEXT</span><span class="linha"><span class="num">10</span>)');</span><span class="linha"><span class="num">11</span></span><span class="linha"><span class="num">12</span><span class="com">// no MySQL do XAMPP, só a conexão muda:</span></span><span class="linha"><span class="num">13</span>// <span class="tag">new</span> PDO(<span class="str">'mysql:host=localhost;dbname=loja;charset=utf8mb4'</span>, <span class="str">'root'</span>, <span class="str">''</span>);</span></code></pre>
           </div>
 
-          <!-- conceito 6 -->
+          <!-- conceito 7 -->
           <div class="conceito">
             <div class="texto">
-              <span class="olho">C6</span>
+              <span class="olho">C7</span>
               <h3>Gravar e listar com segurança</h3>
               <p>O <code>prepare()</code> monta o comando com marcadores (<code>:nome</code>, <code>:email</code>) e o <code>execute()</code> encaixa os valores. Assim o banco nunca confunde o que o usuário digitou com um comando.</p>
               <p class="dica cuidado"><strong>Nunca</strong> cole <code>$_POST</code> direto dentro do SQL. Isso abre a porta para o ataque de SQL injection.</p>
             </div>
             <pre class="codigo" aria-label="Gravando e listando clientes com PDO"><code><span class="linha"><span class="num">1</span><span class="var">$sql</span> = 'INSERT INTO clientes (nome, email, telefone)</span><span class="linha"><span class="num">2</span>        VALUES (:nome, :email, :telefone)';</span><span class="linha"><span class="num">3</span><span class="var">$stmt</span> = <span class="var">$pdo</span>-&gt;<span class="fn">prepare</span>(<span class="var">$sql</span>);</span><span class="linha"><span class="num">4</span><span class="var">$stmt</span>-&gt;<span class="fn">execute</span>([</span><span class="linha"><span class="num">5</span>    <span class="str">':nome'</span> =&gt; <span class="var">$nome</span>,</span><span class="linha"><span class="num">6</span>    <span class="str">':email'</span> =&gt; <span class="var">$email</span>,</span><span class="linha"><span class="num">7</span>    <span class="str">':telefone'</span> =&gt; <span class="var">$telefone</span>,</span><span class="linha"><span class="num">8</span>]);</span><span class="linha"><span class="num">9</span></span><span class="linha"><span class="num">10</span><span class="com">// e para listar:</span></span><span class="linha"><span class="num">11</span><span class="var">$sql</span> = <span class="str">'SELECT nome, email FROM clientes ORDER BY nome'</span>;</span><span class="linha"><span class="num">12</span><span class="var">$clientes</span> = <span class="var">$pdo</span>-&gt;<span class="fn">query</span>(<span class="var">$sql</span>)-&gt;<span class="fn">fetchAll</span>(PDO::FETCH_ASSOC);</span></code></pre>
           </div>
+
+          <!-- conceito 8 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C8</span>
+              <h3>Cada arquivo com seu trabalho: o MVC</h3>
+              <p>Num restaurante, o garçom não cozinha e a cozinheira não vai até a mesa. Cada um faz a sua parte, e por isso a casa funciona até lotada. No código é igual, e esse jeito de organizar tem nome: <strong>MVC</strong>, de <em>Model, View, Controller</em> (Modelo, Visão e Controle).</p>
+              <p><strong>Modelo</strong> (<code>clientes.php</code>): o único que fala com o banco. Os comandos do C6 e do C7 moram lá, dentro de funções. <strong>Visão</strong> (<code>tela-cadastro.php</code>): só o HTML da página. <strong>Controle</strong> (<code>cadastro.php</code>): recebe o pedido, chama o modelo e mostra a visão.</p>
+              <p class="dica"><strong>Regra de ouro:</strong> SQL só no modelo, HTML só na visão. Achou um <code>SELECT</code> no meio do HTML? Alguém entrou na cozinha errada.</p>
+            </div>
+            <pre class="codigo" aria-label="O controle chamando o modelo e a visão"><code><span class="linha"><span class="num">1</span><span class="com">// cadastro.php (o controle): só coordena</span></span><span class="linha"><span class="num">2</span><span class="var">$erros</span> = <span class="fn">validarCliente</span>(<span class="var">$nome</span>, <span class="var">$email</span>);</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="tag">if</span> (!<span class="var">$erros</span>) {</span><span class="linha"><span class="num">5</span>    <span class="fn">inserirCliente</span>(<span class="var">$nome</span>, <span class="var">$email</span>);   <span class="com">// o modelo grava</span></span><span class="linha"><span class="num">6</span>}</span><span class="linha"><span class="num">7</span></span><span class="linha"><span class="num">8</span><span class="var">$clientes</span> = <span class="fn">listarClientes</span>();        <span class="com">// o modelo busca</span></span><span class="linha"><span class="num">9</span></span><span class="linha"><span class="num">10</span><span class="tag">require</span> __DIR__ . <span class="str">'/tela-cadastro.php'</span>;  <span class="com">// a visão mostra</span></span></code></pre>
+          </div>
+
+          <figure class="mvc-figura" id="mvc">
+            <ol>
+              <li style="--cor: var(--texto-2)">
+                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect x="6" y="9" width="36" height="30" rx="4"/><path d="M6 16h36"/><path d="M12 23h18"/><path d="M12 29h12"/><path d="M30 33h6"/></svg>
+                <span class="mvc-papel">1 · quem pede</span>
+                <strong>O cliente na mesa</strong>
+                <code>navegador</code>
+                <span class="mvc-faz">Preenche o formulário e faz o pedido.</span>
+              </li>
+              <li style="--cor: var(--ouro)">
+                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect x="12" y="8" width="24" height="32" rx="3"/><rect x="18" y="5" width="12" height="6" rx="2"/><path d="M17 20l3 3 5-5"/><path d="M28 21h4"/><path d="M17 31l3 3 5-5"/><path d="M28 32h4"/></svg>
+                <span class="mvc-papel">2 · Controle (C)</span>
+                <strong>O garçom</strong>
+                <code>cadastro.php</code>
+                <span class="mvc-faz">Anota o pedido, confere com o <code>validar.php</code> e leva para a cozinha.</span>
+              </li>
+              <li style="--cor: var(--menta)">
+                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 22h32"/><path d="M11 22v12a6 6 0 0 0 6 6h14a6 6 0 0 0 6-6V22"/><path d="M8 26H5"/><path d="M40 26h3"/><path d="M18 16c0-2 2-2 2-4s-2-2-2-4"/><path d="M24 16c0-2 2-2 2-4s-2-2-2-4"/><path d="M30 16c0-2 2-2 2-4s-2-2-2-4"/></svg>
+                <span class="mvc-papel">3 · Modelo (M)</span>
+                <strong>A cozinha</strong>
+                <code>clientes.php</code>
+                <span class="mvc-faz">A única que mexe na despensa: o banco (<code>banco.php</code> e <code>clientes.sqlite</code>).</span>
+              </li>
+              <li style="--cor: var(--neon)">
+                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 34a16 16 0 0 1 32 0"/><path d="M5 34h38"/><path d="M24 18v-3"/><circle cx="24" cy="13" r="2"/><path d="M10 39h28"/></svg>
+                <span class="mvc-papel">4 · Visão (V)</span>
+                <strong>O prato servido</strong>
+                <code>tela-cadastro.php</code>
+                <span class="mvc-faz">A página pronta, que volta para o navegador. Só mostra, não cozinha.</span>
+              </li>
+            </ol>
+            <figcaption>O caminho de um cadastro. O garçom não cozinha e a cozinha não vai até a mesa: cada arquivo com seu trabalho.</figcaption>
+          </figure>
 
           <p class="dica"><strong>Para rodar:</strong> na pasta do projeto, abra o terminal e digite <code>php -S localhost:8000</code>. Depois abra <code>http://localhost:8000/cadastro.php</code>. No XAMPP, coloque a pasta dentro de <code>htdocs</code>.</p>
         </section>
@@ -205,7 +343,7 @@
         <section class="parte" id="tutorial">
           <div class="cab">
             <span class="olho">T1 · tutorial</span>
-            <h2>Mão na massa: o Cadastro de Clientes em 4 versões</h2>
+            <h2>Mão na massa: o Cadastro de Clientes em 5 versões</h2>
             <p>
               Cada versão é o projeto inteiro, pronto para copiar. Faça uma de cada vez: copie, rode, teste, entenda o
               que mudou e só depois passe para a próxima. Aprender programação é isso: fazer, melhorar, acrescentar.
@@ -216,19 +354,25 @@
             <span class="etiqueta ouro">Antes de começar</span>
             <h3>Prepare a pasta e ligue o servidor</h3>
             <ol>
-            <li>Crie uma pasta chamada <code>cadastro-clientes</code> dentro do seu repositório.</li>
-            <li>Abra a pasta no VS Code: <strong>Arquivo › Abrir pasta</strong>.</li>
-            <li>Abra o terminal do VS Code (<strong>Terminal › Novo terminal</strong>) e ligue o servidor do PHP: <code>php -S localhost:8000</code>. No laboratório, use o PHP do XAMPP: <code>C:\xampp\php\php.exe -S localhost:8000</code>.</li>
-            <li>No navegador, abra <code>http://localhost:8000/cadastro.php</code>.</li>
-          </ol>
+              <li>Crie uma pasta chamada <code>cadastro-clientes</code> dentro do seu repositório.</li>
+              <li>Abra a pasta no VS Code: <strong>Arquivo › Abrir pasta</strong>.</li>
+              <li>Abra o terminal do VS Code (<strong>Terminal › Novo terminal</strong>) e ligue o servidor do PHP: <code>php -S localhost:8000</code>. No laboratório, use o PHP do XAMPP: <code>C:\xampp\php\php.exe -S localhost:8000</code>.</li>
+              <li>No navegador, abra <code>http://localhost:8000/cadastro.php</code>.</li>
+            </ol>
             <p class="dica"><strong>Dica:</strong> deixe o servidor ligado o tempo todo. Mudou o código? Salve (<code>Ctrl + S</code>) e recarregue o navegador (<code>F5</code>). Para desligar, <code>Ctrl + C</code> no terminal.</p>
+            <p class="dica"><strong>Como copiar:</strong> clique na aba do arquivo, depois em <strong>Copiar</strong>. No VS Code, apague tudo o que tinha no arquivo (<code>Ctrl + A</code> e <code>Delete</code>), cole (<code>Ctrl + V</code>) e salve. A etiqueta de cada aba avisa: <strong>novo</strong> (crie o arquivo), <strong>mudou</strong> (troque o conteúdo todo) ou <strong>igual</strong> (não precisa mexer).</p>
           </div>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 1</span>
             <h3>O formulário responde</h3>
-            <p>Um arquivo só: o mesmo <code>cadastro.php</code> mostra o formulário e, quando ele é enviado, responde com o nome. Crie o arquivo no VS Code, cole o código e salve.</p>
+            <p>Um arquivo só: o mesmo <code>cadastro.php</code> mostra o formulário e, quando ele é enviado, responde com o nome.</p>
           </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie o arquivo <code>cadastro.php</code>, cole o código e salve.</li>
+            <li>Abra <code>http://localhost:8000/cadastro.php</code> no navegador.</li>
+          </ol>
           <div class="tutorial-projeto" data-pasta="cadastro-clientes">
             <script type="text/plain" data-arquivo="cadastro.php" data-estado="novo">
 <?php
@@ -310,10 +454,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </ol>
           <div class="dica"><strong>Agora é com você:</strong>
             <ul>
-            <li>Acrescente o campo E-mail (<code>&lt;label&gt;</code> e <code>&lt;input name="email"&gt;</code>) e mostre o e-mail na mensagem.</li>
-            <li>Troque o texto do botão de "Enviar" para "Cadastrar".</li>
-            <li>Se o nome vier vazio, mostre "Escreva o seu nome" em vez da saudação.</li>
-          </ul>
+              <li>Acrescente o campo E-mail (<code>&lt;label&gt;</code> e <code>&lt;input name="email"&gt;</code>) e mostre o e-mail na mensagem.</li>
+              <li>Troque o texto do botão de "Enviar" para "Cadastrar".</li>
+              <li>Se o nome vier vazio, mostre "Escreva o seu nome" em vez da saudação.</li>
+            </ul>
           </div>
           <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 1: o formulário responde"</code>.</p>
 
@@ -321,8 +465,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <span class="etiqueta ouro">Versão 2</span>
             <h3>Valida e avisa</h3>
             <p>Agora o PHP confere os dados antes de aceitar. Os erros aparecem na tela e o que foi digitado continua nos campos.</p>
-            <p><strong>O que mudou:</strong> apareceu o arquivo <code>validar.php</code>, com a função que confere os dados. O <code>cadastro.php</code> chama essa função com <code>require_once</code>, mostra os erros e mantém os valores com <code>value</code>.</p>
           </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie o arquivo <code>validar.php</code> e cole o código.</li>
+            <li>Troque todo o conteúdo do <code>cadastro.php</code> pelo novo.</li>
+            <li>Salve os dois e recarregue o navegador.</li>
+          </ol>
+          <p><strong>O que mudou:</strong> apareceu o arquivo <code>validar.php</code>, com a função que confere os dados. O <code>cadastro.php</code> chama essa função com <code>require_once</code>, mostra os erros e mantém os valores com <code>value</code>.</p>
           <div class="tutorial-projeto" data-pasta="cadastro-clientes">
             <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
 <?php
@@ -456,50 +606,65 @@ function validarCliente(string $nome, string $email): array
           </ol>
           <div class="dica"><strong>Agora é com você:</strong>
             <ul>
-            <li>Acrescente o campo Telefone, que pode ficar vazio (não entra na validação).</li>
-            <li>Crie a regra: o nome pode ter no máximo 60 letras.</li>
-            <li>Coloque o erro de cada campo logo abaixo do campo, e não no topo.</li>
-          </ul>
+              <li>Acrescente o campo Telefone, que pode ficar vazio (não entra na validação).</li>
+              <li>Crie a regra: o nome pode ter no máximo 60 letras.</li>
+              <li>Coloque o erro de cada campo logo abaixo do campo, e não no topo.</li>
+            </ul>
           </div>
           <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 2: validação com erros na tela"</code>.</p>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 3</span>
             <h3>Guarda no banco de dados</h3>
-            <p>Chegou a hora do banco. Cada cliente cadastrado vai para o arquivo <code>clientes.sqlite</code> e aparece na lista, mesmo se você fechar o navegador.</p>
-            <p><strong>O que mudou:</strong> apareceu o <code>banco.php</code>, que conecta e cria a tabela, e o <code>.gitignore</code>, que deixa o banco fora do GitHub. O <code>cadastro.php</code> grava com <code>INSERT</code>, lista com <code>SELECT</code> e avisa quando o e-mail já existe. O <code>validar.php</code> não mudou.</p>
+            <p>Chegou a hora do banco. Cada cliente vai para o arquivo <code>clientes.sqlite</code> e continua lá, mesmo se você fechar o navegador. E já do jeito certo: o SQL ganha um arquivo só dele, o <strong>modelo</strong> (veja o <a href="#mvc">C8</a>).</p>
           </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie o arquivo <code>banco.php</code> e cole o código. Ele abre o banco e, na primeira vez, cria o arquivo e a tabela sozinho: você não precisa criar nada antes.</li>
+            <li>Crie o arquivo <code>clientes.php</code> (o modelo) e cole o código.</li>
+            <li>Troque todo o conteúdo do <code>cadastro.php</code> pelo novo.</li>
+            <li>Crie o arquivo <code>.gitignore</code> (com o ponto no começo) e cole o código.</li>
+            <li>Salve tudo e recarregue o navegador. O arquivo <code>clientes.sqlite</code> aparece na pasta no primeiro acesso.</li>
+          </ol>
+          <p><strong>O que mudou:</strong> o <code>banco.php</code> tem a função <code>conectar()</code>. O <code>clientes.php</code> é o modelo, com as únicas funções que falam SQL: <code>inserirCliente()</code>, <code>emailCadastrado()</code> e <code>listarClientes()</code>. O <code>cadastro.php</code> não tem nenhum SQL: só chama essas funções, em passos numerados nos comentários. O <code>.gitignore</code> deixa o banco fora do GitHub. O <code>validar.php</code> não mudou.</p>
+          <p class="tutorial-caminho"><strong>Caminho de um cadastro:</strong> <code>navegador</code> <span aria-hidden="true">→</span> <code>cadastro.php</code> <span aria-hidden="true">→</span> <code>validar.php</code> <span aria-hidden="true">→</span> <code>clientes.php</code> <span aria-hidden="true">→</span> <code>banco.php</code> <span aria-hidden="true">→</span> <code>clientes.sqlite</code></p>
           <div class="tutorial-projeto" data-pasta="cadastro-clientes">
             <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
 <?php
-require_once __DIR__ . '/banco.php';
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, confere os dados e pede ao modelo para gravar.
 require_once __DIR__ . '/validar.php';
+require_once __DIR__ . '/clientes.php';
 
 $nome = '';
 $email = '';
 $erros = [];
 $mensagem = '';
 
+// só entra aqui quando o formulário é enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $email = trim($_POST['email'] ?? '');
+
+    // 1. o validar.php confere o formato
     $erros = validarCliente($nome, $email);
 
+    // 2. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 3. tudo certo: o modelo grava e o formulário fica limpo
     if (!$erros) {
-        try {
-            $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([':nome' => $nome, ':email' => $email]);
-            $mensagem = 'Cliente cadastrado!';
-            $nome = '';
-            $email = '';
-        } catch (PDOException $erro) {
-            $erros[] = 'Este e-mail já está cadastrado.';
-        }
+        inserirCliente($nome, $email);
+        $mensagem = 'Cliente cadastrado!';
+        $nome = '';
+        $email = '';
     }
 }
 
-$clientes = $pdo->query('SELECT nome, email FROM clientes ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+// 4. pede ao modelo a lista atualizada
+$clientes = listarClientes();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -540,17 +705,62 @@ $clientes = $pdo->query('SELECT nome, email FROM clientes ORDER BY nome')->fetch
 </body>
 </html>
 </script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="novo">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Quem precisar de clientes chama uma destas funções.
+require_once __DIR__ . '/banco.php';
+
+// grava um cliente novo
+function inserirCliente(string $nome, string $email): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':nome' => $nome, ':email' => $email]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética
+function listarClientes(): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email FROM clientes ORDER BY nome';
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+</script>
             <script type="text/plain" data-arquivo="banco.php" data-estado="novo">
 <?php
-// abre (ou cria) o arquivo do banco e a tabela de clientes
-$pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// banco.php: abre a conexão com o banco de dados.
+// Na primeira vez, cria o arquivo clientes.sqlite e a tabela sozinho.
 
-$pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE
-)');
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // cria a tabela só se ela ainda não existir
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE
+    )');
+
+    return $pdo;
+}
 </script>
             <script type="text/plain" data-arquivo="validar.php" data-estado="igual">
 <?php
@@ -643,60 +853,380 @@ clientes.sqlite
           <ol>
             <li>Cadastre dois clientes. Feche o navegador, abra de novo: eles continuam lá.</li>
             <li>Tente cadastrar de novo um e-mail que já existe.</li>
-            <li>Repare no arquivo <code>clientes.sqlite</code> que apareceu na pasta: é o banco.</li>
+            <li>Procure <code>SELECT</code> ou <code>INSERT</code> no <code>cadastro.php</code>: não tem. Estão todos no <code>clientes.php</code>.</li>
           </ol>
           <div class="dica"><strong>Agora é com você:</strong>
             <ul>
-            <li>Mostre o total de clientes no título da lista (dica: <code>count($clientes)</code>).</li>
-            <li>Mostre os clientes do mais novo para o mais antigo (<code>ORDER BY id DESC</code>).</li>
-            <li>Acrescente a coluna Cidade. Como a tabela já existe, apague o arquivo <code>clientes.sqlite</code>: o <code>banco.php</code> cria a tabela de novo, já com a coluna nova (os dados de teste somem).</li>
-          </ul>
+              <li>Mostre o total de clientes no título da lista, com <code>count($clientes)</code> (no <code>cadastro.php</code>, na parte do HTML).</li>
+              <li>No <code>clientes.php</code>, troque para <code>ORDER BY id DESC</code>: os mais novos aparecem primeiro. Repare que o <code>cadastro.php</code> nem ficou sabendo.</li>
+              <li>Acrescente a coluna Cidade, um arquivo de cada vez: a coluna na tabela (<code>banco.php</code>; depois apague o <code>clientes.sqlite</code> para a tabela nascer de novo), o <code>INSERT</code> e o <code>SELECT</code> (<code>clientes.php</code>) e o campo no formulário (<code>cadastro.php</code>).</li>
+            </ul>
           </div>
-          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 3: clientes guardados no SQLite"</code>.</p>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 3: clientes guardados no SQLite, com modelo"</code>.</p>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 4</span>
-            <h3>Busca e visual caprichado</h3>
-            <p>O cadastro ganha um campo de busca e cara de sistema, com um arquivo de CSS só dele.</p>
-            <p><strong>O que mudou:</strong> apareceu o <code>estilo.css</code>. No <code>cadastro.php</code>, a busca usa <code>$_GET</code> (ela fica no endereço: <code>?busca=ana</code>) e o <code>LIKE</code> do SQL, sempre com <code>prepare()</code>. Os outros arquivos não mudaram.</p>
+            <h3>Cada arquivo com seu trabalho</h3>
+            <p>O <code>cadastro.php</code> ainda faz dois trabalhos: controla e mostra a página. Agora o HTML vai para um arquivo só dele, a <strong>visão</strong>, e o projeto fica no MVC completo. A página continua igualzinha: mudar a organização sem mudar o resultado tem nome, <strong>refatorar</strong>.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie o arquivo <code>tela-cadastro.php</code> (a visão) e cole o código.</li>
+            <li>Troque todo o conteúdo do <code>cadastro.php</code> pelo novo: agora ele não tem HTML nenhum.</li>
+            <li>Salve os dois e recarregue o navegador. Tudo funciona como antes.</li>
+          </ol>
+          <p><strong>O que mudou:</strong> apareceu o <code>tela-cadastro.php</code>, com todo o HTML que estava no <code>cadastro.php</code>. O <code>cadastro.php</code> ficou só com o PHP e termina chamando a tela com <code>require</code>. As variáveis que ele criou (<code>$nome</code>, <code>$erros</code>, <code>$clientes</code>...) continuam valendo na tela, porque o <code>require</code> cola o arquivo ali. Os outros arquivos não mudaram.</p>
+          <p class="tutorial-caminho"><strong>Caminho de um cadastro:</strong> <code>navegador</code> <span aria-hidden="true">→</span> <code>cadastro.php</code> <span aria-hidden="true">→</span> <code>validar.php</code> <span aria-hidden="true">→</span> <code>clientes.php</code> <span aria-hidden="true">→</span> <code>banco.php</code> <span aria-hidden="true">→</span> <code>clientes.sqlite</code> <span aria-hidden="true">→</span> de volta: <code>cadastro.php</code> <span aria-hidden="true">→</span> <code>tela-cadastro.php</code> <span aria-hidden="true">→</span> <code>navegador</code></p>
+          <div class="tabela-rola">
+            <table class="metodos tutorial-papeis">
+              <caption>Quem faz o quê na versão 4</caption>
+              <thead>
+                <tr><th scope="col">Arquivo</th><th scope="col">Papel</th><th scope="col">O que faz</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>cadastro.php</code></td><td>Controle<br><small>o garçom</small></td><td>Recebe o formulário, chama as funções e mostra a tela</td></tr>
+                <tr><td><code>validar.php</code></td><td>ajuda o controle<br><small>o bloquinho do garçom</small></td><td>Confere nome e e-mail</td></tr>
+                <tr><td><code>clientes.php</code></td><td>Modelo<br><small>a cozinha</small></td><td>Todo o SQL: grava, confere e lista</td></tr>
+                <tr><td><code>banco.php</code></td><td>ajuda o modelo<br><small>a porta da despensa</small></td><td>Abre o banco e cria a tabela</td></tr>
+                <tr><td><code>tela-cadastro.php</code></td><td>Visão<br><small>o prato servido</small></td><td>Só o HTML da página</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="tutorial-projeto" data-pasta="cadastro-clientes">
             <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
 <?php
-require_once __DIR__ . '/banco.php';
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, confere os dados e pede ao modelo para gravar.
 require_once __DIR__ . '/validar.php';
+require_once __DIR__ . '/clientes.php';
 
 $nome = '';
 $email = '';
 $erros = [];
 $mensagem = '';
 
+// só entra aqui quando o formulário é enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $email = trim($_POST['email'] ?? '');
+
+    // 1. o validar.php confere o formato
     $erros = validarCliente($nome, $email);
 
+    // 2. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 3. tudo certo: o modelo grava e o formulário fica limpo
     if (!$erros) {
-        try {
-            $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([':nome' => $nome, ':email' => $email]);
-            $mensagem = 'Cliente cadastrado!';
-            $nome = '';
-            $email = '';
-        } catch (PDOException $erro) {
-            $erros[] = 'Este e-mail já está cadastrado.';
-        }
+        inserirCliente($nome, $email);
+        $mensagem = 'Cliente cadastrado!';
+        $nome = '';
+        $email = '';
     }
 }
 
-// busca: vem pelo endereço (?busca=ana), por isso usa $_GET
+// 4. pede ao modelo a lista atualizada
+$clientes = listarClientes();
+
+// 5. por fim, mostra a tela (a visão), que usa as variáveis acima
+require __DIR__ . '/tela-cadastro.php';
+</script>
+            <script type="text/plain" data-arquivo="tela-cadastro.php" data-estado="novo">
+<?php // tela-cadastro.php: a VISÃO. Só mostra a página; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+    <?php foreach ($clientes as $cliente): ?>
+      <li><?= htmlspecialchars($cliente['nome']) ?> · <?= htmlspecialchars($cliente['email']) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="igual">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Quem precisar de clientes chama uma destas funções.
+require_once __DIR__ . '/banco.php';
+
+// grava um cliente novo
+function inserirCliente(string $nome, string $email): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':nome' => $nome, ':email' => $email]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética
+function listarClientes(): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email FROM clientes ORDER BY nome';
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="igual">
+<?php
+// banco.php: abre a conexão com o banco de dados.
+// Na primeira vez, cria o arquivo clientes.sqlite e a tabela sozinho.
+
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // cria a tabela só se ela ainda não existir
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE
+    )');
+
+    return $pdo;
+}
+</script>
+            <script type="text/plain" data-arquivo="validar.php" data-estado="igual">
+<?php
+// confere os dados e devolve a lista de erros (vazia = tudo certo)
+function validarCliente(string $nome, string $email): array
+{
+    $erros = [];
+    if (strlen($nome) < 3) {
+        $erros[] = 'O nome precisa de pelo menos 3 letras.';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erros[] = 'Digite um e-mail válido.';
+    }
+    return $erros;
+}
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="igual">
+clientes.sqlite
+</script>
+            <script type="text/plain" data-previa="Depois de cadastrar dois clientes">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+        <p class="sucesso">Cliente cadastrado!</p>
+  
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+          <li>Ana Souza · ana@exemplo.com</li>
+          <li>Bruno Lima · bruno@exemplo.com</li>
+      </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Tentando um e-mail repetido">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+      <p class="erro">Este e-mail já está cadastrado.</p>
+    
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="Ana de novo">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="ana@exemplo.com">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+          <li>Ana Souza · ana@exemplo.com</li>
+          <li>Bruno Lima · bruno@exemplo.com</li>
+      </ul>
+</body>
+</html>
+</script>
+          </div>
+          <p><strong>Teste:</strong></p>
+          <ol>
+            <li>Cadastre um cliente e tente um e-mail repetido: tudo igual à versão 3.</li>
+            <li>Abra direto <code>http://localhost:8000/tela-cadastro.php</code>: aparecem avisos (<em>Warning</em>) de variáveis que não existem. A visão sozinha não sabe de nada. Entre sempre pelo controle, o <code>cadastro.php</code>.</li>
+            <li>Procure HTML no <code>cadastro.php</code> e SQL no <code>tela-cadastro.php</code>: não tem nenhum dos dois.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+              <li>Mude o título da página e a cor dos avisos mexendo só no <code>tela-cadastro.php</code>.</li>
+              <li>Crie no modelo (<code>clientes.php</code>) a função <code>contarClientes()</code>, com <code>SELECT COUNT(*) FROM clientes</code>. No controle, guarde o resultado numa variável e mostre "Temos X clientes" na visão.</li>
+              <li>Explique para um colega, com o garçom, a cozinha e o prato, o caminho de um cadastro.</li>
+            </ul>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 4: MVC, cada arquivo com seu trabalho"</code>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 5</span>
+            <h3>Busca e visual caprichado</h3>
+            <p>O cadastro ganha busca e cara de sistema. Repare como cada mudança vai para o seu lugar: SQL no modelo, <code>$_GET</code> no controle, HTML e CSS na visão.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Troque todo o conteúdo do <code>clientes.php</code>, do <code>cadastro.php</code> e do <code>tela-cadastro.php</code> pelos novos.</li>
+            <li>Crie o arquivo <code>estilo.css</code> e cole o código.</li>
+            <li>Salve tudo e recarregue o navegador.</li>
+          </ol>
+          <p><strong>O que mudou:</strong> no modelo (<code>clientes.php</code>), a <code>listarClientes()</code> recebe um pedaço do nome e usa o <code>LIKE</code> do SQL, sempre com <code>prepare()</code>. No controle (<code>cadastro.php</code>), a busca chega pelo <code>$_GET</code>, porque ela fica no endereço: <code>?busca=ana</code>. Na visão (<code>tela-cadastro.php</code>), entram o formulário de busca, o total de clientes e o link para o <code>estilo.css</code>. O <code>banco.php</code> e o <code>validar.php</code> não mudaram.</p>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, confere os dados e pede ao modelo para gravar.
+require_once __DIR__ . '/validar.php';
+require_once __DIR__ . '/clientes.php';
+
+$nome = '';
+$email = '';
+$erros = [];
+$mensagem = '';
+
+// só entra aqui quando o formulário é enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+
+    // 1. o validar.php confere o formato
+    $erros = validarCliente($nome, $email);
+
+    // 2. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 3. tudo certo: o modelo grava e o formulário fica limpo
+    if (!$erros) {
+        inserirCliente($nome, $email);
+        $mensagem = 'Cliente cadastrado!';
+        $nome = '';
+        $email = '';
+    }
+}
+
+// 4. a busca vem pelo endereço (?busca=ana), por isso usa $_GET
 $busca = trim($_GET['busca'] ?? '');
-$sql = 'SELECT nome, email FROM clientes WHERE nome LIKE :busca ORDER BY nome';
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':busca' => '%' . $busca . '%']);
-$clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
+$clientes = listarClientes($busca);
+
+// 5. por fim, mostra a tela (a visão), que usa as variáveis acima
+require __DIR__ . '/tela-cadastro.php';
+</script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="mudou">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Quem precisar de clientes chama uma destas funções.
+require_once __DIR__ . '/banco.php';
+
+// grava um cliente novo
+function inserirCliente(string $nome, string $email): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':nome' => $nome, ':email' => $email]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética.
+// Com $busca, só os nomes que têm aquele pedaço de texto.
+// Sem $busca, vale '' (vazio) e vem todo mundo.
+function listarClientes(string $busca = ''): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email FROM clientes WHERE nome LIKE :busca ORDER BY nome';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':busca' => '%' . $busca . '%']);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+</script>
+            <script type="text/plain" data-arquivo="tela-cadastro.php" data-estado="mudou">
+<?php // tela-cadastro.php: a VISÃO. Só mostra a página; as variáveis vêm do cadastro.php ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -812,15 +1342,26 @@ button {
 </script>
             <script type="text/plain" data-arquivo="banco.php" data-estado="igual">
 <?php
-// abre (ou cria) o arquivo do banco e a tabela de clientes
-$pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// banco.php: abre a conexão com o banco de dados.
+// Na primeira vez, cria o arquivo clientes.sqlite e a tabela sozinho.
 
-$pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE
-)');
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // cria a tabela só se ela ainda não existir
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE
+    )');
+
+    return $pdo;
+}
 </script>
             <script type="text/plain" data-arquivo="validar.php" data-estado="igual">
 <?php
@@ -1063,12 +1604,12 @@ button {
           </ol>
           <div class="dica"><strong>Agora é com você:</strong>
             <ul>
-            <li>Quando a busca não achar ninguém, mostre "Nenhum cliente encontrado".</li>
-            <li>Crie um link "Limpar busca", que volta para <code>cadastro.php</code>.</li>
-            <li>Já pensando na próxima aula: coloque um link "Editar" ao lado de cada cliente. A tela de edição vem no módulo 7 do curso.</li>
-          </ul>
+              <li>Quando a busca não achar ninguém, mostre "Nenhum cliente encontrado" (na visão).</li>
+              <li>Crie um link "Limpar busca", que volta para <code>cadastro.php</code> (na visão).</li>
+              <li>Já pensando na próxima aula: coloque um link "Editar" ao lado de cada cliente. O modelo vai precisar de duas funções novas, <code>buscarCliente()</code> e <code>atualizarCliente()</code>. A tela de edição vem no módulo 7 do curso.</li>
+            </ul>
           </div>
-          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 4: busca e visual"</code>.</p>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 5: busca e visual"</code>.</p>
         </section>
 
         <!-- ===================== CASO DE USO ===================== -->
@@ -1094,7 +1635,7 @@ button {
             </ul>
             <h3>Para pensar</h3>
             <ol>
-              <li>Em que passo entra cada arquivo: <code>cadastro.php</code>, <code>validar.php</code> e <code>banco.php</code>?</li>
+              <li>Em que passo entra cada arquivo: <code>cadastro.php</code> (controle), <code>validar.php</code>, <code>clientes.php</code> (modelo), <code>banco.php</code> e <code>tela-cadastro.php</code> (visão)?</li>
               <li>O que acontece com os clientes se você fechar o navegador? E se apagar o <code>clientes.sqlite</code>?</li>
             </ol>
           </div>
@@ -1114,14 +1655,14 @@ button {
               <span class="barra-progresso"><span></span></span>
             </div>
             <ol class="checklist" id="passos-aula-09">
-              <li><label><input type="checkbox"><span>Crie a pasta <code>cadastro-clientes</code> no seu repositório, com <code>cadastro.php</code>, <code>validar.php</code> e <code>banco.php</code>.</span></label></li>
+              <li><label><input type="checkbox"><span>Crie a pasta <code>cadastro-clientes</code> no seu repositório, com <code>cadastro.php</code>, <code>validar.php</code>, <code>banco.php</code>, <code>clientes.php</code> e <code>tela-cadastro.php</code>.</span></label></li>
               <li><label><input type="checkbox"><span>Monte o formulário com nome, e-mail e telefone: <code>method="post"</code> e <code>name</code> em cada campo.</span></label></li>
               <li><label><input type="checkbox"><span>Receba os dados com <code>$_POST</code> e <code>trim()</code>.</span></label></li>
               <li><label><input type="checkbox"><span>Valide o nome (pelo menos 3 letras) e o e-mail (<code>filter_var</code>) e mostre os erros na página.</span></label></li>
               <li><label><input type="checkbox"><span>Quando der erro, mantenha nos campos o que foi digitado.</span></label></li>
               <li><label><input type="checkbox"><span>Crie a tabela <code>clientes</code> no <code>banco.php</code>.</span></label></li>
-              <li><label><input type="checkbox"><span>Grave o cliente com <code>prepare()</code> e <code>execute()</code>.</span></label></li>
-              <li><label><input type="checkbox"><span>Liste os clientes embaixo do formulário.</span></label></li>
+              <li><label><input type="checkbox"><span>No modelo (<code>clientes.php</code>), grave o cliente com <code>prepare()</code> e <code>execute()</code>.</span></label></li>
+              <li><label><input type="checkbox"><span>Liste os clientes embaixo do formulário, com o HTML na visão (<code>tela-cadastro.php</code>).</span></label></li>
               <li><label><input type="checkbox"><span>Coloque o <code>clientes.sqlite</code> no <code>.gitignore</code>: dado de cliente não vai para o GitHub.</span></label></li>
               <li><label><input type="checkbox"><span>Faça o commit e o push.</span></label></li>
             </ol>
