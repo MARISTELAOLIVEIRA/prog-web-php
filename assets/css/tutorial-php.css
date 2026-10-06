@@ -460,3 +460,23 @@
   stroke: var(--menta);
   stroke-width: 2;
 }
+
+/* tabela dos códigos de resposta (200, 404, 500) */
+.cs-codigos thead th:nth-child(2),
+.cs-codigos thead th:nth-child(3) {
+  color: var(--ouro);
+}
+
+.cs-codigos thead th:first-child {
+  width: 5rem;
+}
+
+.cs-codigos tbody th code {
+  font-size: 1.05rem;
+  color: var(--ouro);
+}
+
+/* respiro antes da explicação dos códigos de resposta */
+.cs-intro {
+  margin-top: 1.8rem;
+}
