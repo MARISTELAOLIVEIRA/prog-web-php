@@ -1,0 +1,50 @@
+/* tutorial-php.css: arquivos do projeto no estilo do VS Code e a prévia do navegador (tutorial-php.js)
+   versão 1 · 2026-10-06 · o editor é sempre escuro, nos dois temas do site, como o VS Code */
+
+.tutorial-projeto { margin: 1.2rem 0 1.6rem; display: grid; gap: .9rem; }
+
+.tp-janela { background: #1e1e1e; border: 1px solid #2b2b2b; border-radius: 12px; overflow: hidden; font-family: var(--f-mono); }
+.tp-barra { display: flex; align-items: center; gap: .6rem; background: #323233; color: #cccccc; font-size: .78rem; padding: .45rem .8rem; }
+.tp-titulo { flex: 1; text-align: center; margin-right: 42px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tp-abas { display: flex; background: #252526; overflow-x: auto; scrollbar-width: none; }
+.tp-aba { display: flex; align-items: center; gap: .45rem; background: #2d2d2d; color: #969696; border: 0; border-top: 2px solid transparent; border-right: 1px solid #1e1e1e; padding: .5rem .9rem; font: inherit; font-size: .8rem; white-space: nowrap; cursor: pointer; }
+.tp-aba[aria-selected="true"] { background: #1e1e1e; color: #ffffff; border-top-color: #0078d4; }
+.tp-aba:focus-visible { outline: 2px solid var(--menta); outline-offset: -2px; }
+.tp-estado { font-size: .65rem; border-radius: 999px; padding: .05rem .45rem; text-transform: uppercase; letter-spacing: .04em; }
+.tp-novo { background: #1f4d2b; color: #9fe3b5; }
+.tp-mudou { background: #4d3b14; color: #ffd27a; }
+.tp-igual { background: #333; color: #aaa; }
+
+.tp-arquivo[hidden] { display: none; }
+.tp-codigo { display: grid; grid-template-columns: auto 1fr; max-height: 30rem; overflow: auto; }
+.tp-linhas, .tp-texto { margin: 0; padding: .7rem .9rem; font-family: var(--f-mono); font-size: .84rem; line-height: 1.55; white-space: pre; background: transparent; border: 0; box-shadow: none; }
+.tp-linhas { color: #6e7681; text-align: right; user-select: none; padding-right: .5rem; position: sticky; left: 0; background: #1e1e1e; }
+.tp-texto { color: #d4d4d4; }
+.tp-texto code { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
+.tp-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; padding: .55rem .9rem; border-top: 1px solid #2b2b2b; background: #252526; }
+.tp-copiar { font: inherit; font-size: .8rem; font-weight: 700; color: #1e1e1e; background: #39ff8a; border: 0; border-radius: 999px; padding: .4rem .95rem; cursor: pointer; }
+.tp-copiar:focus-visible { outline: 3px solid #ffffff; outline-offset: 2px; }
+.tp-aviso { font-size: .78rem; color: #9fe3b5; }
+
+.tp-com { color: #6a9955; }
+.tp-txt { color: #ce9178; }
+.tp-php { color: #ff8a1e; font-weight: 700; }
+.tp-var { color: #9cdcfe; }
+.tp-tag { color: #569cd6; }
+.tp-pal { color: #c586c0; }
+.tp-fun { color: #dcdcaa; }
+.tp-num { color: #b5cea8; }
+
+.tp-previa { display: grid; gap: .5rem; }
+.tp-rotulo { margin: 0; font-size: .82rem; font-weight: 700; color: var(--texto-2); text-transform: uppercase; letter-spacing: .04em; }
+.tp-rotulo small { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.tp-botoes-previa { display: flex; flex-wrap: wrap; gap: .4rem; }
+.tp-botoes-previa button { font: inherit; font-size: .8rem; color: var(--texto); background: var(--superficie); border: 1px solid var(--borda-forte); border-radius: 999px; padding: .3rem .8rem; cursor: pointer; }
+.tp-botoes-previa button[aria-pressed="true"] { border-color: var(--menta); color: var(--menta); }
+.tp-tela { width: 100%; height: 22rem; border: 1px solid var(--borda-forte); border-radius: 10px; background: #ffffff; }
+
+.tutorial-passo { display: grid; grid-template-columns: minmax(0, 1fr); gap: .6rem; }
+/* comandos longos (ex.: C:\xampp\php\php.exe) quebram a linha em vez de alargar a página no celular */
+.tutorial-passo code { overflow-wrap: anywhere; }
+.tutorial-passo h3 { margin-top: 1.6rem; }
+.tutorial-passo .etiqueta { justify-self: start; }
