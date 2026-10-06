@@ -480,3 +480,18 @@
 .cs-intro {
   margin-top: 1.8rem;
 }
+
+/* parada depois da versão 3: o que vem depois é bônus */
+.tutorial-bonus {
+  display: grid;
+  gap: .6rem;
+  margin: 2.4rem 0 1.6rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px dashed var(--menta);
+  border-radius: var(--raio);
+  background: var(--superficie);
+}
+
+.tutorial-bonus .etiqueta {
+  justify-self: start;
+}
