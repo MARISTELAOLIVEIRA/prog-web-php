@@ -5,12 +5,33 @@
 export const MODULES = [
   {
     id: 'm1',
-    icon: '⌘',
-    title: 'Introdução ao PHP',
-    description: 'Sintaxe, tipos de dados, variáveis, expressões e operadores.',
+    icon: "⌘",
+    title: "Primeiros passos",
+    description: "O que é back-end, a sintaxe do PHP e o servidor embutido.",
     lessons: [
       {
         id: 'm1-l1',
+        title: "O que é back-end (e onde o PHP entra)",
+        blocks: [
+          { type: 'text', html: "<p>Quando você abre um site, o seu navegador faz um <strong>pedido</strong> (a requisição) para um computador lá longe, o <strong>servidor</strong>. O servidor monta a resposta e devolve uma página. Tudo o que roda no seu navegador é o <em>front-end</em> (HTML, CSS e JavaScript). Tudo o que roda no servidor, antes da página sair de lá, é o <strong>back-end</strong>. É aqui que o PHP mora.</p>" },
+          { type: 'text', html: "<p>O PHP serve para montar a página <strong>na hora do pedido</strong>: mostrar o nome de quem entrou, buscar produtos no banco de dados, conferir uma senha. O navegador nunca vê o código PHP, só o HTML que ele produziu.</p>" },
+          { type: 'code', code: `<?php
+// o servidor monta a página na hora: cada visita pode ser diferente
+$hora = (int) date('H');
+if ($hora < 12) {
+    $saudacao = 'Bom dia';
+} else {
+    $saudacao = 'Boa noite';
+}
+echo "<h1>$saudacao, filhote!</h1>";
+echo '<p>Esta página foi montada às ' . date('H:i') . '.</p>';` },
+          { type: 'text', html: "<p>Abra essa página às 9h e às 20h: o arquivo é o mesmo, mas o HTML que chega ao navegador muda. Clique com o botão direito em <em>Exibir código-fonte</em> e procure o PHP: ele não está lá. Só sobrou o resultado.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Onde o código PHP é executado?", options: ["No navegador do aluno", "No servidor, antes de a página ser enviada", "No banco de dados", "No editor de código"], answer: 1, explain: "O PHP roda no servidor. O navegador recebe só o HTML que ele produziu." } },
+          { type: 'question', q: { kind: 'mc', prompt: "O que o navegador recebe de uma página PHP?", options: ["O código PHP completo", "Só o HTML gerado pelo PHP", "Um arquivo .exe", "Nada, o PHP abre sozinho"], answer: 1, explain: "O código fica no servidor; o navegador recebe o resultado em HTML." } },
+        ],
+      },
+      {
+        id: 'm1-l2',
         title: 'Sintaxe básica e comentários',
         blocks: [
           { type: 'text', html: '<p>PHP (<em>PHP: Hypertext Preprocessor</em>) é uma linguagem de script executada no <strong>servidor</strong>: o código roda antes da página chegar ao navegador, que recebe apenas o HTML resultante. Arquivos PHP geralmente usam a extensão <code class="inline">.php</code> e podem misturar HTML com blocos de código.</p>' },
@@ -42,7 +63,40 @@ export const MODULES = [
         ],
       },
       {
-        id: 'm1-l2',
+        id: 'm1-l3',
+        title: "Rodando PHP no seu computador",
+        blocks: [
+          { type: 'text', html: "<p>O PHP tem um servidor embutido, feito para desenvolver. Você não precisa ligar o Apache nem instalar nada a mais: abra o terminal na pasta do projeto e digite o comando abaixo. Depois, abra o endereço no navegador.</p>" },
+          { type: 'code', code: `# na pasta do projeto
+php -S localhost:8000
+
+# no laboratório, o PHP que vem com o XAMPP também serve:
+C:\\xampp\\php\\php.exe -S localhost:8000
+
+# depois, no navegador:
+# http://localhost:8000/index.php` },
+          { type: 'text', html: "<p>O terminal fica \"preso\" enquanto o servidor está ligado: é normal. Para desligar, aperte <code class=\"inline\">Ctrl + C</code>. Se preferir o jeito antigo, também dá para colocar a pasta dentro de <code class=\"inline\">C:\\xampp\\htdocs</code> e ligar o Apache no painel do XAMPP.</p>" },
+          { type: 'text', html: "<p>Deu erro? Leia a mensagem até o fim: ela diz o arquivo e a linha. <code class=\"inline\">Parse error: syntax error ... on line 7</code> quase sempre é um <code class=\"inline\">;</code> ou uma chave <code class=\"inline\">}</code> esquecida na linha 7 ou logo antes dela.</p>" },
+          { type: 'question', q: { kind: 'fill', prompt: "Complete o comando que liga o servidor embutido do PHP na porta 8000: php __ localhost:8000", answers: ["-S", "-s"], explain: "php -S localhost:8000 liga o servidor embutido." } },
+          { type: 'question', q: { kind: 'mc', prompt: "A mensagem \"Parse error ... on line 7\" indica:", options: ["Que o computador está sem internet", "Um erro de sintaxe na linha 7 (ou logo antes dela)", "Que o banco de dados caiu", "Que o navegador é antigo"], answer: 1, explain: "Parse error é erro de escrita do código. A linha indicada é o melhor lugar para começar a procurar." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "Onde o código PHP é executado?", options: ["No navegador", "No servidor", "No banco de dados", "No HTML"], answer: 1, explain: "O PHP roda no servidor e entrega HTML ao navegador." },
+      { kind: 'mc', prompt: 'Qual tag fecha um bloco de código PHP?', options: ['?>', '</php>', '%>', '--%>'], answer: 0, explain: 'O bloco PHP é fechado com ?>.' },
+      { kind: 'fill', prompt: "Qual comando, digitado no terminal, liga o servidor embutido do PHP? (só a opção, ex.: -X)", answers: ["-S", "php -S", "php -S localhost:8000"], explain: "php -S localhost:8000." },
+      { kind: 'mc', prompt: "Para desligar o servidor embutido no terminal, você aperta:", options: ["Ctrl + C", "Ctrl + Z", "Esc", "F5"], answer: 0, explain: "Ctrl + C interrompe o servidor." },
+    ],
+  },
+  {
+    id: 'm2',
+    icon: "◇",
+    title: "Dados: tipos, variáveis e operadores",
+    description: "Tipos de dados, variáveis, constantes, expressões e operadores.",
+    lessons: [
+      {
+        id: 'm2-l1',
         title: 'Tipos de dados',
         blocks: [
           { type: 'text', html: '<p>PHP possui <strong>tipagem dinâmica</strong>: você não declara o tipo da variável, ele é definido automaticamente pelo valor atribuído (e pode mudar ao longo da execução). Os tipos escalares principais são:</p><ul><li><code class="inline">string</code> — texto, entre aspas simples <code class="inline">\'...\'</code> ou duplas <code class="inline">"..."</code> (duplas permitem interpolação de variáveis);</li><li><code class="inline">int</code> — números inteiros, positivos ou negativos;</li><li><code class="inline">float</code> (ou <code class="inline">double</code>) — números com casas decimais;</li><li><code class="inline">bool</code> — apenas <code class="inline">true</code> ou <code class="inline">false</code>;</li><li><code class="inline">array</code> — coleções de valores (indexadas ou associativas);</li><li><code class="inline">null</code> — ausência de valor.</li></ul>' },
@@ -71,7 +125,7 @@ export const MODULES = [
         ],
       },
       {
-        id: 'm1-l3',
+        id: 'm2-l2',
         title: 'Variáveis',
         blocks: [
           { type: 'text', html: '<p>Variáveis em PHP sempre começam com <code class="inline">$</code>, são <strong>case-sensitive</strong> (<code class="inline">$nome</code> e <code class="inline">$Nome</code> são variáveis diferentes) e não precisam declarar tipo — basta atribuir um valor com <code class="inline">=</code>.</p>' },
@@ -99,7 +153,7 @@ export const MODULES = [
         ],
       },
       {
-        id: 'm1-l4',
+        id: 'm2-l3',
         title: 'Expressões e operadores',
         blocks: [
           { type: 'text', html: '<p>Operadores aritméticos: <code class="inline">+ - * / % **</code> (soma, subtração, multiplicação, divisão, resto e potência). Operadores de atribuição compostos combinam operação e atribuição: <code class="inline">+= -= *= /= .=</code>.</p>' },
@@ -137,7 +191,6 @@ export const MODULES = [
       },
     ],
     quiz: [
-      { kind: 'mc', prompt: 'Qual tag fecha um bloco de código PHP?', options: ['?>', '</php>', '%>', '--%>'], answer: 0, explain: 'O bloco PHP é fechado com ?>.' },
       { kind: 'mc', prompt: 'Qual função exibe o tipo e o valor de uma variável?', options: ['gettype()', 'var_dump()', 'typeof()', 'print_type()'], answer: 1, explain: 'var_dump() mostra tipo e valor.' },
       { kind: 'mc', prompt: 'Variáveis em PHP são:', options: ['Case-sensitive', 'Case-insensitive', 'Sempre maiúsculas', 'Precisam de tipo declarado'], answer: 0, explain: '$nome e $Nome são variáveis diferentes.' },
       { kind: 'fill', prompt: 'Qual operador compara valor e tipo ao mesmo tempo (estrito)?', answers: ['===', 'operador ==='], explain: 'O operador === (idêntico) compara valor e tipo.' },
@@ -146,15 +199,14 @@ export const MODULES = [
       { kind: 'fill', prompt: 'Qual palavra-chave declara uma constante na sintaxe moderna do PHP (sem usar $)?', answers: ['const'], explain: 'const NOME = valor; declara uma constante.' },
     ],
   },
-
   {
-    id: 'm2',
-    icon: '◆',
-    title: 'Estruturas de Controle',
-    description: 'Condicionais e laços de repetição.',
+    id: 'm3',
+    icon: "◆",
+    title: "Decisões e repetições",
+    description: "Condicionais e laços de repetição.",
     lessons: [
       {
-        id: 'm2-l1',
+        id: 'm3-l1',
         title: 'Condicionais',
         blocks: [
           { type: 'text', html: '<p>Use <code class="inline">if</code>, <code class="inline">elseif</code> e <code class="inline">else</code> para tomar decisões com base em condições. Cada condição é avaliada como <code class="inline">bool</code>; valores como <code class="inline">0</code>, <code class="inline">""</code>, <code class="inline">"0"</code>, <code class="inline">null</code> e arrays vazios são considerados "falsos" (falsy).</p>' },
@@ -223,7 +275,7 @@ export const MODULES = [
         ],
       },
       {
-        id: 'm2-l2',
+        id: 'm3-l2',
         title: 'Laços de repetição',
         blocks: [
           { type: 'text', html: '<p>O <code class="inline">for</code> repete um número conhecido de vezes (usa inicialização, condição e incremento); o <code class="inline">while</code> repete <strong>enquanto</strong> uma condição for verdadeira, testada antes de cada repetição; o <code class="inline">do-while</code> é parecido, mas testa a condição <strong>depois</strong>, garantindo ao menos uma execução.</p>' },
@@ -288,15 +340,14 @@ export const MODULES = [
       { kind: 'mc', prompt: 'A partir do PHP 8, qual estrutura moderna substitui o switch com comparação estrita e sem "break"?', options: ['match', 'case', 'select', 'when'], answer: 0, explain: 'O match usa === e não precisa de break.' },
     ],
   },
-
   {
-    id: 'm3',
-    icon: '▲',
-    title: 'Modularização: Funções',
-    description: 'Declaração, parâmetros, retorno e reuso de código.',
+    id: 'm4',
+    icon: "▲",
+    title: "Funções",
+    description: "Declaração, parâmetros, retorno e reaproveitamento de código.",
     lessons: [
       {
-        id: 'm3-l1',
+        id: 'm4-l1',
         title: 'Declarando e usando funções',
         blocks: [
           { type: 'text', html: '<p>Funções agrupam código reutilizável sob um nome. Declaramos com <code class="inline">function</code>, podemos receber parâmetros (com valores padrão opcionais) e devolver um resultado com <code class="inline">return</code>. Uma função só executa quando é <strong>chamada</strong> pelo nome, seguida de parênteses.</p>' },
@@ -345,7 +396,7 @@ export const MODULES = [
         ],
       },
       {
-        id: 'm3-l2',
+        id: 'm4-l2',
         title: 'Escopo e reaproveitamento de código',
         blocks: [
           { type: 'text', html: '<p>Variáveis criadas dentro de uma função têm <strong>escopo local</strong>: elas não existem fora da função, e variáveis externas não são visíveis automaticamente dentro dela — isso evita que uma parte do código interfira acidentalmente em outra.</p>' },
@@ -412,6 +463,181 @@ export const MODULES = [
       { kind: 'mc', prompt: 'function dobro($n) { return $n * 2; } — echo dobro(5); imprime:', options: ['5', '10', '52', 'Erro'], answer: 1, explain: '5 * 2 = 10.' },
       { kind: 'mc', prompt: 'Qual palavra-chave permite acessar uma variável global dentro de uma função?', options: ['global', 'static', 'public', 'extern'], answer: 0, explain: 'global $var traz a variável do escopo global para dentro da função.' },
       { kind: 'mc', prompt: 'Qual sintaxe representa uma arrow function (função anônima curta)?', options: ['fn($n) => $n * 2', 'function($n) -> $n * 2', 'arrow($n) => $n * 2', 'lambda($n): $n * 2'], answer: 0, explain: 'fn($param) => expressão é a sintaxe de arrow function do PHP.' },
+    ],
+  },
+  {
+    id: 'm5',
+    icon: "✉",
+    title: "Formulários",
+    description: "Do HTML ao PHP: $_POST, validação e segurança.",
+    lessons: [
+      {
+        id: 'm5-l1',
+        title: "Do formulário ao PHP",
+        blocks: [
+          { type: 'text', html: "<p>O formulário é a porta de entrada do sistema. Para os dados chegarem ao PHP, duas coisas no HTML são obrigatórias: o <code class=\"inline\">method</code> do <code class=\"inline\">&lt;form&gt;</code> e o <code class=\"inline\">name</code> de cada campo. É pelo <code class=\"inline\">name</code> que o PHP encontra o valor; o <code class=\"inline\">id</code> é do <code class=\"inline\">&lt;label&gt;</code> e do CSS.</p>" },
+          { type: 'code', code: `<form method="post">
+  <label for="nome">Nome</label>
+  <input id="nome" name="nome">
+
+  <label for="email">E-mail</label>
+  <input id="email" name="email" type="email">
+
+  <button type="submit">Cadastrar</button>
+</form>` },
+          { type: 'text', html: "<p>Com <code class=\"inline\">method=\"post\"</code>, os dados vão no corpo do pedido e chegam em <code class=\"inline\">$_POST</code>. Com <code class=\"inline\">method=\"get\"</code>, eles aparecem no endereço (<code class=\"inline\">?nome=Ana</code>) e chegam em <code class=\"inline\">$_GET</code>: bom para buscas, péssimo para senhas.</p>" },
+          { type: 'code', code: `<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // ?? '' evita erro se o campo não vier
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    echo "Recebi: $nome ($email)";
+}` },
+          { type: 'text', html: "<p>O <code class=\"inline\">REQUEST_METHOD</code> confere se o formulário foi mesmo enviado: na primeira visita, a página só mostra o formulário. O <code class=\"inline\">trim()</code> tira os espaços do começo e do fim. Tudo o que chega do formulário é texto, até os números.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Um campo sem o atributo name...", options: ["Chega ao PHP com o valor do id", "Não chega ao PHP", "Chega vazio, mas existe", "Gera um erro na tela"], answer: 1, explain: "Sem name, o navegador não envia o campo. Ele simplesmente some." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Com method=\"post\", os dados chegam na variável ____ (escreva com o cifrão)", answers: ["$_POST", "$_post"], explain: "Os dados de um formulário com method=\"post\" chegam em $_POST." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Para uma tela de busca, que pode ser salva nos favoritos com o termo pesquisado, o melhor método é:", options: ["post", "get", "put", "tanto faz"], answer: 1, explain: "Com get, o termo fica no endereço e a busca pode ser compartilhada." } },
+        ],
+      },
+      {
+        id: 'm5-l2',
+        title: "Validar antes de usar",
+        blocks: [
+          { type: 'text', html: "<p>Dado de usuário é suspeito até prova em contrário: espaço em branco, nome de uma letra, e-mail sem arroba. Antes de gravar, confira. Uma função que devolve a <strong>lista de erros</strong> deixa o resto do código simples: lista vazia quer dizer que está tudo certo.</p>" },
+          { type: 'code', code: `<?php
+function validarCliente(string $nome, string $email): array
+{
+    $erros = [];
+    if (strlen($nome) < 3) {
+        $erros[] = 'O nome precisa de pelo menos 3 letras.';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erros[] = 'Digite um e-mail válido.';
+    }
+    return $erros;
+}
+
+$erros = validarCliente('Al', 'semarroba');
+// $erros tem as duas mensagens` },
+          { type: 'text', html: "<p>O <code class=\"inline\">filter_var()</code> já conhece o formato de e-mail, URL e número: não precisa inventar a regra. E a validação do HTML (<code class=\"inline\">required</code>, <code class=\"inline\">type=\"email\"</code>) ajuda o usuário, mas não protege nada: qualquer um consegue enviar um pedido sem passar pelo formulário. A conferência de verdade é a do PHP.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Qual função confere se um texto tem o formato de e-mail?", options: ["is_email()", "filter_var($email, FILTER_VALIDATE_EMAIL)", "check_mail()", "strlen($email)"], answer: 1, explain: "filter_var com FILTER_VALIDATE_EMAIL valida o formato." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Se o formulário tem required no HTML, preciso validar no PHP?", options: ["Não, o HTML já garante", "Sim: o HTML ajuda o usuário, mas o pedido pode chegar sem passar pelo formulário", "Só se for senha", "Só no MySQL"], answer: 1, explain: "A validação no servidor é a que vale." } },
+        ],
+      },
+      {
+        id: 'm5-l3',
+        title: "Mostrar o erro e manter o que foi digitado",
+        blocks: [
+          { type: 'text', html: "<p>Quando der erro, a página volta com o aviso e com os campos preenchidos. Ninguém merece digitar tudo de novo. Para isso, o <code class=\"inline\">value</code> de cada campo recebe o que veio do <code class=\"inline\">$_POST</code>.</p>" },
+          { type: 'code', code: `<?php foreach ($erros as $erro): ?>
+  <p class="erro"><?= htmlspecialchars($erro) ?></p>
+<?php endforeach; ?>
+
+<input id="nome" name="nome"
+       value="<?= htmlspecialchars($nome) ?>">` },
+          { type: 'text', html: "<p>O <code class=\"inline\">htmlspecialchars()</code> é o cinto de segurança: ele mostra o texto como texto. Sem ele, quem digitar <code class=\"inline\">&lt;script&gt;</code> no nome muda a sua página. Esse ataque se chama <strong>XSS</strong>. Regra de bolso: mostrou na tela algo que veio do usuário? Passe pelo <code class=\"inline\">htmlspecialchars()</code>.</p>" },
+          { type: 'code', code: `<?php
+echo htmlspecialchars('<script>alert("oi")</script>');
+// &lt;script&gt;alert(&quot;oi&quot;)&lt;/script&gt;` },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual função transforma < e > em texto seguro antes de mostrar na página?", answers: ["htmlspecialchars", "htmlspecialchars()"], explain: "htmlspecialchars() evita que o texto vire código na página." } },
+          { type: 'question', q: { kind: 'mc', prompt: "O ataque em que alguém injeta script pelo formulário para rodar na página de outras pessoas se chama:", options: ["SQL injection", "XSS", "DDoS", "Phishing"], answer: 1, explain: "XSS (cross-site scripting)." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "Qual atributo do campo define o nome com que o valor chega ao PHP?", options: ["id", "name", "class", "for"], answer: 1, explain: "O PHP lê pelo name." },
+      { kind: 'mc', prompt: "Os dados de method=\"get\" aparecem:", options: ["No corpo do pedido", "No endereço da página", "No banco de dados", "No cookie"], answer: 1, explain: "Com get, os dados vão no endereço." },
+      { kind: 'fill', prompt: "Qual função tira os espaços do começo e do fim de um texto?", answers: ["trim", "trim()"], explain: "trim() limpa as pontas." },
+      { kind: 'mc', prompt: "Para conferir se o formulário foi enviado, testamos:", options: ["$_SERVER['REQUEST_METHOD'] === 'POST'", "isset($_GET['form'])", "empty($_POST) === false sempre", "nada, o PHP sabe sozinho"], answer: 0, explain: "REQUEST_METHOD diz como a página foi pedida." },
+      { kind: 'mc', prompt: "htmlspecialchars() protege contra:", options: ["SQL injection", "XSS", "Senhas fracas", "Arquivos grandes"], answer: 1, explain: "Ele impede que texto do usuário vire HTML ou script." },
+      { kind: 'mc', prompt: "Uma função de validação que devolve um array vazio significa:", options: ["Que deu erro", "Que os dados passaram em todas as regras", "Que o formulário não foi enviado", "Que o banco está vazio"], answer: 1, explain: "Sem erros na lista, os dados estão bons." },
+    ],
+  },
+  {
+    id: 'm6',
+    icon: "▦",
+    title: "Banco de dados com SQLite",
+    description: "Tabelas, PDO e SQL na prática: criar, inserir e consultar.",
+    lessons: [
+      {
+        id: 'm6-l1',
+        title: "Por que um banco de dados?",
+        blocks: [
+          { type: 'text', html: "<p>Variável vive só enquanto a página está sendo montada. Recarregou, sumiu. Para o sistema lembrar do cliente amanhã, os dados precisam de um lugar que não esquece: o <strong>banco de dados</strong>.</p>" },
+          { type: 'text', html: "<p>Um banco guarda <strong>tabelas</strong>. Pense numa planilha com regras: cada <strong>coluna</strong> é um campo (nome, e-mail, cidade) e cada <strong>linha</strong> é um registro (um cliente). A coluna <code class=\"inline\">id</code> numera as linhas sozinha, e a regra <code class=\"inline\">UNIQUE</code> impede dois clientes com o mesmo e-mail.</p>" },
+          { type: 'text', html: "<p>Nesta disciplina usamos o <strong>SQLite</strong>: o banco inteiro é um arquivo (<code class=\"inline\">loja.sqlite</code>) e já vem com o PHP, sem servidor para ligar. A linguagem para conversar com ele é o <strong>SQL</strong>, a mesma do MySQL e de quase todos os bancos do mercado.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "Numa tabela de clientes, cada linha representa:", options: ["Um campo, como o e-mail", "Um cliente", "Uma tabela inteira", "Um comando SQL"], answer: 1, explain: "Linha é registro: um cliente. Coluna é campo." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Por que o cadastro \"esquece\" o cliente sem banco de dados?", options: ["Porque o PHP é lento", "Porque variáveis só existem enquanto a página está sendo montada", "Porque o navegador apaga", "Porque falta CSS"], answer: 1, explain: "Sem gravar em algum lugar, os dados somem ao fim do pedido." } },
+        ],
+      },
+      {
+        id: 'm6-l2',
+        title: "Conectar com PDO e criar a tabela",
+        blocks: [
+          { type: 'text', html: "<p>O <strong>PDO</strong> é o jeito do PHP conversar com bancos de dados. A conexão é um objeto: com ele você executa comandos SQL. O modo de erro com exceções faz o PHP avisar na hora quando um comando dá errado.</p>" },
+          { type: 'code', code: `<?php
+// abre (ou cria) o arquivo do banco
+$pdo = new PDO('sqlite:' . __DIR__ . '/loja.sqlite');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    cidade TEXT
+)');
+
+// no MySQL do XAMPP, só a conexão muda:
+// new PDO('mysql:host=localhost;dbname=loja;charset=utf8mb4', 'root', '');` },
+          { type: 'text', html: "<p>Guarde esse código num arquivo <code class=\"inline\">banco.php</code> e chame com <code class=\"inline\">require 'banco.php';</code> nas outras páginas. O <code class=\"inline\">IF NOT EXISTS</code> deixa rodar quantas vezes quiser: a tabela só é criada na primeira. E coloque o <code class=\"inline\">loja.sqlite</code> no <code class=\"inline\">.gitignore</code>: dado de cliente não vai para o GitHub.</p>" },
+          { type: 'question', q: { kind: 'mc', prompt: "No SQLite, o banco de dados é:", options: ["Um servidor que precisa ser ligado", "Um arquivo", "Uma planilha do Excel", "Uma pasta do XAMPP"], answer: 1, explain: "O SQLite guarda tudo num arquivo só." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual regra da coluna impede dois clientes com o mesmo e-mail?", answers: ["UNIQUE", "unique"], explain: "UNIQUE não deixa repetir o valor." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Para trocar o SQLite pelo MySQL, o que muda no código com PDO?", options: ["Tudo", "Basicamente a linha de conexão", "Os comandos echo", "Nada, é impossível"], answer: 1, explain: "Com PDO, o resto do código fica quase igual." } },
+        ],
+      },
+      {
+        id: 'm6-l3',
+        title: "SQL na prática: inserir e consultar",
+        blocks: [
+          { type: 'text', html: "<p>Para gravar, use <code class=\"inline\">prepare()</code> com marcadores (<code class=\"inline\">:nome</code>, <code class=\"inline\">:email</code>) e <code class=\"inline\">execute()</code> com os valores. Assim o banco nunca confunde o que o usuário digitou com um comando.</p>" },
+          { type: 'code', code: `<?php
+$sql = 'INSERT INTO clientes (nome, email, cidade)
+        VALUES (:nome, :email, :cidade)';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([
+    ':nome' => 'Ana Souza',
+    ':email' => 'ana@exemplo.com',
+    ':cidade' => 'Brasília',
+]);
+echo 'Cliente número ' . $pdo->lastInsertId();` },
+          { type: 'text', html: "<p><strong>Nunca</strong> cole <code class=\"inline\">$_POST</code> direto dentro do SQL. Se alguém digitar um pedaço de comando no formulário, ele roda no seu banco. Esse ataque é o <strong>SQL injection</strong>, e os marcadores do <code class=\"inline\">prepare()</code> fecham essa porta.</p>" },
+          { type: 'text', html: "<p>Para consultar, o <code class=\"inline\">SELECT</code> escolhe as colunas, o <code class=\"inline\">WHERE</code> filtra as linhas e o <code class=\"inline\">ORDER BY</code> ordena. O <code class=\"inline\">fetchAll()</code> devolve um array, que você percorre com <code class=\"inline\">foreach</code>.</p>" },
+          { type: 'code', code: `<?php
+$sql = 'SELECT nome, email FROM clientes
+        WHERE cidade = :cidade
+        ORDER BY nome';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':cidade' => 'Brasília']);
+
+foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $cliente) {
+    echo htmlspecialchars($cliente['nome']) . '<br>';
+}
+
+// quantos clientes há na tabela?
+echo $pdo->query('SELECT COUNT(*) FROM clientes')->fetchColumn();` },
+          { type: 'question', q: { kind: 'mc', prompt: "Qual comando SQL grava uma linha nova na tabela?", options: ["SELECT", "INSERT", "UPDATE", "CREATE"], answer: 1, explain: "INSERT INTO ... VALUES (...) grava um registro." } },
+          { type: 'question', q: { kind: 'mc', prompt: "Por que usar prepare() com marcadores em vez de colar a variável no SQL?", options: ["Fica mais bonito", "Evita SQL injection", "É obrigatório no SQLite", "Deixa o banco maior"], answer: 1, explain: "Os marcadores separam os dados do comando." } },
+          { type: 'question', q: { kind: 'fill', prompt: "Qual parte do SELECT filtra as linhas? (uma palavra)", answers: ["WHERE", "where"], explain: "WHERE escolhe quais linhas entram no resultado." } },
+        ],
+      },
+    ],
+    quiz: [
+      { kind: 'mc', prompt: "Coluna e linha, numa tabela, são:", options: ["Registro e campo", "Campo e registro", "Banco e tabela", "Comando e resposta"], answer: 1, explain: "Coluna é campo; linha é registro." },
+      { kind: 'mc', prompt: "O que faz CREATE TABLE IF NOT EXISTS?", options: ["Apaga a tabela", "Cria a tabela só se ela ainda não existir", "Mostra as tabelas", "Cria um banco novo sempre"], answer: 1, explain: "Pode rodar várias vezes sem erro." },
+      { kind: 'mc', prompt: "SELECT nome FROM clientes ORDER BY nome devolve:", options: ["Os nomes em ordem alfabética", "Só o primeiro nome", "Os nomes do mais novo para o mais antigo", "Um erro"], answer: 0, explain: "ORDER BY nome ordena de A a Z." },
+      { kind: 'fill', prompt: "Qual método do PDO prepara um comando com marcadores, antes do execute()?", answers: ["prepare", "prepare()"], explain: "prepare() monta o comando seguro." },
+      { kind: 'mc', prompt: "O ataque em que o usuário injeta comandos pelo formulário para rodar no banco se chama:", options: ["XSS", "SQL injection", "Phishing", "Spam"], answer: 1, explain: "SQL injection, evitado com prepare() e marcadores." },
+      { kind: 'mc', prompt: "Onde o arquivo loja.sqlite deve ficar fora do GitHub?", options: ["Em lugar nenhum, ele deve ir", "No .gitignore", "No README", "No index.php"], answer: 1, explain: "Dados de clientes não vão para o repositório." },
     ],
   },
 ];
