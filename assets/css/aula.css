@@ -1,6 +1,6 @@
 /*
   aula.css: modelo das páginas de aula das disciplinas.
-  versão 1 · 2026-10-05
+  versão 2 · 2026-10-07 (etiqueta "Fac Senac DF")
 
   Carregue depois do estilo.css e do disciplina.css.
   Igual em todas as disciplinas: o que muda de uma aula para outra é só o texto do HTML.
@@ -488,4 +488,12 @@
 
 .lista-aulas .commit.futura::before {
   border-color: var(--texto-3);
+}
+
+/* etiqueta "Fac Senac DF" no cabeçalho das aulas */
+.etiqueta.senac {
+  color: var(--senac-laranja);
+  background: #082c75;
+  border-color: #082c75;
+  font-weight: 700;
 }
