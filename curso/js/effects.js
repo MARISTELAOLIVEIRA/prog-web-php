@@ -4,6 +4,9 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 // o botão "Pausar animações" da barra do topo coloca a classe pausado no <html>
 const pausado = () => document.documentElement.classList.contains('pausado');
 
+// as cores vêm do style.css (assim o tema claro e o escuro valem aqui também)
+const corDoCss = (nome, reserva) => getComputedStyle(document.documentElement).getPropertyValue(nome).trim() || reserva;
+
 export function initParticles() {
   const canvas = document.getElementById('fx-canvas');
   if (!canvas || reduceMotion) return;
@@ -40,9 +43,9 @@ export function initParticles() {
       const x = i * FONT_SIZE;
       const y = drops[i] * FONT_SIZE;
 
-      // caractere da frente mais claro, o resto esverdeado — com um toque laranja ocasional
+      // caractere da frente mais claro, o resto no roxo do PHP — com um toque laranja ocasional
       const isHead = Math.random() > 0.93;
-      ctx.fillStyle = isHead ? (isLight ? '#0c1a24' : '#d7ffe9') : (Math.random() > 0.9 ? '#ff8a1e' : '#39ff8a');
+      ctx.fillStyle = isHead ? (isLight ? '#0c1a24' : '#eef0ff') : (Math.random() > 0.9 ? corDoCss('--neon-orange', '#ff8a1e') : corDoCss('--neon-green', '#a5a8ff'));
       ctx.globalAlpha = isHead ? 0.9 : (isLight ? 0.35 : 0.55);
       ctx.fillText(char, x, y);
 
@@ -71,7 +74,7 @@ export function burstConfetti() {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
-  const colors = ['#39ff8a', '#ff8a1e', '#4fd8ff'];
+  const colors = [corDoCss('--neon-green', '#a5a8ff'), corDoCss('--neon-orange', '#ff8a1e'), '#4fd8ff'];
   const bits = Array.from({ length: 60 }, () => ({
     x: w / 2, y: h / 3,
     vx: (Math.random() - 0.5) * 8,

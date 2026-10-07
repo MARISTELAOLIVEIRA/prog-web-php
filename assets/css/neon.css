@@ -1,18 +1,20 @@
 /*
-  neon.css: o toque hacker do site de Python (chuva de 0 e 1 e brilho verde neon, como no PyQuiz).
-  versão 1 · 2026-10-05
+  neon.css: o toque hacker do site de Python (chuva de 0 e 1 e brilho neon, como no PyQuiz).
+  versão 2 · 2026-10-07 · NESTE SITE (PHP) o neon é o roxo-lavanda do logo do PHP, e o link da disciplina
+  na barra é o próprio símbolo (o oval). Não copie esta versão para os outros sites. Não copie esta versão para os outros sites.
 
   Carregue depois do estilo.css e do disciplina.css.
 */
 
 :root {
-  --neon: #39ff14;
-  --neon-brilho: rgba(57, 255, 20, .45);
+  --neon: #a5a8ff;
+  --neon-brilho: rgba(165, 168, 255, .45);
 }
 
+/* no claro, o roxo escuro do site do PHP, para dar leitura no fundo branco */
 [data-tema="claro"] {
-  --neon: #0a8f4d;
-  --neon-brilho: rgba(10, 143, 77, .2);
+  --neon: #4f5b93;
+  --neon-brilho: rgba(79, 91, 147, .2);
 }
 
 
@@ -60,3 +62,41 @@
 .etiqueta.verde {
   text-shadow: 0 0 10px var(--neon-brilho);
 }
+
+
+/* letra grossa e fechada, como a do logo do JS, nas palavras em neon e no link da barra */
+.neon,
+.marcas .marca-disc {
+  font-family: var(--f-titulo);
+  font-weight: 900;
+  font-stretch: 100%;
+  letter-spacing: -.01em;
+}
+
+/* o logo do JS como botão da página inicial, na barra do topo */
+.marcas .marca-disc.marca-logo {
+  display: inline-flex;
+  padding: 0;
+  text-shadow: none;
+}
+
+/* o símbolo do PHP é um oval: maior, e o brilho segue o desenho (drop-shadow), não uma caixa */
+.marca-logo img {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  margin-block: -.5rem;
+  filter: drop-shadow(0 0 6px var(--neon-brilho));
+  transition: filter .2s, transform .2s;
+}
+
+.marca-logo:hover img,
+.marca-logo:focus-visible img {
+  filter: drop-shadow(0 0 10px var(--neon-brilho)) drop-shadow(0 0 2px var(--neon));
+  transform: scale(1.06);
+}
+
+.pausado .marca-logo img {
+  transition: none;
+}
+

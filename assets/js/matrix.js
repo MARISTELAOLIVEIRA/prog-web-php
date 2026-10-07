@@ -1,6 +1,6 @@
 /*
-  matrix.js: chuva de 0 e 1 em verde neon atrás da abertura (o mesmo efeito do PyQuiz).
-  versão 1 · 2026-10-05
+  matrix.js: chuva de 0 e 1 na cor neon do site atrás da abertura (o mesmo efeito do PyQuiz).
+  versão 3 · 2026-10-07 (a cor vem do --neon do CSS; com --neon-2, as colunas alternam as duas cores)
 
   Uso: <canvas class="chuva-matrix" aria-hidden="true"></canvas> dentro da seção da abertura.
   Para quando a pessoa aperta "Pausar animações" (ou pede menos movimento no sistema).
@@ -17,6 +17,7 @@
 
   let gotas = [];
   let cor = "#39ff14";
+  let cor2 = cor;
   let rodando = false;
   let ultimo = 0;
 
@@ -25,8 +26,11 @@
   }
 
   function atualizaCor() {
-    // verde neon no escuro; verde mais fechado no claro, para não ofuscar
-    cor = raiz.dataset.tema === "claro" ? "#0a8f4d" : "#39ff14";
+    // a cor vem do --neon do neon.css (no site de JavaScript, amarelo); verde se não tiver
+    const estilo = getComputedStyle(raiz);
+    cor = estilo.getPropertyValue("--neon").trim() || "#39ff14";
+    // segunda cor (no Python, o amarelo da outra cobrinha); sem ela, uma cor só
+    cor2 = estilo.getPropertyValue("--neon-2").trim() || cor;
   }
 
   function ajustaTamanho() {
@@ -52,10 +56,11 @@
     contexto.fillRect(0, 0, tela.width, tela.height);
     contexto.globalCompositeOperation = "source-over";
 
-    contexto.fillStyle = cor;
     contexto.font = TAMANHO + "px 'Atkinson Hyperlegible Mono', monospace";
 
     gotas.forEach(function (linha, coluna) {
+      // uma coluna em cada três na segunda cor
+      contexto.fillStyle = coluna % 3 === 0 ? cor2 : cor;
       const digito = Math.random() > 0.5 ? "1" : "0";
       contexto.fillText(digito, coluna * TAMANHO, linha * TAMANHO);
       // quando a gota passa do fim, às vezes volta para o topo
