@@ -4,7 +4,7 @@ import { highlightPhp } from './highlight.js';
 import { renderQuestion } from './question-ui.js';
 import { goTo } from './router.js';
 import { showToast } from './toast.js';
-import { burstConfetti, typewrite } from './effects.js?v=2';
+import { burstConfetti, typewrite } from './effects.js?v=3';
 
 function el(tag, opts = {}) {
   const node = document.createElement(tag);

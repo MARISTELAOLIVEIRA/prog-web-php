@@ -3,8 +3,9 @@
    ============================================================ */
 
 :root {
-  --neon-green: #39ff8a;
-  --neon-green-soft: #1fae63;
+  /* "neon-green" é o nome antigo: desde 07/10/2026 é o roxo-lavanda do logo do PHP */
+  --neon-green: #a5a8ff;
+  --neon-green-soft: #777bb3;
   --neon-orange: #ff8a1e;
   --neon-orange-soft: #cc6200;
   --font-mono: 'Courier New', Courier, monospace;
@@ -18,10 +19,10 @@
   --bg-alt: #0b0f1c;
   --surface: #11172a;
   --surface-2: #161d33;
-  --text: #e7fbf1;
+  --text: #eef0ff;
   --text-dim: #9db3c9;
-  --border: rgba(57, 255, 138, 0.28);
-  --shadow-color: rgba(57, 255, 138, 0.25);
+  --border: rgba(165, 168, 255, 0.3);
+  --shadow-color: rgba(165, 168, 255, 0.25);
   --code-bg: #05070d;
 }
 
@@ -32,10 +33,10 @@
   --surface-2: #f4f8fb;
   --text: #0c1a24;
   --text-dim: #3f5566;
-  --border: rgba(18, 164, 84, 0.35);
-  --shadow-color: rgba(18, 164, 84, 0.18);
+  --border: rgba(79, 91, 147, 0.35);
+  --shadow-color: rgba(79, 91, 147, 0.18);
   --code-bg: #0c1a24;
-  --neon-green: #12a454;
+  --neon-green: #4f5b93;
   --neon-orange: #d9560c;
 }
 
@@ -544,5 +545,11 @@ pre.code-block {
 }
 
 /* o brilho neon do link da disciplina na barra (estilo.css) usa --neon e --neon-brilho; aqui são as cores do curso */
-:root { --neon: #39ff8a; --neon-brilho: rgba(57, 255, 138, 0.45); }
-[data-tema="claro"] { --neon: #12a454; --neon-brilho: rgba(18, 164, 84, 0.2); }
+:root { --neon: #a5a8ff; --neon-brilho: rgba(165, 168, 255, 0.45); }
+[data-tema="claro"] { --neon: #4f5b93; --neon-brilho: rgba(79, 91, 147, 0.2); }
+
+/* o símbolo do PHP (oval) como link da disciplina na barra, igual ao site */
+.marcas .marca-disc.marca-logo { display: inline-flex; padding: 0; text-shadow: none; }
+.marca-logo img { display: block; width: 3rem; height: 3rem; margin-block: -.5rem; filter: drop-shadow(0 0 6px var(--neon-brilho)); transition: filter .2s, transform .2s; }
+.marca-logo:hover img, .marca-logo:focus-visible img { filter: drop-shadow(0 0 10px var(--neon-brilho)) drop-shadow(0 0 2px var(--neon)); transform: scale(1.06); }
+.pausado .marca-logo img { transition: none; }

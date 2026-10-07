@@ -22,7 +22,7 @@
 .tp-texto { color: #d4d4d4; }
 .tp-texto code { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
 .tp-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; padding: .55rem .9rem; border-top: 1px solid #2b2b2b; background: #252526; }
-.tp-copiar { font: inherit; font-size: .8rem; font-weight: 700; color: #1e1e1e; background: #39ff8a; border: 0; border-radius: 999px; padding: .4rem .95rem; cursor: pointer; }
+.tp-copiar { font: inherit; font-size: .8rem; font-weight: 700; color: #1e1e1e; background: #a5a8ff; border: 0; border-radius: 999px; padding: .4rem .95rem; cursor: pointer; }
 .tp-copiar:focus-visible { outline: 3px solid #ffffff; outline-offset: 2px; }
 .tp-aviso { font-size: .78rem; color: #9fe3b5; }
 

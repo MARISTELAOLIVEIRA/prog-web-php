@@ -1,11 +1,11 @@
 // Curso Básico de PHP: monta a tela certa para cada endereço (#/...).
 // Sem banco de dados, o progresso fica só neste navegador e não trava nenhum módulo.
 import { initTheme } from './theme.js?v=2';
-import { initParticles, initGlitch } from './effects.js?v=2';
+import { initParticles, initGlitch } from './effects.js?v=3';
 import { onRouteChange, parseRoute } from './router.js';
 import { getActiveProgress, startStudent } from './storage.js';
 import { MODULES } from './data.js?v=4';
-import { renderDashboard, renderModule, renderLesson, renderQuiz } from './views.js?v=4';
+import { renderDashboard, renderModule, renderLesson, renderQuiz } from './views.js?v=5';
 
 const view = document.getElementById('view');
 const progressFill = document.getElementById('global-progress-fill');
