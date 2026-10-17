@@ -1,108 +1,173 @@
-# 💾 Curso Básico de PHP — Conceitos Iniciais de Programação WEB
+<p align="center">
+  <img src="assets/img/banner.svg" alt="Programação Web II: PHP · Profa. Maristela · Senac DF" width="100%">
+</p>
 
-```
- ██▓███   ██░ ██  ██▓███      ▓█████ ▒██   ██▒▓█████
-▓██░  ██▒▓██░ ██▒▓██░  ██▒    ▓█   ▀ ▒▒ █ █ ▒░▓█   ▀
-▓██░ ██▓▒▒██▀▀██░▓██░ ██▓▒    ▒███   ░░  █   ░▒███
-▒██▄█▓▒ ▒░▓█ ░██ ▒██▄█▓▒ ▒    ▒▓█  ▄  ░ █ █ ▒ ▒▓█  ▄
-▒██▒ ░  ░░▓█▒░██▓▒██▒ ░  ░    ░▒████▒▒██▒ ▒██▒░▒████▒
-▒▓▒░ ░  ░ ▒ ░░▒░▒▒▓▒░ ░  ░    ░░ ▒░ ░▒▒ ░ ░▓ ░░░ ▒░ ░
-░▒ ░      ▒ ░▒░ ░░▒ ░          ░ ░  ░░░   ░▒ ░ ░ ░  ░
-░░        ░  ░░ ░░░              ░    ░    ░     ░
-          ░  ░  ░                ░         ░     ░  ░
-```
+<p align="center">
+  <img src="https://img.shields.io/badge/PHP-back--end-777BB4?style=for-the-badge&logo=php&logoColor=white&labelColor=121224" alt="PHP no back-end">
+  <img src="https://img.shields.io/badge/60_horas-19_encontros-A8ABE8?style=for-the-badge&labelColor=121224" alt="60 horas, 19 encontros">
+  <img src="https://img.shields.io/badge/curso_básico-11_módulos-FF8A1E?style=for-the-badge&labelColor=121224" alt="Curso Básico de PHP com 11 módulos">
+  <img src="https://img.shields.io/badge/banco-MySQL_·_SQLite-39FF9E?style=for-the-badge&labelColor=121224" alt="MySQL e SQLite">
+</p>
 
-> **Bem-vindo(a) ao terminal de aprendizado.** Um mini curso interativo, cyberpunk e cheio de neon para dar os primeiros passos em PHP. 🟢🟠
-
-[![Feito com](https://img.shields.io/badge/feito%20com-HTML%2FCSS%2FJS%20puro-39ff8a?style=for-the-badge)](#)
-[![Sem build](https://img.shields.io/badge/build-nenhum%20necess%C3%A1rio-ff8a1e?style=for-the-badge)](#)
-[![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-39ff8a?style=for-the-badge)](#)
-[![Tema](https://img.shields.io/badge/tema-dark%20%2F%20light-0d0d0d?style=for-the-badge)](#)
+<p align="center">
+  <b><a href="https://maristelaoliveira.github.io/prog-web-php/">🌐 Abrir o site da disciplina</a></b>
+  &nbsp;·&nbsp;
+  <b><a href="https://maristelaoliveira.github.io/prog-web-php/curso/">🐘 Abrir o Curso Básico de PHP</a></b>
+  &nbsp;·&nbsp;
+  <b><a href="https://maristelaoliveira.github.io/prog-web-php/aulas/aula-09.html">📚 Ir para a aula 9</a></b>
+</p>
 
 ---
 
-## 🖥️ O que é isso?
+## `<?php echo "Prazer!"; ?>`
 
-O **Curso Básico de PHP** é um **mini curso web interativo** com os conceitos iniciais de programação com **PHP**, criado para a disciplina **Programação WEB II** da Faculdade de Tecnologia e Inovação **Senac DF**, sob orientação da Profª Maristela.
+Prazer, eu sou a **Profa. Maristela**, ou só **Stela**! 👋
 
-Nada de slides parados: aqui você navega por **módulos**, lê explicações + exemplos de código, responde **perguntas interativas** com feedback na hora, encara um **quiz** ao final de cada módulo e desbloqueia o próximo nível — tudo num visual **cyberpunk** com verde neon, laranja e uma pitada de glitch. ⚡
+Boas-vindas à **Linguagem de Programação para Web II**, a nossa Web II com PHP, do curso de **Análise e Desenvolvimento de Sistemas** da Faculdade de Tecnologia e Inovação Senac DF (3º semestre, 60 horas, 19 encontros).
 
-## ✨ Funcionalidades
+Este repositório é o **site da disciplina**: o lugar onde ficam as aulas, os tutoriais, o Curso Básico de PHP e tudo o que a gente usa no semestre. Nada de slides: aqui a aula é o próprio site.
 
-- 🌓 **Modo escuro (padrão) e claro**, com preferência salva
-- 💾 **Progresso salvo no navegador**: lições concluídas, notas dos quizzes e XP ficam guardados neste aparelho
-- 📊 **Barra de progresso global** (lições + quizzes) e XP acumulado
-- 🔓 **Todos os módulos liberados**: comece por qualquer um (sem banco de dados, travar módulos não faria sentido)
-- ❓ **Perguntas interativas** (múltipla escolha e "complete o código") com feedback instantâneo
-- 🧠 **Quiz por módulo** com nota mínima de 60% para aprovação
-- 🎨 **Realce de sintaxe PHP** feito à mão em JavaScript puro (sem libs externas)
-- 🌌 Efeitos visuais: grade animada, partículas em `<canvas>`, glitch no logo e confete ao ser aprovado(a)
-- ♿ Acessível: navegação por teclado, `aria-live`, `prefers-reduced-motion`, contraste em ambos os temas
-- 📱 Totalmente responsivo — do celular ao desktop
-- 🚫 **Zero dependências, zero build step** — é só abrir e rodar
+Aqui a página deixa de ser vitrine e começa a pensar. Olha o servidor embutido do PHP trabalhando:
 
-## 🗂️ Módulos do curso
+```text
+stela@placa ~/web2 $ php -S localhost:8000
 
-| # | Módulo | Conteúdo |
-|---|--------|----------|
-| 1️⃣ | **Introdução ao PHP** | Sintaxe, comentários, tipos de dados, variáveis, expressões e operadores |
-| 2️⃣ | **Estruturas de Controle** | Condicionais (`if`/`switch`/`match`) e laços de repetição (`for`/`while`/`do-while`/`foreach`) |
-| 3️⃣ | **Modularização: Funções** | Declaração, parâmetros, retorno, escopo e reaproveitamento de código |
-
-## 🛠️ Stack
-
-Só o essencial, sem frameworks:
-
-- **HTML5** semântico
-- **CSS3** (variáveis de tema, grid/flexbox, animações)
-- **JavaScript** puro (ES Modules) — roteador via hash, persistência em `localStorage`, tudo client-side
-
-```
-📁 PHP-Conceitos-Iniciais/
-├── index.html          → shell da aplicação (SPA)
-├── css/
-│   └── style.css       → visual neon do curso (o tema segue o botão da barra do topo)
-└── js/
-    ├── app.js          → bootstrap + orquestração
-    ├── router.js       → roteador baseado em hash (#/...)
-    ├── data.js         → conteúdo dos módulos/lições/quizzes
-    ├── views.js        → renderização das telas
-    ├── question-ui.js  → perguntas interativas (mc / fill)
-    ├── highlight.js     → realce de sintaxe PHP
-    ├── storage.js       → progresso do aluno (localStorage)
-    ├── theme.js          → alternância claro/escuro
-    ├── effects.js       → partículas, glitch, confete
-    └── toast.js         → notificações rápidas
+  GET  /bem-vindos.php     200  → "Bem-vindos, filhotes!"
+  POST /cadastro.php       200  → cliente guardado no banco 💾
+  GET  /cadastro.php?busca=ana  → GET é cartão-postal: todo mundo lê o endereço
+  GET  /tarefa-pronta.php  404  → esse arquivo ainda não existe 😅
 ```
 
-## 🚀 Rodando localmente
-
-Não precisa instalar nada — é HTML/CSS/JS puro. Basta servir os arquivos estáticos:
-
-```bash
-# Python
-python3 -m http.server 8765
-
-# ou Node
-npx serve .
-```
-
-Depois é só abrir `http://localhost:8765` no navegador. 🎮
-
-## 🌐 Publicando no GitHub Pages
-
-1. Faça push do repositório para o GitHub
-2. Em **Settings → Pages**, selecione a branch principal e a pasta `/ (root)`
-3. Pronto — o curso estará no ar em `https://<seu-usuario>.github.io/<repo>/`
-
-## 🎓 Como o progresso é salvo
-
-Não há backend: tudo roda no navegador. O progresso (lições concluídas, notas dos quizzes e XP) fica salvo em `localStorage`, só neste navegador. Por isso nenhum módulo é travado: sem banco de dados, não dá para garantir quem fez o quê.
-
-## 📜 Créditos
-
-Desenvolvido para a disciplina **Programação WEB II** — Faculdade de Tecnologia e Inovação **Senac DF** · Profª Maristela.
+> 🐘 Curiosidade: PHP queria dizer **Personal Home Page**. Hoje é **PHP: Hypertext Preprocessor**, um acrônimo que chama a si mesmo. Piada clássica de programador. E o mascote é um elefantinho azul, o elePHPant.
 
 ---
 
-<p align="center"><em>&lt;?php echo "bons estudos!"; ?&gt;</em></p>
+## 🧭 O que tem no site
+
+| | Seção | Para que serve |
+|:-:|---|---|
+| 🔬 | **Raio-X do PHP** | Como o PHP trabalha nos bastidores, do pedido do navegador ao HTML pronto, com seis curiosidades. |
+| 📜 | **Ementa e objetivos** | A ementa oficial e aonde a gente quer chegar. |
+| 🧩 | **Conteúdo programático** | As oito unidades, do primeiro `echo` aos Web Services. |
+| ⚙️ | **Como funciona** | A metodologia: explicação rápida, laboratório longo e um sistema web construído aos poucos. |
+| 📚 | **Aulas** | Uma página por encontro, com problema, conceitos, tutorial passo a passo, estudo de caso e checklist. |
+| 🐘 | **Curso Básico de PHP** | 11 módulos com explicação, exemplos, perguntas interativas e quiz, num terminal cheio de neon. |
+| 📅 | **Próximas entregas** | Os prazos que vêm por aí, para ver de longe. |
+
+---
+
+## 🗺️ A trilha do semestre
+
+Oito unidades, um sistema web completo no fim. Em PHP, fica assim:
+
+```php
+<?php
+$trilha = [
+    "Unidade 1 · introdução: ambiente, sintaxe e HTML com PHP",
+    "Unidade 2 · variáveis, constantes e operadores",
+    "Unidade 3 · decidir e repetir (if, match, for, foreach)",
+    "Unidade 4 · funções",
+    "Unidade 5 · classes e objetos",
+    "Unidade 6 · PHP e MySQL: os dados param de sumir",
+    "Unidade 7 · include e require: cada coisa no seu arquivo",
+    "Unidade 8 · relatórios, gráficos e Web Services",
+];
+
+foreach ($trilha as $passo => $unidade) {
+    echo ($passo + 1) . ". $unidade\n";
+}
+echo "🏁 Sistema web no ar!\n";
+```
+
+| Aula | Tema | |
+|:-:|---|:-:|
+| 09 | Cadastro de Clientes, parte I: do formulário ao banco de dados (validação, PDO e SQLite) | [abrir](https://maristelaoliveira.github.io/prog-web-php/aulas/aula-09.html) |
+| as outras | As páginas das demais aulas chegam ao site aos poucos | em breve |
+
+### 🐘 O Curso Básico de PHP
+
+Um módulo para cada tema da disciplina. Todos ficam liberados: comece por onde precisar.
+
+| # | Módulo | # | Módulo |
+|:-:|---|:-:|---|
+| 1 | Primeiros passos | 7 | CRUD completo |
+| 2 | Dados: tipos, variáveis e operadores | 8 | Includes e organização |
+| 3 | Decisões e repetições | 9 | Classes e objetos |
+| 4 | Funções | 10 | Login e sessão |
+| 5 | Formulários | 11 | Relatórios, gráficos e Web Services |
+| 6 | Banco de dados com SQLite | | |
+
+- **Perguntas interativas** (múltipla escolha e "complete o código"), com resposta na hora.
+- **Quiz no fim de cada módulo**: com 60% de acerto, você passa e ganha confete. 🎉
+- **XP e barra de progresso**, salvos no seu navegador.
+
+---
+
+## 🛠️ Ferramentas da disciplina
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=php,mysql,sqlite,html,css,vscode,github,git&theme=dark" alt="PHP, MySQL, SQLite, HTML, CSS, VS Code, GitHub e Git">
+</p>
+
+| Ferramenta | Para quê |
+|---|---|
+| 🐘 **PHP** e o servidor embutido (`php -S localhost:8000`) | Rodar o PHP no seu computador, sem complicação. |
+| 🧰 **XAMPP** | O pacote com Apache, PHP e MySQL, para quem prefere tudo junto. |
+| 🗄️ **MySQL**, **SQLite** e **PDO** | Guardar os dados num lugar que não esquece. |
+| 💻 **VS Code** | Escrever e organizar o código. |
+| 🐙 **GitHub** | Guardar o projeto e fazer commit de cada etapa. |
+| 📘 **Manual do PHP** ([php.net](https://www.php.net/manual/pt_BR/)) | A documentação oficial, em português. |
+| 🌐 **APIs e Web Services** | Fazer o sistema conversar com o mundo. |
+| 🤖 **IA** | Para testar, documentar e depurar, com senso crítico. |
+
+> 🤖 **IA com consciência:** a IA ajuda a testar, documentar e depurar. Mas quem entende o código é você. Leu a sugestão? Agora explique, com as suas palavras, o que cada linha faz. Se não conseguir, ainda não é seu. 💪
+
+---
+
+## 🙋 Dicas de sobrevivência
+
+1. **Toda variável tem `$`.** Esqueceu o cifrão? O PHP não faz ideia de quem é `turma`.
+2. **Ponto e vírgula no fim da linha.** `Parse error` quase sempre é um `;` ou uma `}` que fugiu.
+3. **PHP não roda no GitHub Pages.** O GitHub só entrega páginas prontas. Para o PHP trabalhar, ligue o servidor: `php -S localhost:8000`.
+4. **GET é cartão-postal, POST é carta no envelope.** E envelope não é cofre: quem protege no caminho é o `https`.
+5. **Senha não se guarda: se embaralha.** Nunca salve senha em texto puro no banco.
+6. **Valide antes de usar.** Todo dado que vem do formulário é suspeito até prova em contrário.
+7. **Travou?** Pergunte. Código que não funciona de primeira é só código que ainda não terminou de ser escrito. 🔁
+
+---
+
+<details>
+<summary><b>👩‍🏫 Para a professora (estrutura do repositório)</b></summary>
+
+<br>
+
+Site estático publicado no GitHub Pages a partir da branch `main`, sem build e sem dependências (o `.nojekyll` desliga o Jekyll).
+
+```text
+prog-web-php/
+├── index.html                # página da disciplina (raio-x, ementa, conteúdo, metodologia, atividades, entregas)
+├── aulas/
+│   └── aula-NN.html          # uma página por aula
+├── curso/                    # Curso Básico de PHP (uma página só, com rotas #/...)
+│   ├── index.html
+│   ├── css/style.css
+│   └── js/                   # data.js (conteúdo dos 11 módulos e quizzes), views.js, storage.js (progresso e XP)...
+└── assets/
+    ├── css/                  # visual comum dos sites da Stela; tutorial-php.css (o tutorial das aulas)
+    ├── js/                   # visual comum; tutorial-php.js (o tutorial das aulas)
+    └── img/                  # ícones, logo e o banner deste README
+```
+
+- Aula nova: copie `aulas/aula-09.html`, ajuste o conteúdo e ligue o link no `index.html`.
+- Módulo, lição ou pergunta nova no curso: `curso/js/data.js`.
+- Antes de publicar: testar no navegador, também na largura de celular (390 px).
+
+</details>
+
+---
+
+<p align="center">
+  Feito com ♥ e sucata eletrônica pela <a href="https://maristelaoliveira.github.io/">Profa. Maristela</a> · Faculdade de Tecnologia e Inovação Senac DF
+  <br>
+  <code>&lt;?php echo "bons estudos!"; ?&gt;</code>
+</p>

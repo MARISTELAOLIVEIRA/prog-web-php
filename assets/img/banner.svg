@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="titulo descricao">
+  <title id="titulo">Programação Web II: PHP · Profa. Maristela · Senac DF</title>
+  <desc id="descricao">Banner: o título em roxo e lavanda do PHP, ao lado de uma janela de editor com o programa bem-vindos.php e o servidor embutido do PHP respondendo no terminal.</desc>
+
+  <defs>
+    <!-- Brilhos do fundo: roxo do PHP à esquerda, laranja à direita -->
+    <radialGradient id="brilhoRoxo" cx="8%" cy="20%" r="65%">
+      <stop offset="0" stop-color="#777BB4" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#777BB4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="brilhoLaranja" cx="95%" cy="110%" r="60%">
+      <stop offset="0" stop-color="#FF8A1E" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#FF8A1E" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Trilhas de placa de circuito, bem apagadas -->
+    <pattern id="placa" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M0 30 H22 L30 22 V0 M60 40 H42 L36 46 V60" fill="none" stroke="#B4B7E6" stroke-opacity=".07" stroke-width="2"/>
+      <circle cx="30" cy="22" r="3" fill="#B4B7E6" fill-opacity=".1"/>
+      <circle cx="36" cy="46" r="3" fill="#B4B7E6" fill-opacity=".1"/>
+    </pattern>
+    <filter id="neon" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="borrado"/>
+      <feMerge><feMergeNode in="borrado"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fundo -->
+  <rect width="1200" height="360" rx="18" fill="#121224"/>
+  <rect width="1200" height="360" rx="18" fill="url(#placa)"/>
+  <rect width="1200" height="360" rx="18" fill="url(#brilhoRoxo)"/>
+  <rect width="1200" height="360" rx="18" fill="url(#brilhoLaranja)"/>
+
+  <!-- Selo oval do PHP -->
+  <g transform="translate(88 84)">
+    <ellipse rx="26" ry="15" fill="#777BB4"/>
+    <text y="6" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" font-style="italic" fill="#FFFFFF">php</text>
+  </g>
+
+  <!-- Título -->
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <text x="128" y="92" font-size="20" fill="#A9ABCF" letter-spacing="3">ADS · 3º SEMESTRE · SENAC DF</text>
+    <text x="62" y="162" font-size="56" font-weight="800" fill="#F2F2FA">Programação Web II</text>
+    <text x="62" y="236" font-size="80" font-weight="800" fill="#A8ABE8" filter="url(#neon)">PHP</text>
+    <text x="64" y="280" font-size="22" fill="#D9DAEE">Do primeiro echo ao sistema web completo,</text>
+    <text x="64" y="310" font-size="22" fill="#D9DAEE">com banco de dados de verdade.</text>
+  </g>
+
+  <!-- Janela do editor -->
+  <g transform="translate(640 46)">
+    <rect width="500" height="268" rx="12" fill="#191A30" stroke="#34365A" stroke-width="2"/>
+    <rect width="500" height="38" rx="12" fill="#22243F"/>
+    <rect y="26" width="500" height="12" fill="#22243F"/>
+    <circle cx="22" cy="19" r="7" fill="#FF5F57"/>
+    <circle cx="44" cy="19" r="7" fill="#FEBC2E"/>
+    <circle cx="66" cy="19" r="7" fill="#28C840"/>
+    <text x="250" y="25" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" fill="#A9ABCF">bem-vindos.php</text>
+
+    <g font-family="Consolas, 'Courier New', monospace" font-size="18">
+      <text x="20" y="70" fill="#5E6088">1</text>
+      <text x="48" y="70" fill="#C586C0">&lt;?php</text>
+      <text x="20" y="95" fill="#5E6088">2</text>
+      <text x="48" y="95" fill="#6A9955">// ADS · 3º semestre · 60h</text>
+      <text x="20" y="120" fill="#5E6088">3</text>
+      <text x="48" y="120"><tspan fill="#9CDCFE">$turma</tspan><tspan fill="#D4D4D4"> = </tspan><tspan fill="#CE9178">"filhotes"</tspan><tspan fill="#D4D4D4">;</tspan></text>
+      <text x="20" y="145" fill="#5E6088">4</text>
+      <text x="48" y="145"><tspan fill="#569CD6">echo</tspan><tspan fill="#CE9178"> "Bem-vindos, </tspan><tspan fill="#9CDCFE">$turma</tspan><tspan fill="#CE9178">!"</tspan><tspan fill="#D4D4D4">;</tspan></text>
+    </g>
+
+    <!-- Terminal -->
+    <rect x="14" y="164" width="472" height="92" rx="8" fill="#0B0B18"/>
+    <g font-family="Consolas, 'Courier New', monospace" font-size="16">
+      <text x="30" y="190"><tspan fill="#39FF9E">stela@placa</tspan><tspan fill="#A9ABCF"> ~/web2 $ </tspan><tspan fill="#D4D4D4">php -S localhost:8000</tspan></text>
+      <text x="30" y="216"><tspan fill="#A9ABCF">GET </tspan><tspan fill="#D4D4D4">/bem-vindos.php</tspan><tspan fill="#39FF9E">  200 OK</tspan></text>
+      <text x="30" y="242" fill="#FF8A1E">Bem-vindos, filhotes!</text>
+      <rect x="244" y="228" width="10" height="18" fill="#39FF9E"/>
+    </g>
+  </g>
+</svg>
