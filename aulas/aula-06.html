@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: número e tema da aula -->
+  <title>Aula 6: Criando funções reutilizáveis · Web II: PHP · Stela</title>
+  <meta name="description" content="Aula 6 de Linguagem de Programação para Web II: Criando funções reutilizáveis.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=2">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=8">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/php.svg" alt="PHP: página inicial da disciplina" width="48" height="48"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da aula">
+        <a href="../#aulas">← Todas as aulas</a>
+        <a href="#problema">Problema</a>
+        <a href="#conceitos">Conceitos</a>
+        <a href="#tutorial">Mão na massa</a>
+        <a href="#desafio">Desafio</a>
+        <a href="#caso">Caso</a>
+        <a href="#atividade">Atividade</a>
+        <a href="#materiais">Materiais</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO DA AULA ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">PHP</a> <span aria-hidden="true">/</span>
+          <a href="../#aulas">Aulas</a> <span aria-hidden="true">/</span>
+          <span>Aula 6</span>
+        </p>
+
+        <div class="aula-etiquetas">
+          <span class="etiqueta senac">Fac Senac DF</span>
+          <span class="etiqueta ouro">Aula 6</span>
+          <span class="etiqueta">Aprendizagem em ação</span>
+          <span class="etiqueta">SA 1</span>
+        </div>
+        <h1>Criando funções reutilizáveis</h1>
+        <p class="subtitulo">Atividade do dia: Biblioteca de funções da loja.</p>
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da aula">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Objetivo do dia</span>
+            <p>Os estudantes reorganizam o código das aulas anteriores em uma biblioteca de funções da loja, com parâmetros, valores padrão, tipos e retorno, discutindo escopo e reutilização.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Competência</span>
+            <p>Utilizar funções e modularização de código.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Situação de aprendizagem</span>
+            <p>Situação de Aprendizagem 1: Desenvolvimento da lógica de negócio de um sistema web.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <section class="parte" id="problema">
+          <div class="cab">
+            <span class="olho">P1 · problematização</span>
+            <h2>O problema do dia</h2>
+          </div>
+          <div class="texto">
+            <p>A conta do desconto apareceu em cinco arquivos diferentes. A regra mudou: em quantos lugares é preciso mexer?</p>
+          </div>
+        </section>
+
+        <section class="parte" id="conceitos">
+          <div class="cab">
+            <span class="olho">C1 · conceitos</span>
+            <h2>O que a gente vai usar</h2>
+          </div>
+          <div class="cartao">
+            <ul>
+              <li>Declaração e chamada de funções</li>
+              <li>Parâmetros, valores padrão e argumentos nomeados (PHP 8)</li>
+              <li>Retorno de valores e declaração de tipos (int, float, string, array)</li>
+              <li>Escopo: variáveis de dentro e de fora da função</li>
+              <li>Funções prontas do PHP: strlen, strtoupper, round, number_format e array_sum</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="parte" id="tutorial">
+          <div class="cab">
+            <span class="olho">T1 · mão na massa</span>
+            <h2>Passo a passo do laboratório</h2>
+            <p>A professora demonstra cada passo, e você faz junto no seu computador.</p>
+          </div>
+          <div class="cartao">
+            <ol>
+              <li>Arquivo funcoes.php com calcularDesconto, calcularFrete e formatarReais</li>
+              <li>Uso das funções na vitrine da aula 5</li>
+              <li>Refatoração: trocar o código repetido por chamadas de função</li>
+              <li>Revisão do código com apoio da IA, conferindo cada sugestão no navegador</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="parte" id="desafio">
+          <div class="cab">
+            <span class="olho">G1 · desafio gamificado</span>
+            <h2>Desafio gamificado</h2>
+          </div>
+          <div class="cartao">
+            <ul>
+              <li>Programação em pares com troca de pilotos a cada 10 minutos: cada função pronta e testada vale XP para a dupla</li>
+              <li>Quiz do módulo 4 do Curso Básico de PHP</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="parte" id="fechamento">
+          <div class="cab">
+            <span class="olho">F1 · fechamento</span>
+            <h2>Fechamento</h2>
+          </div>
+          <div class="cartao">
+            <ul>
+              <li>Biblioteca da turma: as melhores funções de cada dupla no repositório</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · estudo de caso</span>
+            <h2>Onze linhas que pararam a internet</h2>
+            <p>Fonte: blog do npm, "kik, left-pad, and npm", março de 2016.</p>
+          </div>
+          <div class="cartao caso">
+            <p>Em março de 2016, um programador retirou do npm, o repositório de pacotes do JavaScript, um pacote chamado left-pad: uma função de 11 linhas que completava um texto com espaços à esquerda. Milhares de projetos que dependiam dela, incluindo ferramentas muito usadas, pararam de funcionar até o pacote ser restaurado.</p>
+            <h3>Para discutir em grupo</h3>
+            <p>Quando vale a pena escrever a própria função e quando usar uma pronta? Que funções da nossa loja são usadas em muitos lugares? O que acontece se uma delas quebrar?</p>
+          </div>
+        </section>
+
+        <section class="parte" id="atividade">
+          <div class="cab">
+            <span class="olho">A1 · atividade</span>
+            <h2>Biblioteca de funções da loja</h2>
+            <p>Vá marcando os passos: o que você marcar fica salvo neste navegador.</p>
+          </div>
+          <div class="cartao">
+            <div class="progresso-atividade" data-progresso="passos-aula-06">
+              <span class="contagem">0 de 6</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <ol class="checklist" id="passos-aula-06">
+              <li><label><input type="checkbox"><span>Criei o funcoes.php com pelo menos três funções.</span></label></li>
+              <li><label><input type="checkbox"><span>Usei parâmetros com tipo e valor padrão.</span></label></li>
+              <li><label><input type="checkbox"><span>Cada função devolve o resultado com return.</span></label></li>
+              <li><label><input type="checkbox"><span>Troquei o código repetido da vitrine por chamadas de função.</span></label></li>
+              <li><label><input type="checkbox"><span>Revisei o código com a IA e testei cada sugestão.</span></label></li>
+              <li><label><input type="checkbox"><span>Fiz o commit no GitHub.</span></label></li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para estudar e praticar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="../curso/#/module/m4">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>curso/módulo 4</span>
+              <h4>Funções</h4>
+              <p>Curso Básico de PHP, módulo 4</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">curso</span></span>
+            </a>
+            <a class="repo luz" href="https://www.php.net/manual/pt_BR/language.functions.php">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>php.net</span>
+              <h4>Manual do PHP, Funções</h4>
+              <p>php.net</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">consulta</span></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="parte" id="metodologia">
+          <div class="cab">
+            <span class="olho">M1 · como é a aula</span>
+            <h2>Metodologia e recursos</h2>
+          </div>
+          <div class="cartao">
+            <p><strong>Metodologia:</strong> Programação em pares, refatoração guiada e desafio gamificado.</p>
+            <p><strong>Recursos:</strong> Laboratório de informática, VS Code, XAMPP ou Lab-PHP, Curso Básico de PHP, GitHub, ferramentas de IA para revisão de código.</p>
+          </div>
+        </section>
+
+        <nav class="nav-aulas" aria-label="Outras aulas">
+          <!-- EDITE AQUI: use <a href="aula-NN.html"> quando a página da aula vizinha for liberada; <span> enquanto não for -->
+          <a class="anterior" href="aula-05.html">
+            <span class="olho">← aula anterior</span>
+            <strong>Aula 5: Automatizando processos</strong>
+          </a>
+          <a class="proxima" href="aula-07.html">
+            <span class="olho">próxima aula →</span>
+            <strong>Aula 7: Recebendo dados do usuário</strong>
+          </a>
+        </nav>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Linguagem de Programação para Web II</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>&lt;?php echo "bons estudos!"; ?&gt;</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="../assets/js/aulas.js"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>

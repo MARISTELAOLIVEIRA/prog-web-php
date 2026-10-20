@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="assets/css/estilo.css">
   <link rel="stylesheet" href="assets/css/disciplina.css?v=4">
   <link rel="stylesheet" href="assets/css/neon.css?v=2">
+  <link rel="stylesheet" href="assets/css/aula.css?v=2">
 </head>
 <body>
 
@@ -346,26 +347,92 @@
     </section>
 
     <!-- ===================== AULAS ===================== -->
+    <!--
+      EDITE AQUI: uma linha por aula, numerada e sem data (o material serve para vários semestres). Quando a página da aula
+      for liberada, o título ganha o link (<a href="aulas/aula-NN.html">) e a etiqueta "abrir a aula →" no fim da linha.
+      O Controle de aulas da Placa-Mãe faz isso sozinho.
+    -->
     <section class="bloco" id="aulas">
       <div class="envolve">
         <div class="cab" data-revela>
           <span class="olho">A1–A18 · aulas</span>
-          <h2>Aulas</h2>
+          <h2>Dezoito encontros, um sistema completo</h2>
+          <p>Cada aula tem a sua página, com os conceitos, o passo a passo, o estudo de caso e a atividade.</p>
         </div>
-        <div class="repos">
-          <a class="repo luz" href="aulas/aula-11.html" data-revela style="--i:0">
-            <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>prog-web-php/aulas</span>
-            <h4>Aula 11: do array ao objeto</h4>
-            <p>Classes e objetos em PHP: o cliente do Cadastro vira um objeto, com atributos, métodos e private.</p>
-            <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta ouro">aula de hoje</span></span>
-          </a>
-          <a class="repo luz" href="aulas/aula-09.html" data-revela style="--i:1">
-            <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>prog-web-php/aulas</span>
-            <h4>Aula 9: do formulário ao banco de dados</h4>
-            <p>Formulário com validação e o primeiro banco de dados do Cadastro de Clientes, com PDO e SQLite.</p>
-            <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">aula 9</span></span>
-          </a>
-        </div>
+        <ol class="log lista-aulas" data-revela>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-01.html">Conhecendo o Desenvolvimento Back-End</a></h3><span class="hash">A01</span></div>
+            <div class="meta"><span>Apresentação vivencial</span> <a class="etiqueta ouro" href="aulas/aula-01.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-02.html">Preparando o ambiente PHP</a></h3><span class="hash">A02</span></div>
+            <div class="meta"><span>Laboratório de práticas</span> <a class="etiqueta ouro" href="aulas/aula-02.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-03.html">Como armazenar informações em um sistema?</a></h3><span class="hash">A03</span></div>
+            <div class="meta"><span>Situação-problema</span> <a class="etiqueta ouro" href="aulas/aula-03.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-04.html">Construindo regras de negócio</a></h3><span class="hash">A04</span></div>
+            <div class="meta"><span>Aprendizagem baseada em problemas</span> <a class="etiqueta ouro" href="aulas/aula-04.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-05.html">Automatizando processos</a></h3><span class="hash">A05</span></div>
+            <div class="meta"><span>Laboratório de práticas</span> <a class="etiqueta ouro" href="aulas/aula-05.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-06.html">Criando funções reutilizáveis</a></h3><span class="hash">A06</span></div>
+            <div class="meta"><span>Aprendizagem em ação</span> <a class="etiqueta ouro" href="aulas/aula-06.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-07.html">Recebendo dados do usuário</a></h3><span class="hash">A07</span></div>
+            <div class="meta"><span>Situação-problema</span> <a class="etiqueta ouro" href="aulas/aula-07.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-08.html">Processando informações enviadas pelo navegador</a></h3><span class="hash">A08</span></div>
+            <div class="meta"><span>Laboratório de práticas</span> <a class="etiqueta ouro" href="aulas/aula-08.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-09.html">Do formulário ao banco de dados</a></h3><span class="hash">A09</span></div>
+            <div class="meta"><span>Projeto</span> <a class="etiqueta ouro" href="aulas/aula-09.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-10.html">Avaliação Prática do 1º Bimestre</a></h3><span class="hash">A10</span></div>
+            <div class="meta"><span>Amostra de trabalho</span> <a class="etiqueta ouro" href="aulas/aula-10.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3><a href="aulas/aula-11.html">Do array ao objeto</a></h3><span class="hash">A11</span></div>
+            <div class="meta"><span>Situação-problema</span> <a class="etiqueta ouro" href="aulas/aula-11.html">abrir a aula →</a></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3>Banco de Dados MySQL: modelagem e tabelas</h3><span class="hash">A12</span></div>
+            <div class="meta"><span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3>SQL na prática: criar, consultar e alterar dados</h3><span class="hash">A13</span></div>
+            <div class="meta"><span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3>PHP e MySQL: conectando a aplicação ao banco</h3><span class="hash">A14</span></div>
+            <div class="meta"><span>Situação-problema</span></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3>Cadastro de Clientes, parte II: includes e organização</h3><span class="hash">A15</span></div>
+            <div class="meta"><span>Projeto</span></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3>Implementando o CRUD Completo com login</h3><span class="hash">A16</span></div>
+            <div class="meta"><span>Projeto</span></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3>Relatórios, Gráficos e Web Services</h3><span class="hash">A17</span></div>
+            <div class="meta"><span>Projeto</span></div>
+          </li>
+          <li class="commit">
+            <div class="commit-linha"><h3>Apresentação Final do Sistema</h3><span class="hash">A18</span></div>
+            <div class="meta"><span>Exposição prática</span></div>
+          </li>
+        </ol>
       </div>
     </section>
 
