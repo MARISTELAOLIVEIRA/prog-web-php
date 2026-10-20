@@ -1,0 +1,1274 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: número e tema da aula -->
+  <title>Aula 11: Do array ao objeto · Web II: PHP · Stela</title>
+  <meta name="description" content="Aula 11 de Linguagem de Programação para Web II: classes e objetos em PHP. O cliente do Cadastro de Clientes vira um objeto, com atributos, construtor, métodos e private.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=2">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=8">
+  <link rel="stylesheet" href="../assets/css/interativos-php.css?v=1">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/php.svg" alt="PHP: página inicial da disciplina" width="48" height="48"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da aula">
+        <a href="../#aulas">← Todas as aulas</a>
+        <a href="#conceitos">Conceitos</a>
+        <a href="#tutorial">Tutorial</a>
+        <a href="#caso">Caso</a>
+        <a href="#fabrica">Fábrica</a>
+        <a href="#atividade">Atividade</a>
+        <a href="#materiais">Materiais</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO DA AULA ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">PHP</a> <span aria-hidden="true">/</span>
+          <a href="../#aulas">Aulas</a> <span aria-hidden="true">/</span>
+          <span>Aula 11</span>
+        </p>
+
+        <!-- EDITE AQUI: número, tipo de aula, unidade e título -->
+        <div class="aula-etiquetas">
+          <span class="etiqueta senac">Fac Senac DF</span>
+          <span class="etiqueta ouro">Aula 11</span>
+          <span class="etiqueta">Situação-problema</span>
+          <span class="etiqueta">Classes e objetos</span>
+        </div>
+        <h1>Do array ao objeto</h1>
+        <p class="subtitulo">O cliente do Cadastro vira uma peça só: classe, atributos, métodos e private.</p>
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da aula">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Objetivo do dia</span>
+            <p>Transformar o cliente do Cadastro em um objeto, com a classe Cliente, e comparar o código estruturado com o orientado a objetos.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Antes da aula</span>
+            <p>Deixar a versão 4 do Cadastro de Clientes (aula 9) rodando com o <code>php -S</code>.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Como conta ponto</span>
+            <p>Atividade no laboratório, com commit no GitHub.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <!-- ===================== O PROBLEMA ===================== -->
+        <section class="parte" id="problema">
+          <div class="cab">
+            <span class="olho">P1 · o problema</span>
+            <h2>O cliente de duas caras</h2>
+          </div>
+          <div class="texto">
+            <p>
+              No projeto, um arquivo usa <code>$cliente['nome']</code> e outro usa <code>$cliente['Nome']</code>. O PHP não
+              reclama: só mostra vazio. Com o sistema crescendo, cada pessoa escreve a chave de um jeito, e a regra de
+              validar fica copiada em vários lugares.
+            </p>
+            <p>
+              Como garantir que todo cliente tenha sempre os mesmos dados e as mesmas regras? Hoje o cliente deixa de ser
+              um array solto e vira um <strong>objeto</strong>: uma peça só, com os dados e as regras juntos.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== CONCEITOS ===================== -->
+        <section class="parte" id="conceitos">
+          <div class="cab">
+            <span class="olho">C1–C7 · conceitos</span>
+            <h2>Do array ao objeto, em sete peças</h2>
+          </div>
+
+          <!-- conceito 1 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C1</span>
+              <h3>Classe é o molde; objeto é a peça</h3>
+              <p>A <strong>classe</strong> é o projeto: diz que dados todo cliente tem e o que ele sabe fazer. O <strong>objeto</strong> é um cliente de verdade, feito a partir desse projeto, com os dados dele.</p>
+              <p>É como uma placa de circuito: o projeto é um só, e cada placa fabricada é uma peça diferente. O <code>new</code> é a fábrica.</p>
+            </div>
+            <pre class="codigo" aria-label="Classe Cliente e dois objetos"><code><span class="linha"><span class="num">1</span><span class="com">// a classe: o molde (um arquivo, Cliente.php)</span></span><span class="linha"><span class="num">2</span><span class="tag">class</span> Cliente</span><span class="linha"><span class="num">3</span>{</span><span class="linha"><span class="num">4</span>    <span class="com">// os dados e as regras de todo cliente moram aqui</span></span><span class="linha"><span class="num">5</span>}</span><span class="linha"><span class="num">6</span></span><span class="linha"><span class="num">7</span><span class="com">// os objetos: as peças, cada uma com os seus dados</span></span><span class="linha"><span class="num">8</span><span class="var">$ana</span> = <span class="tag">new</span> <span class="fn">Cliente</span>(<span class="str">'Ana Souza'</span>, <span class="str">'ana@email.com'</span>);</span><span class="linha"><span class="num">9</span><span class="var">$bruno</span> = <span class="tag">new</span> <span class="fn">Cliente</span>(<span class="str">'Bruno Lima'</span>, <span class="str">'bruno@email.com'</span>);</span></code></pre>
+          </div>
+          <!-- conceito 2 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C2</span>
+              <h3>Atributos e o construtor</h3>
+              <p>Os <strong>atributos</strong> são os dados do objeto: nome, e-mail. O <strong>construtor</strong>, <code>__construct</code>, roda sozinho no <code>new</code> e preenche esses dados.</p>
+              <p>No PHP 8, dá para criar e preencher o atributo direto nos parênteses do construtor: é a <strong>promoção de propriedades</strong>. Menos código, o mesmo resultado.</p>
+              <p class="dica"><strong>Nome de arquivo:</strong> uma classe por arquivo, com o nome da classe e a primeira letra maiúscula: <code>Cliente.php</code>.</p>
+            </div>
+            <pre class="codigo" aria-label="Construtor com promoção de propriedades"><code><span class="linha"><span class="num">1</span><span class="tag">class</span> Cliente</span><span class="linha"><span class="num">2</span>{</span><span class="linha"><span class="num">3</span>    <span class="com">// promoção de propriedades: o atributo nasce aqui mesmo</span></span><span class="linha"><span class="num">4</span>    <span class="tag">public</span> <span class="tag">function</span> <span class="fn">__construct</span>(</span><span class="linha"><span class="num">5</span>        <span class="tag">public</span> <span class="tag">string</span> <span class="var">$nome</span>,</span><span class="linha"><span class="num">6</span>        <span class="tag">public</span> <span class="tag">string</span> <span class="var">$email</span></span><span class="linha"><span class="num">7</span>    ) {</span><span class="linha"><span class="num">8</span>    }</span><span class="linha"><span class="num">9</span>}</span><span class="linha"><span class="num">10</span></span><span class="linha"><span class="num">11</span><span class="var">$ana</span> = <span class="tag">new</span> <span class="fn">Cliente</span>(<span class="str">'Ana Souza'</span>, <span class="str">'ana@email.com'</span>);</span><span class="linha"><span class="num">12</span><span class="tag">echo</span> <span class="var">$ana</span>-&gt;nome;   <span class="com">// Ana Souza</span></span></code></pre>
+          </div>
+          <!-- conceito 3 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C3</span>
+              <h3>Métodos, $this e a setinha -></h3>
+              <p><strong>Método</strong> é uma função que mora dentro da classe. Dentro dele, <code>$this</code> quer dizer "este objeto aqui": é assim que o método acha os dados do próprio cliente.</p>
+              <p>A setinha <code>-&gt;</code> chama o atributo ou o método de um objeto: <code>$ana-&gt;nome</code>, <code>$ana-&gt;primeiroNome()</code>.</p>
+            </div>
+            <pre class="codigo" aria-label="Método primeiroNome usando $this"><code><span class="linha"><span class="num">1</span><span class="tag">class</span> Cliente</span><span class="linha"><span class="num">2</span>{</span><span class="linha"><span class="num">3</span>    <span class="com">// ... o construtor da C2 ...</span></span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span>    <span class="com">// "Ana Souza" vira "Ana"</span></span><span class="linha"><span class="num">6</span>    <span class="tag">public</span> <span class="tag">function</span> <span class="fn">primeiroNome</span>(): <span class="tag">string</span></span><span class="linha"><span class="num">7</span>    {</span><span class="linha"><span class="num">8</span>        <span class="tag">return</span> <span class="fn">explode</span>(<span class="str">' '</span>, <span class="fn">trim</span>(<span class="var">$this</span>-&gt;nome))[0];</span><span class="linha"><span class="num">9</span>    }</span><span class="linha"><span class="num">10</span>}</span><span class="linha"><span class="num">11</span></span><span class="linha"><span class="num">12</span><span class="var">$ana</span> = <span class="tag">new</span> <span class="fn">Cliente</span>(<span class="str">'Ana Souza'</span>, <span class="str">'ana@email.com'</span>);</span><span class="linha"><span class="num">13</span><span class="tag">echo</span> <span class="str">'Olá, '</span> . <span class="var">$ana</span>-&gt;<span class="fn">primeiroNome</span>();   <span class="com">// Olá, Ana</span></span></code></pre>
+          </div>
+          <!-- conceito 4 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C4</span>
+              <h3>public e private: quem pode mexer</h3>
+              <p><code>public</code> qualquer arquivo lê e muda. <code>private</code> só a própria classe mexe: por fora, só pelos métodos dela. É assim que a regra fica num lugar só.</p>
+              <p>O telefone é <code>private</code>: a classe guarda só os números e entrega formatado. Ninguém grava <code>"(61)  9-9599"</code> torto por engano.</p>
+              <p class="dica cuidado"><strong>Tentou ler de fora?</strong> O PHP para tudo com <code>Cannot access private property</code>. Não é bug: é a proteção funcionando.</p>
+            </div>
+            <pre class="codigo" aria-label="Atributo private e método public"><code><span class="linha"><span class="num">1</span><span class="tag">class</span> Cliente</span><span class="linha"><span class="num">2</span>{</span><span class="linha"><span class="num">3</span>    <span class="tag">private</span> <span class="tag">string</span> <span class="var">$telefone</span>;   <span class="com">// só a classe mexe</span></span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span>    <span class="tag">public</span> <span class="tag">function</span> <span class="fn">telefoneFormatado</span>(): <span class="tag">string</span></span><span class="linha"><span class="num">6</span>    {</span><span class="linha"><span class="num">7</span>        <span class="com">// a regra de formatar mora aqui, e só aqui</span></span><span class="linha"><span class="num">8</span>    }</span><span class="linha"><span class="num">9</span>}</span><span class="linha"><span class="num">10</span></span><span class="linha"><span class="num">11</span><span class="tag">echo</span> <span class="var">$ana</span>-&gt;<span class="fn">telefoneFormatado</span>();   <span class="com">// (61) 99599-3513</span></span><span class="linha"><span class="num">12</span><span class="tag">echo</span> <span class="var">$ana</span>-&gt;telefone;              <span class="com">// erro: é private</span></span></code></pre>
+          </div>
+          <!-- conceito 5 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C5</span>
+              <h3>Do array ao objeto</h3>
+              <p>Com array, cada arquivo escreve a chave do seu jeito: <code>'nome'</code> num lugar, <code>'Nome'</code> no outro, e ninguém avisa. Com objeto, a classe define os nomes, e o VS Code até sugere enquanto você digita.</p>
+              <p>Errou o nome do atributo? O PHP avisa na hora, em vez de deixar o dado sumir em silêncio.</p>
+            </div>
+            <pre class="codigo" aria-label="Comparando array e objeto"><code><span class="linha"><span class="num">1</span><span class="com">// estruturado: um array, e cada um escreve a chave como quer</span></span><span class="linha"><span class="num">2</span><span class="var">$cliente</span> = [<span class="str">'nome'</span> =&gt; <span class="str">'Ana Souza'</span>, <span class="str">'email'</span> =&gt; <span class="str">'ana@email.com'</span>];</span><span class="linha"><span class="num">3</span><span class="tag">echo</span> <span class="var">$cliente</span>[<span class="str">'Nome'</span>];     <span class="com">// vazio: chave escrita diferente</span></span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="com">// orientado a objetos: a classe manda nos nomes</span></span><span class="linha"><span class="num">6</span><span class="var">$cliente</span> = <span class="tag">new</span> <span class="fn">Cliente</span>(<span class="str">'Ana Souza'</span>, <span class="str">'ana@email.com'</span>);</span><span class="linha"><span class="num">7</span><span class="tag">echo</span> <span class="var">$cliente</span>-&gt;nome;       <span class="com">// Ana Souza</span></span><span class="linha"><span class="num">8</span><span class="tag">echo</span> <span class="var">$cliente</span>-&gt;Nome;       <span class="com">// aviso: esse atributo não existe</span></span></code></pre>
+          </div>
+          <!-- conceito 6 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C6</span>
+              <h3>Onde a classe mora no MVC</h3>
+              <p>A classe <code>Cliente</code> faz parte do <strong>modelo</strong>: é a ficha técnica do prato, que a cozinha segue. O garçom (controle) monta o pedido com <code>new Cliente(...)</code>; a cozinha (<code>clientes.php</code>) grava e devolve objetos; o prato (a visão) só mostra.</p>
+              <p>O <code>validar.php</code> some: a validação virou o método <code>validar()</code>, junto dos dados que ela confere.</p>
+            </div>
+            <pre class="codigo" aria-label="A classe Cliente no MVC"><code><span class="linha"><span class="num">1</span><span class="com">// cadastro.php (controle)</span></span><span class="linha"><span class="num">2</span><span class="var">$cliente</span> = <span class="tag">new</span> <span class="fn">Cliente</span>(<span class="var">$nome</span>, <span class="var">$email</span>);</span><span class="linha"><span class="num">3</span><span class="var">$erros</span> = <span class="var">$cliente</span>-&gt;<span class="fn">validar</span>();</span><span class="linha"><span class="num">4</span><span class="fn">inserirCliente</span>(<span class="var">$cliente</span>);</span><span class="linha"><span class="num">5</span></span><span class="linha"><span class="num">6</span><span class="com">// clientes.php (modelo): recebe e devolve objetos</span></span><span class="linha"><span class="num">7</span><span class="tag">function</span> <span class="fn">inserirCliente</span>(Cliente <span class="var">$cliente</span>): <span class="tag">void</span> { /* ... */ }</span><span class="linha"><span class="num">8</span></span><span class="linha"><span class="num">9</span><span class="com">// tela-cadastro.php (visão)</span></span><span class="linha"><span class="num">10</span><span class="tag">echo</span> <span class="var">$cliente</span>-&gt;<span class="fn">primeiroNome</span>();</span></code></pre>
+          </div>
+          <!-- conceito 7: GitHub -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C7</span>
+              <h3>GitHub: cada versão é um commit</h3>
+              <p>Refatorar é mudar o código sem mudar o que ele faz. Com um commit por versão, dá para voltar atrás se algo quebrar e mostrar, no GitHub, como o projeto evoluiu.</p>
+              <p>O <code>git status</code> mostra o que mudou, até o <code>validar.php</code> apagado. A mensagem do commit conta o que foi feito: "Versão 2: cadastro com objetos" diz muito mais que "ajustes".</p>
+              <p class="dica"><strong>Lembrete:</strong> o <code>clientes.sqlite</code> continua no <code>.gitignore</code>. Dado de cliente não vai para o GitHub.</p>
+            </div>
+            <pre class="codigo" aria-label="Comandos do Git para guardar cada versão"><code><span class="linha"><span class="num">1</span>git status   <span class="com"># o que mudou desde o último commit</span></span><span class="linha"><span class="num">2</span></span><span class="linha"><span class="num">3</span>deleted:    validar.php   <span class="com"># o arquivo apagado também aparece</span></span><span class="linha"><span class="num">4</span>new file:   Cliente.php</span><span class="linha"><span class="num">5</span></span><span class="linha"><span class="num">6</span>git add .   <span class="com"># junta tudo, até o que foi apagado</span></span><span class="linha"><span class="num">7</span>git commit -m &quot;Versão 2: cadastro com objetos&quot;</span><span class="linha"><span class="num">8</span>git log --oneline   <span class="com"># a história do projeto, uma linha por versão</span></span><span class="linha"><span class="num">9</span>git push   <span class="com"># manda as versões para o GitHub</span></span></code></pre>
+          </div>
+
+          <!-- interativo: fabricar um objeto Cliente (assets/js/interativos-php.js) -->
+          <div class="cartao interativo" data-molde-cliente>
+            <span class="olho">I1 · experimente</span>
+            <h3>Laboratório do molde</h3>
+            <p>Digite os dados e fabrique um cliente. Cada clique em <code>new Cliente(...)</code> é uma peça nova, saída do mesmo molde.</p>
+            <div class="molde-campos">
+              <label>Nome <input type="text" name="nome" value="Ana Souza" autocomplete="off"></label>
+              <label>E-mail <input type="text" name="email" value="ana@email.com" autocomplete="off"></label>
+              <button type="button" class="botao">new Cliente(...)</button>
+            </div>
+            <div class="molde-pecas" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- ===================== TUTORIAL ===================== -->
+        <section class="parte" id="tutorial">
+          <div class="cab">
+            <span class="olho">T1 · tutorial</span>
+            <h2>Mão na massa: o cliente vira objeto em 3 versões</h2>
+            <p>
+              Cada versão é o projeto inteiro, pronto para copiar. Faça uma de cada vez: copie, rode, teste, entenda o
+              que mudou e só depois passe para a próxima.
+            </p>
+            <p class="dica"><strong>O combinado de hoje:</strong> as <strong>versões 1 e 2</strong> na aula. A versão 3 (telefone e <code>private</code>) é para quem terminar antes ou para casa.</p>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Antes de começar</span>
+            <h3>O ponto de partida é a versão 4 da aula 9</h3>
+            <ol>
+              <li>Abra a pasta <code>cadastro-clientes</code> no VS Code. Não terminou a versão 4? Copie da <a href="aula-09.html#tutorial">aula 9</a>.</li>
+              <li>Ligue o servidor no terminal do VS Code: <code>php -S localhost:8000</code>. No laboratório: <code>C:\xampp\php\php.exe -S localhost:8000</code>.</li>
+              <li>Confira se <code>http://localhost:8000/cadastro.php</code> abre e cadastra.</li>
+              <li>Rode <code>git status</code>: tem que aparecer "nothing to commit". Se aparecer arquivo mudado, faça o commit antes de começar.</li>
+            </ol>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 1</span>
+            <h3>O molde: a classe Cliente, testada sozinha</h3>
+            <p>Antes de mexer no cadastro, a classe nasce num arquivo só e é testada numa página de teste. Se der erro, o erro está na classe, e não no cadastro inteiro.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie o arquivo <code>Cliente.php</code> (com C maiúsculo), cole o código e salve.</li>
+            <li>Crie o <code>teste-cliente.php</code>, cole e salve.</li>
+            <li>Abra <code>http://localhost:8000/teste-cliente.php</code>: a Ana passa sem erro e a Bi recebe os dois avisos.</li>
+            <li>Brinque: troque os dados da Bi até ela passar sem erro.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="Cliente.php" data-estado="novo">
+<?php
+// Cliente.php: a CLASSE, o molde de todo cliente do sistema.
+// Ela faz parte do MODELO: sabe que dados um cliente tem e quais são as regras dele.
+
+class Cliente
+{
+    // o construtor roda no "new Cliente(...)" e já cria os atributos (promoção de propriedades, PHP 8)
+    public function __construct(
+        public string $nome,
+        public string $email
+    ) {
+    }
+
+    // a validação da aula 9 virou método: cada cliente sabe conferir os próprios dados
+    public function validar(): array
+    {
+        $erros = [];
+        if (strlen($this->nome) < 3) {
+            $erros[] = 'O nome precisa de pelo menos 3 letras.';
+        }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $erros[] = 'Digite um e-mail válido.';
+        }
+        return $erros;
+    }
+
+    // "Ana Souza" vira "Ana"
+    public function primeiroNome(): string
+    {
+        return explode(' ', trim($this->nome))[0];
+    }
+}
+</script>
+            <script type="text/plain" data-arquivo="teste-cliente.php" data-estado="novo">
+<?php
+// teste-cliente.php: testa a classe sozinha, antes de mexer no cadastro
+require_once __DIR__ . '/Cliente.php';
+
+// dois objetos (duas peças) saídos do mesmo molde
+$ana = new Cliente('Ana Souza', 'ana@email.com');
+$bia = new Cliente('Bi', 'bia-sem-arroba');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste da classe Cliente</title>
+</head>
+<body>
+  <h1>Teste da classe Cliente</h1>
+
+  <p>Olá, <?= htmlspecialchars($ana->primeiroNome()) ?>! Erros: <?= count($ana->validar()) ?></p>
+
+  <p>Olá, <?= htmlspecialchars($bia->primeiroNome()) ?>! Erros:</p>
+  <ul>
+    <?php foreach ($bia->validar() as $erro): ?>
+      <li><?= htmlspecialchars($erro) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="igual">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, confere os dados e pede ao modelo para gravar.
+require_once __DIR__ . '/validar.php';
+require_once __DIR__ . '/clientes.php';
+
+$nome = '';
+$email = '';
+$erros = [];
+$mensagem = '';
+
+// só entra aqui quando o formulário é enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+
+    // 1. o validar.php confere o formato
+    $erros = validarCliente($nome, $email);
+
+    // 2. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 3. tudo certo: o modelo grava e o formulário fica limpo
+    if (!$erros) {
+        inserirCliente($nome, $email);
+        $mensagem = 'Cliente cadastrado!';
+        $nome = '';
+        $email = '';
+    }
+}
+
+// 4. pede ao modelo a lista atualizada
+$clientes = listarClientes();
+
+// 5. por fim, mostra a tela (a visão), que usa as variáveis acima
+require __DIR__ . '/tela-cadastro.php';
+</script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="igual">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Quem precisar de clientes chama uma destas funções.
+require_once __DIR__ . '/banco.php';
+
+// grava um cliente novo
+function inserirCliente(string $nome, string $email): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':nome' => $nome, ':email' => $email]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética
+function listarClientes(): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email FROM clientes ORDER BY nome';
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+</script>
+            <script type="text/plain" data-arquivo="tela-cadastro.php" data-estado="igual">
+<?php // tela-cadastro.php: a VISÃO. Só mostra a página; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+    <?php foreach ($clientes as $cliente): ?>
+      <li><?= htmlspecialchars($cliente['nome']) ?> · <?= htmlspecialchars($cliente['email']) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="igual">
+<?php
+// banco.php: abre a conexão com o banco de dados.
+// Na primeira vez, cria o arquivo clientes.sqlite e a tabela sozinho.
+
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // cria a tabela só se ela ainda não existir
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE
+    )');
+
+    return $pdo;
+}
+</script>
+            <script type="text/plain" data-arquivo="validar.php" data-estado="igual">
+<?php
+// confere os dados e devolve a lista de erros (vazia = tudo certo)
+function validarCliente(string $nome, string $email): array
+{
+    $erros = [];
+    if (strlen($nome) < 3) {
+        $erros[] = 'O nome precisa de pelo menos 3 letras.';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erros[] = 'Digite um e-mail válido.';
+    }
+    return $erros;
+}
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="igual">
+clientes.sqlite
+</script>
+            <script type="text/plain" data-previa="teste-cliente.php">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste da classe Cliente</title>
+</head>
+<body>
+  <h1>Teste da classe Cliente</h1>
+
+  <p>Olá, Ana! Erros: 0</p>
+
+  <p>Olá, Bi! Erros:</p>
+  <ul>
+          <li>O nome precisa de pelo menos 3 letras.</li>
+          <li>Digite um e-mail válido.</li>
+      </ul>
+</body>
+</html>
+</script>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 1: classe Cliente"</code>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 2</span>
+            <h3>O cadastro usa objetos</h3>
+            <p>Agora o controle monta um <code>new Cliente(...)</code>, o próprio cliente se valida, o modelo grava e devolve objetos, e a visão troca <code>$cliente['nome']</code> por <code>$cliente-&gt;nome</code>.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Troque o <code>cadastro.php</code>, o <code>clientes.php</code> e o <code>tela-cadastro.php</code> pelos da aba (as etiquetas "mudou" mostram quais).</li>
+            <li><strong>Apague o <code>validar.php</code>:</strong> a validação agora é o método <code>validar()</code> da classe.</li>
+            <li>Cadastre alguém e veja a mensagem com o primeiro nome. Tente o mesmo e-mail de novo: o aviso continua.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, monta o objeto Cliente e pede ao modelo para gravar.
+require_once __DIR__ . '/Cliente.php';
+require_once __DIR__ . '/clientes.php';
+
+$nome = '';
+$email = '';
+$erros = [];
+$mensagem = '';
+
+// só entra aqui quando o formulário é enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+
+    // 1. monta o objeto: daqui em diante, o cliente é uma peça só
+    $cliente = new Cliente($nome, $email);
+
+    // 2. o próprio cliente confere os dados (o antigo validar.php virou método)
+    $erros = $cliente->validar();
+
+    // 3. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($cliente->email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 4. tudo certo: o modelo grava o objeto inteiro e o formulário fica limpo
+    if (!$erros) {
+        inserirCliente($cliente);
+        $mensagem = 'Pronto, ' . $cliente->primeiroNome() . ' está no cadastro!';
+        $nome = '';
+        $email = '';
+    }
+}
+
+// 5. pede ao modelo a lista atualizada (agora é uma lista de objetos Cliente)
+$clientes = listarClientes();
+
+// 6. por fim, mostra a tela (a visão), que usa as variáveis acima
+require __DIR__ . '/tela-cadastro.php';
+</script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="mudou">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Agora ele recebe e devolve objetos Cliente, e não arrays.
+require_once __DIR__ . '/banco.php';
+require_once __DIR__ . '/Cliente.php';
+
+// grava um cliente novo (recebe o objeto inteiro)
+function inserirCliente(Cliente $cliente): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email) VALUES (:nome, :email)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':nome' => $cliente->nome, ':email' => $cliente->email]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética: cada linha do banco vira um objeto
+function listarClientes(): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email FROM clientes ORDER BY nome';
+    $clientes = [];
+    foreach ($pdo->query($sql) as $linha) {
+        $clientes[] = new Cliente($linha['nome'], $linha['email']);
+    }
+    return $clientes;
+}
+</script>
+            <script type="text/plain" data-arquivo="tela-cadastro.php" data-estado="mudou">
+<?php // tela-cadastro.php: a VISÃO. Só mostra a página; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+    <?php foreach ($clientes as $cliente): ?>
+      <li><?= htmlspecialchars($cliente->nome) ?> · <?= htmlspecialchars($cliente->email) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="Cliente.php" data-estado="igual">
+<?php
+// Cliente.php: a CLASSE, o molde de todo cliente do sistema.
+// Ela faz parte do MODELO: sabe que dados um cliente tem e quais são as regras dele.
+
+class Cliente
+{
+    // o construtor roda no "new Cliente(...)" e já cria os atributos (promoção de propriedades, PHP 8)
+    public function __construct(
+        public string $nome,
+        public string $email
+    ) {
+    }
+
+    // a validação da aula 9 virou método: cada cliente sabe conferir os próprios dados
+    public function validar(): array
+    {
+        $erros = [];
+        if (strlen($this->nome) < 3) {
+            $erros[] = 'O nome precisa de pelo menos 3 letras.';
+        }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $erros[] = 'Digite um e-mail válido.';
+        }
+        return $erros;
+    }
+
+    // "Ana Souza" vira "Ana"
+    public function primeiroNome(): string
+    {
+        return explode(' ', trim($this->nome))[0];
+    }
+}
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="igual">
+<?php
+// banco.php: abre a conexão com o banco de dados.
+// Na primeira vez, cria o arquivo clientes.sqlite e a tabela sozinho.
+
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // cria a tabela só se ela ainda não existir
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE
+    )');
+
+    return $pdo;
+}
+</script>
+            <script type="text/plain" data-arquivo="teste-cliente.php" data-estado="igual">
+<?php
+// teste-cliente.php: testa a classe sozinha, antes de mexer no cadastro
+require_once __DIR__ . '/Cliente.php';
+
+// dois objetos (duas peças) saídos do mesmo molde
+$ana = new Cliente('Ana Souza', 'ana@email.com');
+$bia = new Cliente('Bi', 'bia-sem-arroba');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste da classe Cliente</title>
+</head>
+<body>
+  <h1>Teste da classe Cliente</h1>
+
+  <p>Olá, <?= htmlspecialchars($ana->primeiroNome()) ?>! Erros: <?= count($ana->validar()) ?></p>
+
+  <p>Olá, <?= htmlspecialchars($bia->primeiroNome()) ?>! Erros:</p>
+  <ul>
+    <?php foreach ($bia->validar() as $erro): ?>
+      <li><?= htmlspecialchars($erro) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="igual">
+clientes.sqlite
+</script>
+            <script type="text/plain" data-previa="Primeira visita">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+    
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+      </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Depois de cadastrar &quot;Ana Souza&quot;">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+        <p class="sucesso">Pronto, Ana está no cadastro!</p>
+  
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+          <li>Ana Souza · ana@email.com</li>
+      </ul>
+</body>
+</html>
+</script>
+          </div>
+          <p class="tutorial-commit">Funcionou? Confira com <code>git status</code> (o <code>validar.php</code> aparece como apagado), depois <code>git add .</code>, <code>git commit -m "Versão 2: cadastro com objetos"</code> e <code>git push</code>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 3</span>
+            <h3>Telefone protegido com private</h3>
+            <p>O cliente ganha telefone. Ele é <code>private</code>: a classe guarda só os números e entrega formatado, com <code>telefoneFormatado()</code>.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Troque o <code>Cliente.php</code>, o <code>banco.php</code>, o <code>clientes.php</code>, o <code>cadastro.php</code> e o <code>tela-cadastro.php</code>.</li>
+            <li><strong>Apague o arquivo <code>clientes.sqlite</code></strong>: a tabela ganhou a coluna telefone e precisa nascer de novo. Os clientes de teste somem, e tudo bem.</li>
+            <li>Cadastre com o telefone escrito de vários jeitos: <code>(61) 99599-3513</code>, <code>61995993513</code>. Na lista, sai sempre igual.</li>
+            <li>Experimente: no <code>teste-cliente.php</code>, escreva <code>echo $ana-&gt;telefone;</code> e veja o PHP proteger o dado.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="Cliente.php" data-estado="mudou">
+<?php
+// Cliente.php: a CLASSE, o molde de todo cliente do sistema.
+// Ela faz parte do MODELO: sabe que dados um cliente tem e quais são as regras dele.
+
+class Cliente
+{
+    // private: só a própria classe mexe no telefone. Por fora, só com os métodos dela.
+    private string $telefone;
+
+    public function __construct(
+        public string $nome,
+        public string $email,
+        string $telefone
+    ) {
+        // guarda só os números: "(61) 99599-3513" e "61995993513" ficam iguais
+        $this->telefone = preg_replace('/\D/', '', $telefone);
+    }
+
+    // cada cliente sabe conferir os próprios dados
+    public function validar(): array
+    {
+        $erros = [];
+        if (strlen($this->nome) < 3) {
+            $erros[] = 'O nome precisa de pelo menos 3 letras.';
+        }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $erros[] = 'Digite um e-mail válido.';
+        }
+        if (strlen($this->telefone) < 10 || strlen($this->telefone) > 11) {
+            $erros[] = 'Digite o telefone com DDD (10 ou 11 números).';
+        }
+        return $erros;
+    }
+
+    // "Ana Souza" vira "Ana"
+    public function primeiroNome(): string
+    {
+        return explode(' ', trim($this->nome))[0];
+    }
+
+    // só os números, do jeito que vão para o banco
+    public function telefoneSoNumeros(): string
+    {
+        return $this->telefone;
+    }
+
+    // "61995993513" vira "(61) 99599-3513"; "6133334444" vira "(61) 3333-4444"
+    public function telefoneFormatado(): string
+    {
+        $ddd = substr($this->telefone, 0, 2);
+        $resto = substr($this->telefone, 2);
+        $meio = strlen($resto) - 4;
+        return '(' . $ddd . ') ' . substr($resto, 0, $meio) . '-' . substr($resto, $meio);
+    }
+}
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
+<?php
+// banco.php: abre a conexão com o banco de dados.
+// Na primeira vez, cria o arquivo clientes.sqlite e a tabela sozinho.
+
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/clientes.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // cria a tabela só se ela ainda não existir (agora com a coluna telefone)
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        telefone TEXT NOT NULL
+    )');
+
+    return $pdo;
+}
+</script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="mudou">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Agora ele recebe e devolve objetos Cliente, e não arrays.
+require_once __DIR__ . '/banco.php';
+require_once __DIR__ . '/Cliente.php';
+
+// grava um cliente novo (recebe o objeto inteiro)
+function inserirCliente(Cliente $cliente): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email, telefone) VALUES (:nome, :email, :telefone)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':nome' => $cliente->nome,
+        ':email' => $cliente->email,
+        ':telefone' => $cliente->telefoneSoNumeros(),
+    ]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética: cada linha do banco vira um objeto
+function listarClientes(): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email, telefone FROM clientes ORDER BY nome';
+    $clientes = [];
+    foreach ($pdo->query($sql) as $linha) {
+        $clientes[] = new Cliente($linha['nome'], $linha['email'], $linha['telefone']);
+    }
+    return $clientes;
+}
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, monta o objeto Cliente e pede ao modelo para gravar.
+require_once __DIR__ . '/Cliente.php';
+require_once __DIR__ . '/clientes.php';
+
+$nome = '';
+$email = '';
+$telefone = '';
+$erros = [];
+$mensagem = '';
+
+// só entra aqui quando o formulário é enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $telefone = trim($_POST['telefone'] ?? '');
+
+    // 1. monta o objeto: daqui em diante, o cliente é uma peça só
+    $cliente = new Cliente($nome, $email, $telefone);
+
+    // 2. o próprio cliente confere os dados (o antigo validar.php virou método)
+    $erros = $cliente->validar();
+
+    // 3. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($cliente->email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 4. tudo certo: o modelo grava o objeto inteiro e o formulário fica limpo
+    if (!$erros) {
+        inserirCliente($cliente);
+        $mensagem = 'Pronto, ' . $cliente->primeiroNome() . ' está no cadastro!';
+        $nome = '';
+        $email = '';
+        $telefone = '';
+    }
+}
+
+// 5. pede ao modelo a lista atualizada (agora é uma lista de objetos Cliente)
+$clientes = listarClientes();
+
+// 6. por fim, mostra a tela (a visão), que usa as variáveis acima
+require __DIR__ . '/tela-cadastro.php';
+</script>
+            <script type="text/plain" data-arquivo="tela-cadastro.php" data-estado="mudou">
+<?php // tela-cadastro.php: a VISÃO. Só mostra a página; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <label for="telefone">Telefone (com DDD)</label>
+    <input id="telefone" name="telefone" value="<?= htmlspecialchars($telefone) ?>">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+    <?php foreach ($clientes as $cliente): ?>
+      <li><?= htmlspecialchars($cliente->nome) ?> · <?= htmlspecialchars($cliente->email) ?> · <?= $cliente->telefoneFormatado() ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="teste-cliente.php" data-estado="igual">
+<?php
+// teste-cliente.php: testa a classe sozinha, antes de mexer no cadastro
+require_once __DIR__ . '/Cliente.php';
+
+// dois objetos (duas peças) saídos do mesmo molde
+$ana = new Cliente('Ana Souza', 'ana@email.com', '61995993513');
+$bia = new Cliente('Bi', 'bia-sem-arroba', '123');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste da classe Cliente</title>
+</head>
+<body>
+  <h1>Teste da classe Cliente</h1>
+
+  <p>Olá, <?= htmlspecialchars($ana->primeiroNome()) ?>! Erros: <?= count($ana->validar()) ?></p>
+
+  <p>Olá, <?= htmlspecialchars($bia->primeiroNome()) ?>! Erros:</p>
+  <ul>
+    <?php foreach ($bia->validar() as $erro): ?>
+      <li><?= htmlspecialchars($erro) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="igual">
+clientes.sqlite
+</script>
+            <script type="text/plain" data-previa="Depois de cadastrar Ana e Bruno">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+        <p class="sucesso">Pronto, Bruno está no cadastro!</p>
+  
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="">
+
+    <label for="telefone">Telefone (com DDD)</label>
+    <input id="telefone" name="telefone" value="">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+          <li>Ana Souza · ana@email.com · (61) 99599-3513</li>
+          <li>Bruno Lima · bruno@email.com · (61) 3333-4444</li>
+      </ul>
+</body>
+</html>
+</script>
+          </div>
+          <p class="tutorial-commit">Funcionou? <code>git add .</code> e <code>git commit -m "Versão 3: telefone e private"</code>.</p>
+        </section>
+
+        <!-- ===================== CASO DE USO ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>O array que cresceu demais</h2>
+            <p>Caso fictício, criado para a aula.</p>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Atendente de uma pequena empresa de entregas</p>
+            <p><strong>Objetivo:</strong> Registrar um pedido com o endereço de entrega e calcular o frete.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>O atendente preenche o cliente, o endereço e o valor do pedido.</li>
+              <li>O sistema confere os dados e calcula o frete (grátis acima de um valor).</li>
+              <li>Grava o pedido.</li>
+              <li>O entregador vê o pedido com o endereço na tela dele.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>Cada programador escreveu a chave de um jeito (<code>endereco</code>, <code>endereço</code>, <code>end_entrega</code>): o entregador saiu com o endereço em branco.</li>
+              <li>A regra do frete grátis estava copiada em seis arquivos, cada uma diferente: o mesmo pedido pagava frete numa tela e não pagava na outra.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Como uma classe <code>Pedido</code> evitaria as chaves diferentes?</li>
+              <li>Onde a regra do frete deveria morar?</li>
+              <li>Que dados do pedido deveriam ser <code>private</code>?</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== FÁBRICA DE CLASSES (desafio gamificado) ===================== -->
+        <section class="parte" id="fabrica">
+          <div class="cab">
+            <span class="olho">G1 · desafio gamificado</span>
+            <h2>Fábrica de classes</h2>
+            <p>Em dupla: sorteiem uma classe da loja e criem com dois métodos. Depois troquem com outra dupla e testem a classe dela.</p>
+          </div>
+          <div class="cartao interativo" data-fabrica-classes>
+            <button type="button" class="botao">Sortear a classe da dupla</button>
+            <div class="fabrica-resultado" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- ===================== ATIVIDADE ===================== -->
+        <section class="parte" id="atividade">
+          <div class="cab">
+            <span class="olho">A1 · atividade</span>
+            <h2>Cliente vira objeto</h2>
+            <p>Vá marcando os passos: o que você marcar fica salvo neste navegador.</p>
+          </div>
+
+          <div class="cartao">
+            <div class="progresso-atividade" data-progresso="passos-aula-11">
+              <span class="contagem">0 de 6</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <ol class="checklist" id="passos-aula-11">
+              <li><label><input type="checkbox"><span>Criei a classe <code>Cliente</code> com atributos e construtor.</span></label></li>
+              <li><label><input type="checkbox"><span>Transformei a validação em método da classe.</span></label></li>
+              <li><label><input type="checkbox"><span>Criei pelo menos mais um método útil.</span></label></li>
+              <li><label><input type="checkbox"><span>Troquei os arrays do cadastro por objetos.</span></label></li>
+              <li><label><input type="checkbox"><span>Testei a classe de outra dupla na fábrica de classes.</span></label></li>
+              <li><label><input type="checkbox"><span>Fiz um commit por versão e o push no GitHub (confira com <code>git log --oneline</code>).</span></label></li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== CONEXÃO STEAM ===================== -->
+        <section class="parte" id="steam">
+          <div class="cab">
+            <span class="olho">S1 · conexão STEAM</span>
+            <h2>Encapsular é coisa de chip</h2>
+          </div>
+          <div class="steam">
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">E</span>
+              <h3>Eletrônica</h3>
+              <p>Um chip esconde os circuitos dentro do encapsulamento e deixa de fora só os pinos. A classe faz igual: o <code>private</code> é o circuito escondido, e os métodos <code>public</code> são os pinos.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">M</span>
+              <h3>Matemática</h3>
+              <p>A classe é como a definição de um conjunto: diz o que todo elemento tem. Cada objeto é um elemento. E um método é uma função: entra um cliente, sai o primeiro nome.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">A</span>
+              <h3>Arte</h3>
+              <p>Na arte com sucata, um molde gera várias peças, e cada uma ganha a sua cor e o seu acabamento. Mesmo molde, peças diferentes: classe e objetos.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== DESAFIO EXTRA ===================== -->
+        <section class="parte" id="desafio">
+          <div class="cab">
+            <span class="olho">D1 · desafio extra</span>
+            <h2>Terminou antes? Tem mais.</h2>
+          </div>
+          <div class="cartao">
+            <p>Crie o método <code>iniciais()</code>, que transforma "Ana Souza" em "AS", e mostre as iniciais numa bolinha ao lado de cada cliente da lista. Dica: <code>explode()</code> separa as palavras e <code>$palavra[0]</code> pega a primeira letra.</p>
+          </div>
+        </section>
+
+        <!-- ===================== MATERIAIS ===================== -->
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para estudar e praticar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="../curso/#/module/m9">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>curso/módulo 9</span>
+              <h4>Classes e objetos no curso básico</h4>
+              <p>Lições e o quiz do módulo 9, para revisar e conferir.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">quiz</span></span>
+            </a>
+            <a class="repo luz" href="https://www.php.net/manual/pt_BR/language.oop5.php">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>php.net</span>
+              <h4>Manual do PHP: classes e objetos</h4>
+              <p>Construtor, visibilidade e tudo sobre orientação a objetos, em português.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">consulta</span></span>
+            </a>
+            <a class="repo luz" href="https://github.com/MARISTELAOLIVEIRA/Lab-PHP">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>Lab-PHP</span>
+              <h4>Kit de laboratório</h4>
+              <p>Servidor PHP embutido para testar sem instalar o XAMPP.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/github.svg" alt="" width="20" height="20"></span>PHP no GitHub</span><span class="etiqueta">praticar</span></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ===================== ENTREGA ===================== -->
+        <section class="parte" id="entrega">
+          <div class="cartao entrega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <div>
+              <span class="olho">E1 · entrega</span>
+              <h3>Commit e push da pasta <code>cadastro-clientes</code> com a classe Cliente</h3>
+              <p>Até o fim da aula, pelo menos com a versão 2, um commit por versão. Na próxima, o banco de dados ganha mais tabelas.</p>
+            </div>
+          </div>
+        </section>
+
+        <nav class="nav-aulas" aria-label="Outras aulas">
+          <!-- EDITE AQUI: use <a href="aula-NN.html"> quando a página da aula vizinha for liberada; <span> enquanto não for -->
+          <a class="anterior" href="aula-09.html">
+            <span class="olho">← aula anterior</span>
+            <strong>Aula 9: Do formulário ao banco de dados</strong>
+          </a>
+          <span class="proxima">
+            <span class="olho">próxima aula →</span>
+            <strong>Aula 12: Banco de dados: modelagem e tabelas</strong>
+          </span>
+        </nav>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Linguagem de Programação para Web II</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>&lt;?php echo "bons estudos!"; ?&gt;</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="../assets/js/aulas.js"></script>
+  <script src="../assets/js/tutorial-php.js?v=2"></script>
+  <script src="../assets/js/interativos-php.js?v=1"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>
