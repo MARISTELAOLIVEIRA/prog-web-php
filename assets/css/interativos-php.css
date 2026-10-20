@@ -1,0 +1,18 @@
+/* interativos-php.css: o visual das brincadeiras das aulas de PHP (assets/js/interativos-php.js) · versão 1 · 2026-10-20 */
+.interativo { display: grid; gap: .8rem; }
+.molde-campos { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: end; }
+.molde-campos label { display: grid; gap: .3rem; font-size: .92rem; color: var(--texto-2); }
+.molde-campos input { min-width: 12rem; padding: .5rem .7rem; border: 1px solid var(--borda-forte); border-radius: 10px; background: var(--superficie-2); color: var(--texto); font: inherit; }
+.molde-campos .botao { font-family: var(--f-mono); }
+.molde-pecas { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.peca { padding: .9rem 1rem; border: 1px solid var(--borda); border-radius: 12px; background: var(--chip); color: #f2efe6; display: grid; gap: .5rem; min-width: 0; }
+.peca-new { font-family: var(--f-mono); font-size: .78rem; color: #ecc874; overflow-wrap: anywhere; }
+.peca dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .25rem .7rem; font-size: .86rem; }
+.peca dt { font-family: var(--f-mono); color: #9fd0b7; }
+.peca dd { margin: 0; overflow-wrap: anywhere; }
+.peca-ok { color: #9fd0b7; }
+.peca-erro { color: #ff9db5; }
+.fabrica-resultado h3 { font-family: var(--f-mono); }
+.fabrica-resultado ul { padding-left: 1.2rem; }
+.fabrica-dica { color: var(--texto-2); font-size: .92rem; }
+.fabrica-girando { opacity: .6; }
