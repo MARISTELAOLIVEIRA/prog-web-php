@@ -1,12 +1,12 @@
 /* ===================================================================
-   atividades.js: as atividades que a professora publica pelo Placa-Mãe · versão 2 · 2026-10-19 (seção e link do menu que só aparecem com atividade)
+   atividades.js: as atividades que a professora publica pelo Placa-Mãe · versão 3 · 2026-10-19 (aviso "ainda não há atividade" some quando há alguma)
    (cópia comum às disciplinas)
 
    O Placa-Mãe escreve a lista em assets/data/atividades.json (e os anexos em assets/atividades/).
    Este arquivo só mostra:
      - na página inicial, um card para cada atividade dentro de [data-atividades];
        se a seção e o link do menu estão escondidos ([data-atividades-secao], [data-atividades-link],
-       como nos Labs), eles aparecem quando há pelo menos uma atividade;
+       eles aparecem quando há pelo menos uma atividade; o aviso [data-atividades-vazio] some;
      - em atividade.html?a=<id>, a atividade inteira: instruções, link e anexo
        (imagem aparece na página; outro arquivo vira botão de baixar).
    Os textos entram com textContent: nada do que vem do arquivo vira HTML.
@@ -43,6 +43,7 @@
       document.querySelectorAll("[data-atividades-secao], [data-atividades-link]").forEach(function (e) {
         e.style.display = "";
       });
+      document.querySelectorAll("[data-atividades-vazio]").forEach(function (e) { e.hidden = true; });
     }
     const primeiro = lista.firstElementChild;
     atividades.forEach(function (a, i) {
