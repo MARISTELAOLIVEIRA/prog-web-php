@@ -1,8 +1,10 @@
 /* ===================================================================
-   interativos-php.js: as brincadeiras das aulas de PHP · versão 1 · 2026-10-20
+   interativos-php.js: as brincadeiras das aulas de PHP · versão 2 · 2026-10-20
    - [data-molde-cliente]: "Laboratório do molde" (aula 11). Cada clique fabrica um objeto Cliente,
      com os mesmos atributos e métodos da classe do tutorial (primeiroNome e validar).
    - [data-fabrica-classes]: "Fábrica de classes" (aula 11). Sorteia a classe que a dupla vai criar.
+   - [data-planilha-loja]: "Quebra-cabeça da planilha" (aula 12). Cada coluna da planilha vai para uma
+     tabela (clientes, produtos ou pedidos); 10 XP por acerto e bônus de primeira.
    Os textos entram com textContent; a animação do sorteio para com o botão de pausa.
    =================================================================== */
 (function () {
@@ -101,6 +103,35 @@
           botao.disabled = false;
         }
       }, 90);
+    });
+  });
+  // ---------- Quebra-cabeça da planilha ----------
+  document.querySelectorAll("[data-planilha-loja]").forEach(function (caixa) {
+    const colunas = Array.from(caixa.querySelectorAll("label[data-resposta]"));
+    const saida = caixa.querySelector(".planilha-resultado");
+    let tentativas = 0;
+
+    caixa.querySelector("button").addEventListener("click", function () {
+      tentativas++;
+      let acertos = 0;
+      colunas.forEach(function (rotulo) {
+        const escolha = rotulo.querySelector("select").value;
+        const certo = escolha === rotulo.dataset.resposta;
+        if (certo) acertos++;
+        rotulo.classList.toggle("certo", certo);
+        rotulo.classList.toggle("errado", !certo && escolha !== "");
+      });
+      const total = colunas.length;
+      let xp = acertos * 10;
+      saida.textContent = "";
+      if (acertos === total) {
+        if (tentativas === 1) xp += 30;
+        saida.appendChild(el("p", "planilha-xp", "🏅 Insígnia Normalizador(a) · " + xp + " XP" + (tentativas === 1 ? " (com 30 de bônus de primeira!)" : "")));
+        saida.appendChild(el("p", "", "A Ana agora fica escrita uma vez só, em clientes. E a pergunta final: que coluna nova o pedido precisa para saber de quem é? (Resposta: cliente_id, a chave estrangeira. E produto_id, para o produto.)"));
+      } else {
+        saida.appendChild(el("p", "planilha-xp", acertos + " de " + total + " · " + xp + " XP"));
+        saida.appendChild(el("p", "", "Pergunte de cada coluna: esse dado é da pessoa, da coisa vendida ou da compra? Ajuste as vermelhas e confira de novo."));
+      }
     });
   });
 })();
