@@ -494,7 +494,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <li>Se o nome vier vazio, mostre "Escreva o seu nome" em vez da saudação.</li>
             </ul>
           </div>
-          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 1: o formulário responde"</code>.</p>
+          <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Versão 1: o formulário responde"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
+          <p class="dica"><strong>O <code>git push</code> reclamou?</strong> Se aparecer <code>rejected</code>, rode <code>git pull</code> e depois <code>git push</code> de novo. Se aparecer <code>no upstream branch</code>, rode uma vez <code>git push -u origin main</code>.</p>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 2</span>
@@ -646,7 +648,8 @@ function validarCliente(string $nome, string $email): array
               <li>Coloque o erro de cada campo logo abaixo do campo, e não no topo.</li>
             </ul>
           </div>
-          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 2: validação com erros na tela"</code>.</p>
+          <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Versão 2: validação com erros na tela"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 3</span>
@@ -897,7 +900,8 @@ clientes.sqlite
               <li>Acrescente a coluna Cidade, um arquivo de cada vez: a coluna na tabela (<code>banco.php</code>; depois apague o <code>clientes.sqlite</code> para a tabela nascer de novo), o <code>INSERT</code> e o <code>SELECT</code> (<code>clientes.php</code>) e o campo no formulário (<code>cadastro.php</code>).</li>
             </ul>
           </div>
-          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 3: clientes guardados no SQLite, com modelo"</code>.</p>
+          <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Versão 3: clientes guardados no SQLite, com modelo"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
 
           <div class="tutorial-bonus">
             <span class="etiqueta verde">Bônus · para casa</span>
@@ -1173,7 +1177,8 @@ clientes.sqlite
               <li>Explique para um colega, com o garçom, a cozinha e o prato, o caminho de um cadastro.</li>
             </ul>
           </div>
-          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 4: MVC, cada arquivo com seu trabalho"</code>.</p>
+          <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Versão 4: MVC, cada arquivo com seu trabalho"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 5 · bônus</span>
@@ -1651,7 +1656,8 @@ button {
               <li>Já pensando na próxima aula: coloque um link "Editar" ao lado de cada cliente. O modelo vai precisar de duas funções novas, <code>buscarCliente()</code> e <code>atualizarCliente()</code>. A tela de edição vem no módulo 7 do curso.</li>
             </ul>
           </div>
-          <p class="tutorial-commit">Funcionou? Guarde a versão: <code>git add .</code> e <code>git commit -m "Versão 5: busca e visual"</code>.</p>
+          <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Versão 5: busca e visual"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
         </section>
 
         <!-- ===================== CASO DE USO ===================== -->
