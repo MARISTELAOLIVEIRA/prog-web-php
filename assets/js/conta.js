@@ -1,5 +1,5 @@
 /* ===================================================================
-   conta.js: login dos alunos nos sites das disciplinas · versão 4 · 2026-10-21 (progresso dos checklists na conta: disc_progresso)
+   conta.js: login dos alunos nos sites das disciplinas · versão 5 · 2026-10-21 (progresso dos checklists na conta; ranking das atividades)
    (cópia comum às disciplinas; o dos preparatórios é outro, em js/conta.js de lá)
 
    O site continua aberto para todo mundo. Para REGISTRAR o resultado de um quiz
@@ -18,6 +18,9 @@
      const salvo = await CONTA.carregarProgresso();          // { "aulas/aula-11.html|passos-aula-11": [0, 2], ... } ou null
      CONTA.salvarProgresso("aulas/aula-11.html", "passos-aula-11", [0, 2], 6);
    O aulas.js usa as duas sozinho: quem entra com o e-mail da faculdade guarda o checklist na conta.
+
+   Ranking de uma atividade (versão 5; função disc_ranking, SQL em Placa-Mae/supabase/ranking-disciplinas.sql):
+     const linhas = await CONTA.ranking("uti-da-nuvem");   // [{ posicao, nome, equipe, pontos, eu }] ou null
 
    A disciplina vem do atributo data-disciplina do <script> (ou da primeira pasta do endereço).
    A chave abaixo é a PÚBLICA (publishable): a segurança está nas regras do banco (RLS).
@@ -232,6 +235,13 @@ window.CONTA = (function () {
     return !error;
   }
 
+  // o ranking de uma atividade nesta disciplina (a melhor pontuação de cada aluno); null se não entrou ou deu erro
+  async function ranking(atividade) {
+    if (!nuvem || !usuario || !emailDaFaculdade(usuario.email)) return null;
+    const { data, error } = await nuvem.rpc("disc_ranking", { p_disciplina: DISCIPLINA, p_atividade: atividade });
+    return error ? null : data;
+  }
+
   // registra o resultado; se o aluno ainda não entrou, abre a janela e espera o login
   function registrarTentativa(dados) {
     if (!nuvem) return Promise.resolve(null);
@@ -431,6 +441,7 @@ window.CONTA = (function () {
     registrarTentativa,
     carregarProgresso,
     salvarProgresso,
+    ranking,
     disciplina: DISCIPLINA,
     usuario: () => usuario,
     nome: () => nomeConta,
