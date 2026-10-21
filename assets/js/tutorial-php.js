@@ -1,7 +1,7 @@
 /*
   tutorial-php.js: mostra os arquivos de um projeto PHP como no VS Code (abas, números de linha e cores),
   com botão para copiar cada arquivo e a prévia do que o navegador mostra.
-  versão 1 · 2026-10-06
+  versão 3 · 2026-10-21 (cores para .sql)
 
   Uso, dentro de <div class="tutorial-projeto" data-pasta="cadastro-clientes">:
     <script type="text/plain" data-arquivo="cadastro.php" data-estado="novo">...código...</script>
@@ -50,6 +50,18 @@
       ultimo = PADRAO.lastIndex;
     }
     return saida + escapar(codigo.slice(ultimo));
+  }
+
+  // arquivos .sql: o comentário é "--" e as palavras do SQL ganham cor
+  var PADRAO_SQL = /(--[^\n]*)|('(?:[^']|'')*')|\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|IS|NULL|ORDER|BY|GROUP|LIMIT|LIKE|AS|ON|JOIN|INSERT|INTO|VALUES|UPDATE|SET|DELETE|CREATE|TABLE|DROP|IF|EXISTS|PRIMARY|KEY|FOREIGN|REFERENCES|INTEGER|TEXT|REAL|AUTOINCREMENT|UNIQUE|CHECK|DEFAULT|DESC|ASC|COUNT|SUM|ROUND|PRAGMA)\b|(-?\b\d+(?:\.\d+)?)/g;
+  function colorirSql(codigo) {
+    return codigo.replace(PADRAO_SQL, function (achado, com, txt, pal, num) {
+      var classe = com ? "com" : txt ? "txt" : pal ? "pal" : "num";
+      return "\u0000" + classe + "\u0001" + achado + "\u0002";
+    }).split(/(\u0000\w+\u0001[^\u0002]*\u0002)/).map(function (parte) {
+      var m = /^\u0000(\w+)\u0001([^\u0002]*)\u0002$/.exec(parte);
+      return m ? '<span class="tp-' + m[1] + '">' + escapar(m[2]) + "</span>" : escapar(parte);
+    }).join("");
   }
 
   function limpar(texto) {
@@ -107,7 +119,7 @@
       var numeros = linhas.map(function (_, k) { return k + 1; }).join("\n");
       painel.innerHTML =
         '<div class="tp-codigo"><pre class="tp-linhas" aria-hidden="true">' + numeros + "</pre>" +
-        '<pre class="tp-texto"><code>' + colorir(arq.codigo.replace(/\n$/, "")) + "</code></pre></div>" +
+        '<pre class="tp-texto"><code>' + (/\.sql$/.test(arq.nome) ? colorirSql : colorir)(arq.codigo.replace(/\n$/, "")) + "</code></pre></div>" +
         '<div class="tp-acoes"><button type="button" class="tp-copiar">Copiar ' + escapar(arq.nome) + '</button><span class="tp-aviso" aria-live="polite"></span></div>';
       painel.querySelector(".tp-copiar").addEventListener("click", function () {
         var aviso = painel.querySelector(".tp-aviso");

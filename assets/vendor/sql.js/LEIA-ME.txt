@@ -1,0 +1,2 @@
+sql.js 1.8.0 (https://github.com/sql-js/sql.js), licença MIT: o SQLite compilado para rodar no navegador.
+Usado no console SQL e no Detetive SQL das aulas de banco de dados (assets/js/sql-php.js).

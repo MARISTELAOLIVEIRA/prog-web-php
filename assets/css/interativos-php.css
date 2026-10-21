@@ -1,4 +1,4 @@
-/* interativos-php.css: o visual das brincadeiras das aulas de PHP (assets/js/interativos-php.js) · versão 2 · 2026-10-20 */
+/* interativos-php.css: o visual das brincadeiras das aulas de PHP (assets/js/interativos-php.js) · versão 3 · 2026-10-21 */
 .interativo { display: grid; gap: .8rem; }
 .molde-campos { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: end; }
 .molde-campos label { display: grid; gap: .3rem; font-size: .92rem; color: var(--texto-2); }
@@ -43,3 +43,23 @@
 .planilha-colunas label.errado { border-color: #c22450; box-shadow: inset 0 0 0 1px #c22450; }
 .planilha-xp { font-family: var(--f-mono); font-weight: 700; color: var(--ouro-forte); }
 .interativo > .botao { justify-self: start; }
+/* aula 13: console SQL e Detetive SQL (assets/js/sql-php.js) */
+.sql-console textarea { width: 100%; min-height: 7.5rem; padding: .6rem .7rem; border: 1px solid var(--borda-forte); border-radius: 10px; background: var(--chip); color: #f2efe6; font-family: var(--f-mono); font-size: .9rem; resize: vertical; box-sizing: border-box; }
+.sql-barra { display: flex; flex-wrap: wrap; gap: .5rem .7rem; align-items: center; }
+.sql-barra select { max-width: 100%; padding: .4rem .5rem; border: 1px solid var(--borda-forte); border-radius: 8px; background: var(--superficie-2); color: var(--texto); font: inherit; }
+.sql-barra .botao { font-family: var(--f-mono); }
+.botao.secundario { background: transparent; color: var(--texto); border: 1px solid var(--borda-forte); }
+.sql-saida { min-width: 0; }
+.sql-rolagem { overflow-x: auto; max-width: 100%; }
+.sql-tabela { border-collapse: collapse; font-family: var(--f-mono); font-size: .8rem; }
+.sql-tabela th, .sql-tabela td { border: 1px solid var(--borda-forte); padding: .3rem .55rem; text-align: left; white-space: nowrap; }
+.sql-tabela th { color: var(--ouro-forte); }
+.sql-ok { color: var(--texto-2); font-size: .9rem; }
+.sql-erro { color: #ff9db5; }
+:root[data-theme="light"] .sql-erro { color: #c22450; }
+.detetive-pistas { padding-left: 1.2rem; display: grid; gap: .4rem; }
+.detetive-palpite { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: end; }
+.detetive-palpite label { display: grid; gap: .3rem; font-size: .9rem; color: var(--texto-2); }
+.detetive-palpite input { width: 12rem; max-width: 100%; padding: .45rem .6rem; border: 1px solid var(--borda-forte); border-radius: 8px; background: var(--superficie-2); color: var(--texto); font: inherit; }
+.detetive-placar { font-family: var(--f-mono); font-size: .85rem; color: var(--ouro-forte); }
+.visualmente-oculto { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
