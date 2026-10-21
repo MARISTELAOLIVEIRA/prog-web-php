@@ -1,0 +1,1522 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: número e tema da aula -->
+  <title>Aula 12: Banco de dados com SQLite · Web II: PHP · Stela</title>
+  <meta name="description" content="Aula 12 de Linguagem de Programação para Web II: modelagem de banco de dados. A planilha da loja vira as tabelas clientes, produtos e pedidos no SQLite, com chave primária e chave estrangeira.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=2">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=8">
+  <link rel="stylesheet" href="../assets/css/interativos-php.css?v=2">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/php.svg" alt="PHP: página inicial da disciplina" width="48" height="48"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da aula">
+        <a href="../#aulas">← Todas as aulas</a>
+        <a href="#conceitos">Conceitos</a>
+        <a href="#tutorial">Tutorial</a>
+        <a href="#caso">Caso</a>
+        <a href="#quebra-cabeca">Desafio</a>
+        <a href="#atividade">Atividade</a>
+        <a href="#materiais">Materiais</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO DA AULA ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">PHP</a> <span aria-hidden="true">/</span>
+          <a href="../#aulas">Aulas</a> <span aria-hidden="true">/</span>
+          <span>Aula 12</span>
+        </p>
+
+        <!-- EDITE AQUI: número, tipo de aula, unidade e título -->
+        <div class="aula-etiquetas">
+          <span class="etiqueta senac">Fac Senac DF</span>
+          <span class="etiqueta ouro">Aula 12</span>
+          <span class="etiqueta">Laboratório de práticas</span>
+          <span class="etiqueta">Banco de dados</span>
+        </div>
+        <h1>Banco de Dados: modelagem e tabelas com SQLite</h1>
+        <p class="subtitulo">A planilha bagunçada da loja vira três tabelas ligadas por chaves: clientes, produtos e pedidos.</p>
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da aula">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Objetivo do dia</span>
+            <p>Modelar o banco da loja (clientes, produtos e pedidos), identificar as chaves primárias e estrangeiras e criar as tabelas no SQLite, o mesmo banco do Cadastro de Clientes.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Competência</span>
+            <p>Modelar e implementar bancos de dados para aplicações web. Situação de Aprendizagem 2: persistência de dados e programação orientada a objetos.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Antes da aula</span>
+            <p>Deixar a versão 3 do Cadastro de Clientes (<a href="aula-11.html#tutorial">aula 11</a>) rodando com o <code>php -S</code> ou com o XAMPP.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <!-- ===================== O PROBLEMA ===================== -->
+        <section class="parte" id="problema">
+          <div class="cab">
+            <span class="olho">P1 · o problema</span>
+            <h2>A planilha que repete tudo</h2>
+          </div>
+          <div class="texto">
+            <p>
+              A loja de artesanato controla os pedidos numa planilha. Cada linha é um pedido, e em cada linha vão de novo o
+              nome, o telefone e o e-mail da cliente, o nome e o preço do produto. A Ana comprou três vezes: o nome dela foi
+              digitado três vezes, cada vez de um jeito.
+            </p>
+            <p>
+              Onde os sistemas guardam as informações sem repetir tudo? Hoje a planilha vira um <strong>banco de dados
+              relacional</strong>: cada coisa na sua tabela, e as tabelas ligadas por <strong>chaves</strong>.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== CONCEITOS ===================== -->
+        <section class="parte" id="conceitos">
+          <div class="cab">
+            <span class="olho">C1–C6 · conceitos</span>
+            <h2>Da planilha ao banco, em seis peças</h2>
+          </div>
+
+          <!-- conceito 1 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C1</span>
+              <h3>Cada coisa na sua tabela</h3>
+              <p>Na planilha, a cliente, o produto e o pedido estão todos na mesma linha. No banco relacional, cada <strong>coisa</strong> do mundo real ganha a sua tabela: uma para clientes, uma para produtos, uma para pedidos.</p>
+              <p>A Ana fica escrita <strong>uma vez só</strong>. Se ela trocar de telefone, muda uma linha, e não trinta.</p>
+            </div>
+<pre class="codigo" aria-label="A planilha e as três tabelas"><code><span class="linha"><span class="num">1</span><span class="com">-- a planilha: tudo junto, e a Ana se repete</span></span><span class="linha"><span class="num">2</span>data  | cliente   | telefone        | produto | preço</span><span class="linha"><span class="num">3</span>03/10 | Ana Souza | (61) 99599-3513 | Caneca  | 35,90</span><span class="linha"><span class="num">4</span>05/10 | ana souza | 61 99599 3513   | Vaso    | 59,00</span><span class="linha"><span class="num">5</span></span><span class="linha"><span class="num">6</span><span class="com">-- o banco: cada coisa na sua tabela</span></span><span class="linha"><span class="num">7</span>clientes: id, nome, email, telefone</span><span class="linha"><span class="num">8</span>produtos: id, nome, preco</span><span class="linha"><span class="num">9</span>pedidos:  id, cliente_id, produto_id, quantidade, data</span></code></pre>
+          </div>
+          <!-- conceito 2 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C2</span>
+              <h3>Tabela, coluna, linha e tipo</h3>
+              <p>A <strong>tabela</strong> é a gaveta; cada <strong>coluna</strong> é um dado (nome, preço) e cada <strong>linha</strong> é um registro (um produto).</p>
+              <p>Cada coluna tem um <strong>tipo</strong>. No SQLite são poucos: <code>INTEGER</code> (número inteiro), <code>REAL</code> (número com vírgula) e <code>TEXT</code> (texto e datas). <code>NOT NULL</code> obriga a preencher; <code>UNIQUE</code> não deixa repetir; <code>CHECK</code> confere uma regra.</p>
+            </div>
+<pre class="codigo" aria-label="Criando a tabela produtos"><code><span class="linha"><span class="num">1</span><span class="tag">CREATE</span> <span class="tag">TABLE</span> <span class="tag">IF</span> <span class="tag">NOT</span> <span class="tag">EXISTS</span> produtos (</span><span class="linha"><span class="num">2</span>    id <span class="tag">INTEGER</span> <span class="tag">PRIMARY</span> <span class="tag">KEY</span> <span class="tag">AUTOINCREMENT</span>,</span><span class="linha"><span class="num">3</span>    nome <span class="tag">TEXT</span> <span class="tag">NOT</span> <span class="tag">NULL</span> <span class="tag">UNIQUE</span>,         <span class="com">-- não repete</span></span><span class="linha"><span class="num">4</span>    preco <span class="tag">REAL</span> <span class="tag">NOT</span> <span class="tag">NULL</span> <span class="tag">CHECK</span> (preco &gt;= 0)   <span class="com">-- sem preço negativo</span></span><span class="linha"><span class="num">5</span>)</span></code></pre>
+          </div>
+          <!-- conceito 3 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C3</span>
+              <h3>Chave primária: o RG da linha</h3>
+              <p>A <strong>chave primária</strong> (PK, de <em>primary key</em>) identifica cada linha sem confusão. Nome não serve: existem duas "Ana Souza". O <code>id</code> serve: é único e nunca muda.</p>
+              <p>Com <code>AUTOINCREMENT</code>, o próprio banco dá o número: 1, 2, 3... Você nunca escreve o <code>id</code> no <code>INSERT</code>.</p>
+            </div>
+<pre class="codigo" aria-label="A chave primária numerada pelo banco"><code><span class="linha"><span class="num">1</span><span class="com">-- o id não aparece no INSERT: o banco numera</span></span><span class="linha"><span class="num">2</span><span class="tag">INSERT</span> <span class="tag">INTO</span> produtos (nome, preco) <span class="tag">VALUES</span> (<span class="str">'Caneca'</span>, 35.90);   <span class="com">-- id 1</span></span><span class="linha"><span class="num">3</span><span class="tag">INSERT</span> <span class="tag">INTO</span> produtos (nome, preco) <span class="tag">VALUES</span> (<span class="str">'Vaso'</span>, 59.00);     <span class="com">-- id 2</span></span></code></pre>
+          </div>
+          <!-- conceito 4 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C4</span>
+              <h3>Chave estrangeira: a ponte entre as tabelas</h3>
+              <p>O pedido não guarda o nome da cliente: guarda o <strong>número</strong> dela, o <code>cliente_id</code>. Essa coluna é uma <strong>chave estrangeira</strong> (FK, de <em>foreign key</em>): aponta para o <code>id</code> de outra tabela.</p>
+              <p>O banco confere a ponte: pedido de cliente que não existe é recusado.</p>
+              <p class="dica cuidado"><strong>Pegadinha do SQLite:</strong> a conferência das chaves estrangeiras vem <strong>desligada</strong>. Liga com <code>PRAGMA foreign_keys = ON</code>, toda vez que conecta.</p>
+            </div>
+<pre class="codigo" aria-label="As chaves estrangeiras da tabela pedidos"><code><span class="linha"><span class="num">1</span><span class="tag">CREATE</span> <span class="tag">TABLE</span> <span class="tag">IF</span> <span class="tag">NOT</span> <span class="tag">EXISTS</span> pedidos (</span><span class="linha"><span class="num">2</span>    id <span class="tag">INTEGER</span> <span class="tag">PRIMARY</span> <span class="tag">KEY</span> <span class="tag">AUTOINCREMENT</span>,</span><span class="linha"><span class="num">3</span>    cliente_id <span class="tag">INTEGER</span> <span class="tag">NOT</span> <span class="tag">NULL</span>,   <span class="com">-- o número da cliente</span></span><span class="linha"><span class="num">4</span>    produto_id <span class="tag">INTEGER</span> <span class="tag">NOT</span> <span class="tag">NULL</span>,   <span class="com">-- o número do produto</span></span><span class="linha"><span class="num">5</span>    quantidade <span class="tag">INTEGER</span> <span class="tag">NOT</span> <span class="tag">NULL</span>,</span><span class="linha"><span class="num">6</span>    <span class="tag">FOREIGN</span> <span class="tag">KEY</span> (cliente_id) <span class="tag">REFERENCES</span> clientes (id),</span><span class="linha"><span class="num">7</span>    <span class="tag">FOREIGN</span> <span class="tag">KEY</span> (produto_id) <span class="tag">REFERENCES</span> produtos (id)</span><span class="linha"><span class="num">8</span>)</span></code></pre>
+          </div>
+          <!-- conceito 5 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C5</span>
+              <h3>Um para muitos: o diagrama</h3>
+              <p>Uma cliente faz <strong>muitos</strong> pedidos; cada pedido é de <strong>uma</strong> cliente. Isso é um relacionamento <strong>um para muitos</strong> (1:N). O mesmo vale para produto e pedido.</p>
+              <p>O <strong>diagrama entidade-relacionamento</strong> (DER) desenha isso antes do código: as tabelas, as colunas, as chaves e as linhas que ligam. É a planta da casa antes do tijolo.</p>
+            </div>
+            <div class="der" role="img" aria-label="Diagrama do banco da loja: clientes 1 para N pedidos; produtos 1 para N pedidos. Pedidos tem cliente_id e produto_id como chaves estrangeiras.">
+              <div class="der-tabela">
+                <h4>clientes</h4>
+                <ul><li><span class="der-pk">PK</span> id</li><li>nome</li><li>email</li><li>telefone</li></ul>
+              </div>
+              <div class="der-liga" aria-hidden="true"><span>1</span><i></i><span>N</span></div>
+              <div class="der-tabela">
+                <h4>pedidos</h4>
+                <ul><li><span class="der-pk">PK</span> id</li><li><span class="der-fk">FK</span> cliente_id</li><li><span class="der-fk">FK</span> produto_id</li><li>quantidade</li><li>data</li></ul>
+              </div>
+              <div class="der-liga der-volta" aria-hidden="true"><span>N</span><i></i><span>1</span></div>
+              <div class="der-tabela">
+                <h4>produtos</h4>
+                <ul><li><span class="der-pk">PK</span> id</li><li>nome</li><li>preco</li></ul>
+              </div>
+            </div>
+          </div>
+          <!-- conceito 6 -->
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C6</span>
+              <h3>SQLite: o banco é um arquivo</h3>
+              <p>O SQLite não tem servidor para ligar: o banco inteiro é um arquivo, o <code>loja.sqlite</code>, e o PHP já vem com ele. Renomear o banco é renomear o arquivo; a cópia de segurança é copiar o arquivo.</p>
+              <p>Na <strong>aula 14</strong>, o mesmo banco vai para o <strong>MySQL</strong> do XAMPP, um servidor de banco de dados. As tabelas e o SQL quase não mudam; muda a conexão.</p>
+              <p class="dica"><strong>Lembrete:</strong> o arquivo do banco fica no <code>.gitignore</code>. Dado de cliente não vai para o GitHub.</p>
+            </div>
+<pre class="codigo" aria-label="Conexão com o SQLite e a chave estrangeira ligada"><code><span class="linha"><span class="num">1</span><span class="com">// o banco é este arquivo; se ele não existe, o PHP cria</span></span><span class="linha"><span class="num">2</span><span class="var">$pdo</span> = <span class="tag">new</span> <span class="fn">PDO</span>(<span class="str">'sqlite:'</span> . __DIR__ . <span class="str">'/loja.sqlite'</span>);</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="com">// liga a conferência das chaves estrangeiras</span></span><span class="linha"><span class="num">5</span><span class="var">$pdo</span>-&gt;<span class="fn">exec</span>(<span class="str">'PRAGMA foreign_keys = ON'</span>);</span><span class="linha"><span class="num">6</span></span><span class="linha"><span class="num">7</span><span class="com">// na aula 14, só esta linha muda:</span></span><span class="linha"><span class="num">8</span><span class="com">// new PDO('mysql:host=localhost;dbname=loja;charset=utf8mb4', 'root', '')</span></span></code></pre>
+          </div>
+        </section>
+
+        <!-- ===================== TUTORIAL ===================== -->
+        <section class="parte" id="tutorial">
+          <div class="cab">
+            <span class="olho">T1 · tutorial</span>
+            <h2>Mão na massa: o banco da loja em 4 passos</h2>
+            <p>
+              Primeiro o desenho, depois o código, depois a prova. Faça um passo de cada vez: copie, rode, teste, entenda
+              e só depois passe para o próximo.
+            </p>
+            <p class="dica"><strong>O combinado de hoje:</strong> os <strong>passos 1 a 3</strong> na aula. O passo 4 (DB Browser for SQLite) é para quem terminar antes ou para casa, se o laboratório não tiver o programa.</p>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Antes de começar</span>
+            <h3>O ponto de partida é a versão 3 da aula 11</h3>
+            <ol>
+              <li>Abra a pasta <code>cadastro-clientes</code> no VS Code. Não terminou a versão 3? Copie da <a href="aula-11.html#tutorial">aula 11</a>.</li>
+              <li>Ligue o servidor no terminal do VS Code: <code>php -S localhost:8000</code>. No laboratório: <code>C:\xampp\php\php.exe -S localhost:8000</code>. Prefere o XAMPP? Deixe a pasta dentro do <code>htdocs</code> e ligue o Apache; o endereço fica <code>http://localhost/cadastro-clientes/</code>.</li>
+              <li>Confira se <code>http://localhost:8000/cadastro.php</code> abre e cadastra.</li>
+              <li>Rode <code>git status</code>: tem que aparecer "nothing to commit". Se aparecer arquivo mudado, faça o commit antes de começar.</li>
+            </ol>
+            <p class="dica"><strong>Como copiar:</strong> clique na aba do arquivo, depois em <strong>Copiar</strong>. No VS Code, apague tudo o que tinha no arquivo (<code>Ctrl + A</code> e <code>Delete</code>), cole (<code>Ctrl + V</code>) e salve. A etiqueta de cada aba avisa: <strong>novo</strong> (crie o arquivo), <strong>mudou</strong> (troque o conteúdo todo) ou <strong>igual</strong> (não precisa mexer).</p>
+          </div>
+
+          <!-- ---------- passo 1 ---------- -->
+          <div class="tutorial-passo" id="passo-1">
+            <span class="etiqueta ouro">Passo 1</span>
+            <h3>O desenho: o diagrama do banco no draw.io</h3>
+            <p>Antes de escrever SQL, o banco é desenhado. Errar no desenho custa uma borracha; errar no banco com dados dentro custa caro.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Abra o <a href="https://app.diagrams.net/">draw.io (app.diagrams.net)</a> no navegador. Na primeira tela, escolha salvar no <strong>Dispositivo</strong> e crie um <strong>diagrama em branco</strong>.</li>
+            <li>No painel da esquerda, digite <code>table</code> na busca de formas (ou, em <strong>+ Mais formas</strong>, ligue a categoria <strong>Entity Relation</strong>). Arraste a forma de <strong>tabela</strong> três vezes para a folha.</li>
+            <li>Dê dois cliques no título de cada uma e escreva <code>clientes</code>, <code>produtos</code> e <code>pedidos</code>.</li>
+            <li>Escreva as colunas como no diagrama da <a href="#conceitos">C5</a>. Marque <strong>PK</strong> no <code>id</code> de cada tabela e <strong>FK</strong> no <code>cliente_id</code> e no <code>produto_id</code>.</li>
+            <li>Passe o mouse em <code>pedidos</code>, puxe a setinha azul até <code>clientes</code> e depois até <code>produtos</code>. Clique na linha e, no painel da direita, escolha a ponta de <strong>muitos</strong> (o "pé de galinha") do lado de <code>pedidos</code>.</li>
+            <li>Salve: <strong>Arquivo › Exportar como › PNG</strong>, marque a opção de <strong>incluir uma cópia do diagrama</strong> e salve como <code>diagrama-loja.drawio.png</code> dentro da pasta <code>cadastro-clientes</code>. Esse PNG abre como imagem no GitHub e continua editável no draw.io.</li>
+          </ol>
+          <p><strong>Teste:</strong> confira o seu diagrama com estas perguntas.</p>
+          <ol>
+            <li>O nome da cliente aparece em uma tabela só? (Tem que aparecer só em <code>clientes</code>.)</li>
+            <li>Se a Ana trocar de telefone, quantas linhas mudam? (Uma.)</li>
+            <li>Dá para saber quem fez o pedido 7 olhando só a tabela <code>pedidos</code>? (Dá o número, o <code>cliente_id</code>; o nome está em <code>clientes</code>.)</li>
+            <li>O preço do produto está em <code>pedidos</code>? Se estiver, ele vai se repetir: tire.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+              <li>Acrescente a coluna <code>estoque</code> em <code>produtos</code>. Que tipo ela tem?</li>
+              <li>A loja quer saber a cidade de cada cliente. Em que tabela entra a coluna <code>cidade</code>?</li>
+              <li>Pense: e se um pedido tiver vários produtos? Anote a ideia; ela volta no <a href="#desafio">desafio extra</a>.</li>
+            </ul>
+          </div>
+          <p class="tutorial-commit">Pronto o desenho? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Passo 1: diagrama do banco da loja"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
+          <p class="dica"><strong>O <code>git push</code> reclamou?</strong> Se aparecer <code>rejected</code>, rode <code>git pull</code> e depois <code>git push</code> de novo. Se aparecer <code>no upstream branch</code>, rode uma vez <code>git push -u origin main</code>.</p>
+
+          <!-- ---------- passo 2 ---------- -->
+          <div class="tutorial-passo" id="passo-2">
+            <span class="etiqueta ouro">Passo 2</span>
+            <h3>O código: as três tabelas nascem no banco.php</h3>
+            <p>O desenho vira SQL. O <code>banco.php</code> passa a criar as tabelas <code>produtos</code> e <code>pedidos</code>, com as chaves estrangeiras, e o banco ganha o nome da loja.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Desligue o servidor (<code>Ctrl + C</code> no terminal).</li>
+            <li>No VS Code, clique com o botão direito no <code>clientes.sqlite</code>, escolha <strong>Renomear</strong> e troque para <code>loja.sqlite</code>. O banco é um arquivo: renomeou o arquivo, renomeou o banco. Os clientes cadastrados continuam lá dentro.</li>
+            <li>Troque o conteúdo do <code>banco.php</code> (etiqueta <strong>mudou</strong>) e do <code>.gitignore</code> (agora com <code>*.sqlite</code>, que vale para qualquer banco).</li>
+            <li>Crie o <code>teste-banco.php</code> (etiqueta <strong>novo</strong>): é o raio-x do banco.</li>
+            <li>Ligue o servidor de novo e abra <code>http://localhost:8000/teste-banco.php</code>: aparecem as 3 tabelas, com PK e FK. Compare com o seu diagrama.</li>
+            <li>Abra <code>http://localhost:8000/cadastro.php</code> e cadastre alguém: tudo continua funcionando, sem mudar o <code>clientes.php</code>.</li>
+          </ol>
+<div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
+<?php
+// banco.php: abre a conexão com o banco de dados da loja.
+// Na primeira vez, cria o arquivo loja.sqlite e as três tabelas sozinho.
+
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/loja.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // liga a conferência das chaves estrangeiras (no SQLite, ela vem desligada)
+    $pdo->exec('PRAGMA foreign_keys = ON');
+
+    criarTabelas($pdo);
+    return $pdo;
+}
+
+// cria cada tabela só se ela ainda não existir
+function criarTabelas(PDO $pdo): void
+{
+    // 1. clientes: a mesma tabela das aulas 9 e 11
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        telefone TEXT NOT NULL
+    )');
+
+    // 2. produtos: o que a loja vende
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL UNIQUE,
+        preco REAL NOT NULL CHECK (preco >= 0)
+    )');
+
+    // 3. pedidos: quem comprou o quê, quanto e quando
+    //    cliente_id e produto_id são chaves estrangeiras: apontam para o id de outra tabela
+    $pdo->exec('CREATE TABLE IF NOT EXISTS pedidos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        cliente_id INTEGER NOT NULL,
+        produto_id INTEGER NOT NULL,
+        quantidade INTEGER NOT NULL CHECK (quantidade > 0),
+        data TEXT NOT NULL DEFAULT (date(\'now\')),
+        FOREIGN KEY (cliente_id) REFERENCES clientes (id),
+        FOREIGN KEY (produto_id) REFERENCES produtos (id)
+    )');
+}
+</script>
+            <script type="text/plain" data-arquivo="teste-banco.php" data-estado="novo">
+<?php
+// teste-banco.php: mostra as tabelas que existem no loja.sqlite, com as colunas e as chaves.
+// É o "raio-x" do banco: confira se ele bate com o diagrama.
+require_once __DIR__ . '/banco.php';
+
+$pdo = conectar();
+
+// o próprio SQLite guarda a lista das tabelas numa tabela especial, a sqlite_master
+$sql = "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name";
+$tabelas = $pdo->query($sql)->fetchAll(PDO::FETCH_COLUMN);
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Raio-x do banco da loja</title>
+  <style>
+    body { font-family: sans-serif; }
+    table { border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #999; padding: .3rem .6rem; text-align: left; }
+    .pk { color: #b8860b; font-weight: bold; }
+    .fk { color: #2e7d5b; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Raio-x do banco da loja</h1>
+  <p><?= count($tabelas) ?> tabelas no arquivo loja.sqlite.</p>
+
+  <?php foreach ($tabelas as $tabela): ?>
+    <?php
+      // PRAGMA table_info: as colunas da tabela; PRAGMA foreign_key_list: as chaves estrangeiras
+      $colunas = $pdo->query("PRAGMA table_info($tabela)")->fetchAll(PDO::FETCH_ASSOC);
+      $chaves = [];
+      foreach ($pdo->query("PRAGMA foreign_key_list($tabela)") as $fk) {
+          $chaves[$fk['from']] = $fk['table'] . '.' . $fk['to'];
+      }
+      $linhas = $pdo->query("SELECT COUNT(*) FROM $tabela")->fetchColumn();
+    ?>
+    <h2><?= htmlspecialchars($tabela) ?> <small>(<?= $linhas ?> <?= $linhas == 1 ? 'linha' : 'linhas' ?>)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+      <?php foreach ($colunas as $coluna): ?>
+        <tr>
+          <td><?= htmlspecialchars($coluna['name']) ?></td>
+          <td><?= htmlspecialchars($coluna['type']) ?></td>
+          <td>
+            <?php if ($coluna['pk']): ?><span class="pk">PK, chave primária</span><?php endif; ?>
+            <?php if (isset($chaves[$coluna['name']])): ?><span class="fk">FK, aponta para <?= htmlspecialchars($chaves[$coluna['name']]) ?></span><?php endif; ?>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    </table>
+  <?php endforeach; ?>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="mudou">
+*.sqlite
+</script>
+            <script type="text/plain" data-arquivo="Cliente.php" data-estado="igual">
+<?php
+// Cliente.php: a CLASSE, o molde de todo cliente do sistema.
+// Ela faz parte do MODELO: sabe que dados um cliente tem e quais são as regras dele.
+
+class Cliente
+{
+    // private: só a própria classe mexe no telefone. Por fora, só com os métodos dela.
+    private string $telefone;
+
+    public function __construct(
+        public string $nome,
+        public string $email,
+        string $telefone
+    ) {
+        // guarda só os números: "(61) 99599-3513" e "61995993513" ficam iguais
+        $this->telefone = preg_replace('/\D/', '', $telefone);
+    }
+
+    // cada cliente sabe conferir os próprios dados
+    public function validar(): array
+    {
+        $erros = [];
+        if (strlen($this->nome) < 3) {
+            $erros[] = 'O nome precisa de pelo menos 3 letras.';
+        }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $erros[] = 'Digite um e-mail válido.';
+        }
+        if (strlen($this->telefone) < 10 || strlen($this->telefone) > 11) {
+            $erros[] = 'Digite o telefone com DDD (10 ou 11 números).';
+        }
+        return $erros;
+    }
+
+    // "Ana Souza" vira "Ana"
+    public function primeiroNome(): string
+    {
+        return explode(' ', trim($this->nome))[0];
+    }
+
+    // só os números, do jeito que vão para o banco
+    public function telefoneSoNumeros(): string
+    {
+        return $this->telefone;
+    }
+
+    // "61995993513" vira "(61) 99599-3513"; "6133334444" vira "(61) 3333-4444"
+    public function telefoneFormatado(): string
+    {
+        $ddd = substr($this->telefone, 0, 2);
+        $resto = substr($this->telefone, 2);
+        $meio = strlen($resto) - 4;
+        return '(' . $ddd . ') ' . substr($resto, 0, $meio) . '-' . substr($resto, $meio);
+    }
+}
+</script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="igual">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Agora ele recebe e devolve objetos Cliente, e não arrays.
+require_once __DIR__ . '/banco.php';
+require_once __DIR__ . '/Cliente.php';
+
+// grava um cliente novo (recebe o objeto inteiro)
+function inserirCliente(Cliente $cliente): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email, telefone) VALUES (:nome, :email, :telefone)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':nome' => $cliente->nome,
+        ':email' => $cliente->email,
+        ':telefone' => $cliente->telefoneSoNumeros(),
+    ]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética: cada linha do banco vira um objeto
+function listarClientes(): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email, telefone FROM clientes ORDER BY nome';
+    $clientes = [];
+    foreach ($pdo->query($sql) as $linha) {
+        $clientes[] = new Cliente($linha['nome'], $linha['email'], $linha['telefone']);
+    }
+    return $clientes;
+}
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="igual">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, monta o objeto Cliente e pede ao modelo para gravar.
+require_once __DIR__ . '/Cliente.php';
+require_once __DIR__ . '/clientes.php';
+
+$nome = '';
+$email = '';
+$telefone = '';
+$erros = [];
+$mensagem = '';
+
+// só entra aqui quando o formulário é enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $telefone = trim($_POST['telefone'] ?? '');
+
+    // 1. monta o objeto: daqui em diante, o cliente é uma peça só
+    $cliente = new Cliente($nome, $email, $telefone);
+
+    // 2. o próprio cliente confere os dados (o antigo validar.php virou método)
+    $erros = $cliente->validar();
+
+    // 3. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($cliente->email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 4. tudo certo: o modelo grava o objeto inteiro e o formulário fica limpo
+    if (!$erros) {
+        inserirCliente($cliente);
+        $mensagem = 'Pronto, ' . $cliente->primeiroNome() . ' está no cadastro!';
+        $nome = '';
+        $email = '';
+        $telefone = '';
+    }
+}
+
+// 5. pede ao modelo a lista atualizada (agora é uma lista de objetos Cliente)
+$clientes = listarClientes();
+
+// 6. por fim, mostra a tela (a visão), que usa as variáveis acima
+require __DIR__ . '/tela-cadastro.php';
+</script>
+            <script type="text/plain" data-arquivo="tela-cadastro.php" data-estado="igual">
+<?php // tela-cadastro.php: a VISÃO. Só mostra a página; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <label for="telefone">Telefone (com DDD)</label>
+    <input id="telefone" name="telefone" value="<?= htmlspecialchars($telefone) ?>">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+    <?php foreach ($clientes as $cliente): ?>
+      <li><?= htmlspecialchars($cliente->nome) ?> · <?= htmlspecialchars($cliente->email) ?> · <?= $cliente->telefoneFormatado() ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="teste-cliente.php" data-estado="igual">
+<?php
+// teste-cliente.php: testa a classe sozinha, antes de mexer no cadastro
+require_once __DIR__ . '/Cliente.php';
+
+// dois objetos (duas peças) saídos do mesmo molde
+$ana = new Cliente('Ana Souza', 'ana@email.com', '61995993513');
+$bia = new Cliente('Bi', 'bia-sem-arroba', '123');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste da classe Cliente</title>
+</head>
+<body>
+  <h1>Teste da classe Cliente</h1>
+
+  <p>Olá, <?= htmlspecialchars($ana->primeiroNome()) ?>! Erros: <?= count($ana->validar()) ?></p>
+
+  <p>Olá, <?= htmlspecialchars($bia->primeiroNome()) ?>! Erros:</p>
+  <ul>
+    <?php foreach ($bia->validar() as $erro): ?>
+      <li><?= htmlspecialchars($erro) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="teste-banco.php, com 2 clientes">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Raio-x do banco da loja</title>
+  <style>
+    body { font-family: sans-serif; }
+    table { border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #999; padding: .3rem .6rem; text-align: left; }
+    .pk { color: #b8860b; font-weight: bold; }
+    .fk { color: #2e7d5b; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Raio-x do banco da loja</h1>
+  <p>3 tabelas no arquivo loja.sqlite.</p>
+
+          <h2>clientes <small>(2 linhas)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+              <tr>
+          <td>id</td>
+          <td>INTEGER</td>
+          <td>
+            <span class="pk">PK, chave primária</span>                      </td>
+        </tr>
+              <tr>
+          <td>nome</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>email</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>telefone</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+          </table>
+          <h2>pedidos <small>(0 linhas)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+              <tr>
+          <td>id</td>
+          <td>INTEGER</td>
+          <td>
+            <span class="pk">PK, chave primária</span>                      </td>
+        </tr>
+              <tr>
+          <td>cliente_id</td>
+          <td>INTEGER</td>
+          <td>
+                        <span class="fk">FK, aponta para clientes.id</span>          </td>
+        </tr>
+              <tr>
+          <td>produto_id</td>
+          <td>INTEGER</td>
+          <td>
+                        <span class="fk">FK, aponta para produtos.id</span>          </td>
+        </tr>
+              <tr>
+          <td>quantidade</td>
+          <td>INTEGER</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>data</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+          </table>
+          <h2>produtos <small>(0 linhas)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+              <tr>
+          <td>id</td>
+          <td>INTEGER</td>
+          <td>
+            <span class="pk">PK, chave primária</span>                      </td>
+        </tr>
+              <tr>
+          <td>nome</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>preco</td>
+          <td>REAL</td>
+          <td>
+                                  </td>
+        </tr>
+          </table>
+  </body>
+</html>
+</script>
+          </div>
+          <p><strong>Teste:</strong></p>
+          <ol>
+            <li>Rode <code>git status</code>: o <code>loja.sqlite</code> <strong>não</strong> pode aparecer. Se aparecer, confira o <code>.gitignore</code>.</li>
+            <li>No <code>banco.php</code>, apague o <code>IF NOT EXISTS</code> da tabela <code>produtos</code> e recarregue. O erro <code>table produtos already exists</code> aparece: a tabela já foi criada na primeira vez. Ponha o <code>IF NOT EXISTS</code> de volta.</li>
+            <li>Cadastre de novo um e-mail que já existe: o aviso de e-mail repetido continua funcionando.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+              <li>Ponha a coluna <code>estoque INTEGER NOT NULL DEFAULT 0</code> na tabela <code>produtos</code>. Recarregou e ela não apareceu? O <code>CREATE TABLE IF NOT EXISTS</code> não mexe em tabela que já existe. Desligue o servidor, apague o <code>loja.sqlite</code> (só tem dado de teste) e ligue de novo.</li>
+              <li>No raio-x, mostre também o total de tabelas em letras grandes, com um <code>&lt;h2&gt;</code>.</li>
+            </ul>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Passo 2: tabelas produtos e pedidos"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
+
+          <!-- ---------- passo 3 ---------- -->
+          <div class="tutorial-passo" id="passo-3">
+            <span class="etiqueta ouro">Passo 3</span>
+            <h3>A prova: a chave estrangeira em ação</h3>
+            <p>Um teste que cadastra produtos e um pedido certo e, de propósito, tenta um pedido de um cliente que não existe. Se a chave estrangeira estiver ligada, o banco recusa.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie o <code>teste-chaves.php</code> (etiqueta <strong>novo</strong>), cole e salve.</li>
+            <li>Abra <code>http://localhost:8000/teste-chaves.php</code> e leia as cinco linhas, com calma.</li>
+            <li>A linha 4 tem que dizer <code>FOREIGN KEY constraint failed</code>: o banco recusou o pedido do cliente 999.</li>
+            <li>Abra o <code>teste-banco.php</code> de novo: agora <code>produtos</code> tem 3 linhas e <code>pedidos</code>, 1.</li>
+          </ol>
+<div class="tutorial-projeto" data-pasta="cadastro-clientes">
+            <script type="text/plain" data-arquivo="teste-chaves.php" data-estado="novo">
+<?php
+// teste-chaves.php: põe a chave estrangeira à prova.
+// Cadastra produtos e um pedido certo, e depois tenta um pedido de um cliente que não existe.
+require_once __DIR__ . '/banco.php';
+
+$pdo = conectar();
+$resultados = [];
+
+// 1. um cliente de teste (INSERT OR IGNORE: se o e-mail já existe, não faz nada)
+$pdo->exec("INSERT OR IGNORE INTO clientes (nome, email, telefone)
+            VALUES ('Cliente de Teste', 'teste@loja.com', '61999990000')");
+$clienteId = $pdo->query("SELECT id FROM clientes WHERE email = 'teste@loja.com'")->fetchColumn();
+$resultados[] = "Cliente de Teste tem o id $clienteId.";
+
+// 2. três produtos (o nome é UNIQUE, então rodar de novo não duplica)
+$stmt = $pdo->prepare('INSERT OR IGNORE INTO produtos (nome, preco) VALUES (:nome, :preco)');
+foreach (['Caneca de cerâmica' => 35.90, 'Vaso de macramê' => 59.00, 'Chaveiro de crochê' => 12.50] as $nome => $preco) {
+    $stmt->execute([':nome' => $nome, ':preco' => $preco]);
+}
+$produtoId = $pdo->query("SELECT id FROM produtos WHERE nome = 'Caneca de cerâmica'")->fetchColumn();
+$resultados[] = "A caneca tem o id $produtoId.";
+
+// a mesma consulta preparada para os dois pedidos
+$novoPedido = $pdo->prepare('INSERT INTO pedidos (cliente_id, produto_id, quantidade)
+                             VALUES (:cliente, :produto, :quantidade)');
+
+// 3. um pedido certo: cliente e produto existem
+$novoPedido->execute([':cliente' => $clienteId, ':produto' => $produtoId, ':quantidade' => 2]);
+$resultados[] = 'Pedido certo gravado: 2 canecas para o cliente ' . $clienteId . '.';
+
+// 4. um pedido errado de propósito: o cliente 999 não existe
+try {
+    $novoPedido->execute([':cliente' => 999, ':produto' => $produtoId, ':quantidade' => 1]);
+    $resultados[] = 'Opa! O banco aceitou um pedido do cliente 999, que não existe. A chave estrangeira está ligada?';
+} catch (PDOException $erro) {
+    $resultados[] = 'O banco recusou o pedido do cliente 999: ' . $erro->getMessage();
+}
+
+$totalPedidos = $pdo->query('SELECT COUNT(*) FROM pedidos')->fetchColumn();
+$resultados[] = "Agora há $totalPedidos pedido(s) na tabela.";
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste das chaves</title>
+</head>
+<body>
+  <h1>Teste das chaves</h1>
+  <ol>
+    <?php foreach ($resultados as $linha): ?>
+      <li><?= htmlspecialchars($linha) ?></li>
+    <?php endforeach; ?>
+  </ol>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="igual">
+<?php
+// banco.php: abre a conexão com o banco de dados da loja.
+// Na primeira vez, cria o arquivo loja.sqlite e as três tabelas sozinho.
+
+function conectar(): PDO
+{
+    // o banco é este arquivo; se ele ainda não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/loja.sqlite');
+
+    // se algum SQL der errado, o PHP mostra o erro (em vez de ficar quieto)
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // liga a conferência das chaves estrangeiras (no SQLite, ela vem desligada)
+    $pdo->exec('PRAGMA foreign_keys = ON');
+
+    criarTabelas($pdo);
+    return $pdo;
+}
+
+// cria cada tabela só se ela ainda não existir
+function criarTabelas(PDO $pdo): void
+{
+    // 1. clientes: a mesma tabela das aulas 9 e 11
+    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        telefone TEXT NOT NULL
+    )');
+
+    // 2. produtos: o que a loja vende
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL UNIQUE,
+        preco REAL NOT NULL CHECK (preco >= 0)
+    )');
+
+    // 3. pedidos: quem comprou o quê, quanto e quando
+    //    cliente_id e produto_id são chaves estrangeiras: apontam para o id de outra tabela
+    $pdo->exec('CREATE TABLE IF NOT EXISTS pedidos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        cliente_id INTEGER NOT NULL,
+        produto_id INTEGER NOT NULL,
+        quantidade INTEGER NOT NULL CHECK (quantidade > 0),
+        data TEXT NOT NULL DEFAULT (date(\'now\')),
+        FOREIGN KEY (cliente_id) REFERENCES clientes (id),
+        FOREIGN KEY (produto_id) REFERENCES produtos (id)
+    )');
+}
+</script>
+            <script type="text/plain" data-arquivo="teste-banco.php" data-estado="igual">
+<?php
+// teste-banco.php: mostra as tabelas que existem no loja.sqlite, com as colunas e as chaves.
+// É o "raio-x" do banco: confira se ele bate com o diagrama.
+require_once __DIR__ . '/banco.php';
+
+$pdo = conectar();
+
+// o próprio SQLite guarda a lista das tabelas numa tabela especial, a sqlite_master
+$sql = "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name";
+$tabelas = $pdo->query($sql)->fetchAll(PDO::FETCH_COLUMN);
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Raio-x do banco da loja</title>
+  <style>
+    body { font-family: sans-serif; }
+    table { border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #999; padding: .3rem .6rem; text-align: left; }
+    .pk { color: #b8860b; font-weight: bold; }
+    .fk { color: #2e7d5b; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Raio-x do banco da loja</h1>
+  <p><?= count($tabelas) ?> tabelas no arquivo loja.sqlite.</p>
+
+  <?php foreach ($tabelas as $tabela): ?>
+    <?php
+      // PRAGMA table_info: as colunas da tabela; PRAGMA foreign_key_list: as chaves estrangeiras
+      $colunas = $pdo->query("PRAGMA table_info($tabela)")->fetchAll(PDO::FETCH_ASSOC);
+      $chaves = [];
+      foreach ($pdo->query("PRAGMA foreign_key_list($tabela)") as $fk) {
+          $chaves[$fk['from']] = $fk['table'] . '.' . $fk['to'];
+      }
+      $linhas = $pdo->query("SELECT COUNT(*) FROM $tabela")->fetchColumn();
+    ?>
+    <h2><?= htmlspecialchars($tabela) ?> <small>(<?= $linhas ?> <?= $linhas == 1 ? 'linha' : 'linhas' ?>)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+      <?php foreach ($colunas as $coluna): ?>
+        <tr>
+          <td><?= htmlspecialchars($coluna['name']) ?></td>
+          <td><?= htmlspecialchars($coluna['type']) ?></td>
+          <td>
+            <?php if ($coluna['pk']): ?><span class="pk">PK, chave primária</span><?php endif; ?>
+            <?php if (isset($chaves[$coluna['name']])): ?><span class="fk">FK, aponta para <?= htmlspecialchars($chaves[$coluna['name']]) ?></span><?php endif; ?>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    </table>
+  <?php endforeach; ?>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="Cliente.php" data-estado="igual">
+<?php
+// Cliente.php: a CLASSE, o molde de todo cliente do sistema.
+// Ela faz parte do MODELO: sabe que dados um cliente tem e quais são as regras dele.
+
+class Cliente
+{
+    // private: só a própria classe mexe no telefone. Por fora, só com os métodos dela.
+    private string $telefone;
+
+    public function __construct(
+        public string $nome,
+        public string $email,
+        string $telefone
+    ) {
+        // guarda só os números: "(61) 99599-3513" e "61995993513" ficam iguais
+        $this->telefone = preg_replace('/\D/', '', $telefone);
+    }
+
+    // cada cliente sabe conferir os próprios dados
+    public function validar(): array
+    {
+        $erros = [];
+        if (strlen($this->nome) < 3) {
+            $erros[] = 'O nome precisa de pelo menos 3 letras.';
+        }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $erros[] = 'Digite um e-mail válido.';
+        }
+        if (strlen($this->telefone) < 10 || strlen($this->telefone) > 11) {
+            $erros[] = 'Digite o telefone com DDD (10 ou 11 números).';
+        }
+        return $erros;
+    }
+
+    // "Ana Souza" vira "Ana"
+    public function primeiroNome(): string
+    {
+        return explode(' ', trim($this->nome))[0];
+    }
+
+    // só os números, do jeito que vão para o banco
+    public function telefoneSoNumeros(): string
+    {
+        return $this->telefone;
+    }
+
+    // "61995993513" vira "(61) 99599-3513"; "6133334444" vira "(61) 3333-4444"
+    public function telefoneFormatado(): string
+    {
+        $ddd = substr($this->telefone, 0, 2);
+        $resto = substr($this->telefone, 2);
+        $meio = strlen($resto) - 4;
+        return '(' . $ddd . ') ' . substr($resto, 0, $meio) . '-' . substr($resto, $meio);
+    }
+}
+</script>
+            <script type="text/plain" data-arquivo="clientes.php" data-estado="igual">
+<?php
+// clientes.php: o MODELO.
+// Todo o SQL dos clientes mora aqui, e só aqui.
+// Agora ele recebe e devolve objetos Cliente, e não arrays.
+require_once __DIR__ . '/banco.php';
+require_once __DIR__ . '/Cliente.php';
+
+// grava um cliente novo (recebe o objeto inteiro)
+function inserirCliente(Cliente $cliente): void
+{
+    $pdo = conectar();
+    $sql = 'INSERT INTO clientes (nome, email, telefone) VALUES (:nome, :email, :telefone)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':nome' => $cliente->nome,
+        ':email' => $cliente->email,
+        ':telefone' => $cliente->telefoneSoNumeros(),
+    ]);
+}
+
+// responde true (sim) se o e-mail já estiver no banco
+function emailCadastrado(string $email): bool
+{
+    $pdo = conectar();
+    $sql = 'SELECT COUNT(*) FROM clientes WHERE email = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
+// devolve a lista de clientes, em ordem alfabética: cada linha do banco vira um objeto
+function listarClientes(): array
+{
+    $pdo = conectar();
+    $sql = 'SELECT nome, email, telefone FROM clientes ORDER BY nome';
+    $clientes = [];
+    foreach ($pdo->query($sql) as $linha) {
+        $clientes[] = new Cliente($linha['nome'], $linha['email'], $linha['telefone']);
+    }
+    return $clientes;
+}
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="igual">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, monta o objeto Cliente e pede ao modelo para gravar.
+require_once __DIR__ . '/Cliente.php';
+require_once __DIR__ . '/clientes.php';
+
+$nome = '';
+$email = '';
+$telefone = '';
+$erros = [];
+$mensagem = '';
+
+// só entra aqui quando o formulário é enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $telefone = trim($_POST['telefone'] ?? '');
+
+    // 1. monta o objeto: daqui em diante, o cliente é uma peça só
+    $cliente = new Cliente($nome, $email, $telefone);
+
+    // 2. o próprio cliente confere os dados (o antigo validar.php virou método)
+    $erros = $cliente->validar();
+
+    // 3. passou? então o modelo confere se o e-mail é novo
+    if (!$erros && emailCadastrado($cliente->email)) {
+        $erros[] = 'Este e-mail já está cadastrado.';
+    }
+
+    // 4. tudo certo: o modelo grava o objeto inteiro e o formulário fica limpo
+    if (!$erros) {
+        inserirCliente($cliente);
+        $mensagem = 'Pronto, ' . $cliente->primeiroNome() . ' está no cadastro!';
+        $nome = '';
+        $email = '';
+        $telefone = '';
+    }
+}
+
+// 5. pede ao modelo a lista atualizada (agora é uma lista de objetos Cliente)
+$clientes = listarClientes();
+
+// 6. por fim, mostra a tela (a visão), que usa as variáveis acima
+require __DIR__ . '/tela-cadastro.php';
+</script>
+            <script type="text/plain" data-arquivo="tela-cadastro.php" data-estado="igual">
+<?php // tela-cadastro.php: a VISÃO. Só mostra a página; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Clientes</title>
+  <style>
+    .erro { color: #c22450; }
+    .sucesso { color: #2e7d5b; }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Clientes</h1>
+
+  <?php foreach ($erros as $erro): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+  <?php endforeach; ?>
+  <?php if ($mensagem): ?>
+    <p class="sucesso"><?= $mensagem ?></p>
+  <?php endif; ?>
+
+  <form method="post">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+
+    <label for="telefone">Telefone (com DDD)</label>
+    <input id="telefone" name="telefone" value="<?= htmlspecialchars($telefone) ?>">
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Clientes cadastrados</h2>
+  <ul>
+    <?php foreach ($clientes as $cliente): ?>
+      <li><?= htmlspecialchars($cliente->nome) ?> · <?= htmlspecialchars($cliente->email) ?> · <?= $cliente->telefoneFormatado() ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="teste-cliente.php" data-estado="igual">
+<?php
+// teste-cliente.php: testa a classe sozinha, antes de mexer no cadastro
+require_once __DIR__ . '/Cliente.php';
+
+// dois objetos (duas peças) saídos do mesmo molde
+$ana = new Cliente('Ana Souza', 'ana@email.com', '61995993513');
+$bia = new Cliente('Bi', 'bia-sem-arroba', '123');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste da classe Cliente</title>
+</head>
+<body>
+  <h1>Teste da classe Cliente</h1>
+
+  <p>Olá, <?= htmlspecialchars($ana->primeiroNome()) ?>! Erros: <?= count($ana->validar()) ?></p>
+
+  <p>Olá, <?= htmlspecialchars($bia->primeiroNome()) ?>! Erros:</p>
+  <ul>
+    <?php foreach ($bia->validar() as $erro): ?>
+      <li><?= htmlspecialchars($erro) ?></li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo=".gitignore" data-estado="igual">
+*.sqlite
+</script>
+            <script type="text/plain" data-previa="teste-chaves.php">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste das chaves</title>
+</head>
+<body>
+  <h1>Teste das chaves</h1>
+  <ol>
+          <li>Cliente de Teste tem o id 3.</li>
+          <li>A caneca tem o id 1.</li>
+          <li>Pedido certo gravado: 2 canecas para o cliente 3.</li>
+          <li>O banco recusou o pedido do cliente 999: SQLSTATE[23000]: Integrity constraint violation: 19 FOREIGN KEY constraint failed</li>
+          <li>Agora há 1 pedido(s) na tabela.</li>
+      </ol>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="teste-banco.php depois do teste">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Raio-x do banco da loja</title>
+  <style>
+    body { font-family: sans-serif; }
+    table { border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #999; padding: .3rem .6rem; text-align: left; }
+    .pk { color: #b8860b; font-weight: bold; }
+    .fk { color: #2e7d5b; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Raio-x do banco da loja</h1>
+  <p>3 tabelas no arquivo loja.sqlite.</p>
+
+          <h2>clientes <small>(3 linhas)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+              <tr>
+          <td>id</td>
+          <td>INTEGER</td>
+          <td>
+            <span class="pk">PK, chave primária</span>                      </td>
+        </tr>
+              <tr>
+          <td>nome</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>email</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>telefone</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+          </table>
+          <h2>pedidos <small>(1 linha)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+              <tr>
+          <td>id</td>
+          <td>INTEGER</td>
+          <td>
+            <span class="pk">PK, chave primária</span>                      </td>
+        </tr>
+              <tr>
+          <td>cliente_id</td>
+          <td>INTEGER</td>
+          <td>
+                        <span class="fk">FK, aponta para clientes.id</span>          </td>
+        </tr>
+              <tr>
+          <td>produto_id</td>
+          <td>INTEGER</td>
+          <td>
+                        <span class="fk">FK, aponta para produtos.id</span>          </td>
+        </tr>
+              <tr>
+          <td>quantidade</td>
+          <td>INTEGER</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>data</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+          </table>
+          <h2>produtos <small>(3 linhas)</small></h2>
+    <table>
+      <tr><th>Coluna</th><th>Tipo</th><th>Chave</th></tr>
+              <tr>
+          <td>id</td>
+          <td>INTEGER</td>
+          <td>
+            <span class="pk">PK, chave primária</span>                      </td>
+        </tr>
+              <tr>
+          <td>nome</td>
+          <td>TEXT</td>
+          <td>
+                                  </td>
+        </tr>
+              <tr>
+          <td>preco</td>
+          <td>REAL</td>
+          <td>
+                                  </td>
+        </tr>
+          </table>
+  </body>
+</html>
+</script>
+          </div>
+          <p><strong>Teste</strong> (erros de propósito):</p>
+          <ol>
+            <li>No <code>banco.php</code>, ponha <code>//</code> na frente da linha do <code>PRAGMA foreign_keys = ON</code>, salve e recarregue o <code>teste-chaves.php</code>. Agora aparece "Opa! O banco aceitou um pedido do cliente 999": sem o PRAGMA, o SQLite não confere nada. <strong>Tire o <code>//</code></strong> e salve. (O pedido errado ficou na tabela: no passo 4 você vai achar e apagar.)</li>
+            <li>Recarregue o <code>teste-chaves.php</code> três vezes e olhe o raio-x: os pedidos aumentam, os produtos não. Por quê? (Dica: <code>UNIQUE</code> e <code>INSERT OR IGNORE</code>.)</li>
+            <li>No pedido certo, troque <code>':quantidade' =&gt; 2</code> por <code>0</code> e recarregue: o <code>CHECK (quantidade &gt; 0)</code> barra com <code>CHECK constraint failed</code>. Volte para <code>2</code>.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+              <li>Acrescente um pedido do produto 999, dentro de outro <code>try</code> e <code>catch</code>. O banco recusa também?</li>
+              <li>Cadastre um quarto produto da loja no <code>foreach</code>.</li>
+              <li>Tente cadastrar um produto com preço <code>-5</code>. Quem barra?</li>
+            </ul>
+          </div>
+          <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Passo 3: teste das chaves estrangeiras"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
+
+          <!-- ---------- passo 4 ---------- -->
+          <div class="tutorial-passo" id="passo-4">
+            <span class="etiqueta ouro">Passo 4</span>
+            <h3>Olhando por dentro: o DB Browser for SQLite</h3>
+            <p>O DB Browser for SQLite abre o <code>loja.sqlite</code> como uma planilha: dá para ver a estrutura, os dados e cadastrar à mão, conferindo o que o PHP gravou.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Baixe em <a href="https://sqlitebrowser.org/dl/">sqlitebrowser.org</a>. No Windows do laboratório, a versão <strong>.zip (no installer)</strong> roda sem instalar. No Mac, baixe o <code>.dmg</code>.</li>
+            <li>Clique em <strong>Abrir banco de dados</strong> e escolha o <code>loja.sqlite</code>, na pasta <code>cadastro-clientes</code>.</li>
+            <li>Na aba <strong>Estrutura do banco de dados</strong>, abra as três tabelas e compare com o seu diagrama.</li>
+            <li>Na aba <strong>Executar SQL</strong>, digite <code>PRAGMA foreign_key_check;</code> e clique no ▶. Aparece o pedido "órfão" do cliente 999, que entrou no teste do passo 3 com o PRAGMA desligado.</li>
+            <li>Na aba <strong>Navegar dados</strong>, escolha a tabela <code>pedidos</code>, clique na linha do cliente 999 e em <strong>Excluir registro</strong>. Rode o <code>PRAGMA foreign_key_check;</code> de novo: agora não aparece nada.</li>
+            <li>Ainda em <strong>Navegar dados</strong>, escolha <code>produtos</code>, clique em <strong>Novo registro</strong> e cadastre um produto (deixe o <code>id</code> em branco: o banco numera).</li>
+            <li>Clique em <strong>Escrever modificações</strong> (<code>Ctrl + S</code>). Sem isso, nada é gravado e o PHP pode dar <code>database is locked</code>.</li>
+          </ol>
+          <p class="dica"><strong>Sem o DB Browser?</strong> No VS Code, a extensão <strong>SQLite Viewer</strong> abre o <code>loja.sqlite</code> com dois cliques, só para ver. Para cadastrar, use o <code>teste-chaves.php</code>.</p>
+          <p><strong>Teste:</strong></p>
+          <ol>
+            <li>Abra o <code>teste-banco.php</code>: o produto que você cadastrou à mão entrou na contagem.</li>
+            <li>No DB Browser, em <code>pedidos</code>, troque o <code>cliente_id</code> de um pedido para <code>999</code> e tente gravar. O DB Browser liga a conferência das chaves sozinho e recusa. Cancele a mudança.</li>
+            <li>Rode <code>git status</code>: o <code>loja.sqlite</code> continua de fora.</li>
+          </ol>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+              <li>Pelo DB Browser, cadastre 3 pedidos para clientes diferentes.</li>
+              <li>Conte à mão: quantos pedidos cada cliente tem? Na aula 13, o SQL faz essa conta numa linha.</li>
+            </ul>
+          </div>
+          <p class="tutorial-commit">Tudo certo? Guarde e envie para o GitHub, um comando de cada vez:</p>
+          <pre class="codigo git-envio" aria-label="Os três comandos para guardar e enviar para o GitHub"><code><span class="linha"><span class="num">1</span><span class="com"># 📦 1. põe na caixa</span></span><span class="linha"><span class="num">2</span>git add .</span><span class="linha"><span class="num">3</span><span class="com"># 🏷️ 2. fecha e etiqueta</span></span><span class="linha"><span class="num">4</span>git commit -m <span class="str">"Passo 4: banco conferido no DB Browser"</span></span><span class="linha"><span class="num">5</span><span class="com"># 🚚 3. envia</span></span><span class="linha"><span class="num">6</span>git push</span></code></pre>
+        </section>
+
+        <!-- ===================== ESTUDO DE CASO ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · estudo de caso</span>
+            <h2>A planilha que não fechava</h2>
+            <p>Caso fictício, criado para a aula.</p>
+          </div>
+          <div class="cartao caso">
+            <p>Uma loja de artesanato controlava os pedidos numa planilha. O nome e o telefone da cliente se repetiam em cada pedido. Quando uma cliente trocou de telefone, metade das linhas ficou com o número novo e metade com o antigo, e a loja ligou para o número errado na entrega.</p>
+            <h3>Para discutir em grupo</h3>
+            <ol>
+              <li>Que informações se repetem na planilha?</li>
+              <li>Como separar em tabelas?</li>
+              <li>Que coluna liga o pedido à cliente?</li>
+              <li>Se o telefone mudar, em quantos lugares será preciso alterar, na planilha e no banco?</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== QUEBRA-CABEÇA (desafio gamificado) ===================== -->
+        <section class="parte" id="quebra-cabeca">
+          <div class="cab">
+            <span class="olho">G1 · desafio gamificado</span>
+            <h2>Quebra-cabeça da planilha</h2>
+            <p>Em equipe: para cada coluna da planilha da loja, escolham a tabela onde ela deve morar. Cada acerto vale 10 XP, e acertar tudo na primeira tentativa dá bônus. Ganha a equipe que eliminar mais repetições sem perder informação.</p>
+          </div>
+          <div class="cartao interativo" data-planilha-loja>
+            <div class="planilha-rolagem">
+              <table class="planilha">
+                <caption>Pedidos da loja (planilha antiga; no celular, arraste a tabela para o lado)</caption>
+                <thead><tr><th>data</th><th>cliente</th><th>telefone</th><th>e-mail</th><th>produto</th><th>preço</th><th>qtd</th></tr></thead>
+                <tbody>
+                  <tr><td>03/10</td><td>Ana Souza</td><td>(61) 99599-3513</td><td>ana@email.com</td><td>Caneca de cerâmica</td><td>35,90</td><td>2</td></tr>
+                  <tr><td>05/10</td><td>ana souza</td><td>61 99599 3513</td><td>ana@email.com</td><td>Vaso de macramê</td><td>59,00</td><td>1</td></tr>
+                  <tr><td>07/10</td><td>Bruno Lima</td><td>(61) 3333-4444</td><td>bruno@email.com</td><td>Caneca de ceramica</td><td>35,9</td><td>1</td></tr>
+                  <tr><td>12/10</td><td>Ana S.</td><td>(61) 98888-1111</td><td>ana@email.com</td><td>Chaveiro de crochê</td><td>12,50</td><td>4</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="planilha-colunas">
+              <label data-resposta="pedidos">data <select><option value="">escolha</option><option>clientes</option><option>produtos</option><option>pedidos</option></select></label>
+              <label data-resposta="clientes">cliente <select><option value="">escolha</option><option>clientes</option><option>produtos</option><option>pedidos</option></select></label>
+              <label data-resposta="clientes">telefone <select><option value="">escolha</option><option>clientes</option><option>produtos</option><option>pedidos</option></select></label>
+              <label data-resposta="clientes">e-mail <select><option value="">escolha</option><option>clientes</option><option>produtos</option><option>pedidos</option></select></label>
+              <label data-resposta="produtos">produto <select><option value="">escolha</option><option>clientes</option><option>produtos</option><option>pedidos</option></select></label>
+              <label data-resposta="produtos">preço <select><option value="">escolha</option><option>clientes</option><option>produtos</option><option>pedidos</option></select></label>
+              <label data-resposta="pedidos">qtd <select><option value="">escolha</option><option>clientes</option><option>produtos</option><option>pedidos</option></select></label>
+            </div>
+            <button type="button" class="botao">Conferir</button>
+            <div class="planilha-resultado" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- ===================== ATIVIDADE ===================== -->
+        <section class="parte" id="atividade">
+          <div class="cab">
+            <span class="olho">A1 · atividade</span>
+            <h2>O banco da loja</h2>
+            <p>Vá marcando os passos: o que você marcar fica salvo neste navegador.</p>
+          </div>
+
+          <div class="cartao">
+            <div class="progresso-atividade" data-progresso="passos-aula-12">
+              <span class="contagem">0 de 6</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <ol class="checklist" id="passos-aula-12">
+              <li><label><input type="checkbox"><span>Desenhei o diagrama com clientes, produtos e pedidos. <a href="#passo-1">Veja o passo 1</a></span></label></li>
+              <li><label><input type="checkbox"><span>Identifiquei as chaves primárias e estrangeiras. <a href="#passo-1">Veja o passo 1</a></span></label></li>
+              <li><label><input type="checkbox"><span>Criei as tabelas produtos e pedidos no SQLite pelo <code>banco.php</code>. <a href="#passo-2">Veja o passo 2</a></span></label></li>
+              <li><label><input type="checkbox"><span>Liguei a chave estrangeira e testei um pedido de cliente que não existe. <a href="#passo-3">Veja o passo 3</a></span></label></li>
+              <li><label><input type="checkbox"><span>Cadastrei registros de teste e conferi no DB Browser for SQLite. <a href="#passo-4">Veja o passo 4</a></span></label></li>
+              <li><label><input type="checkbox"><span>Coloquei o diagrama no repositório e fiz o push (confira com <code>git log --oneline</code>). <a href="#passo-1">Veja o passo 1</a></span></label></li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== CONEXÃO STEAM ===================== -->
+        <section class="parte" id="steam">
+          <div class="cab">
+            <span class="olho">S1 · conexão STEAM</span>
+            <h2>Toda peça tem um código</h2>
+          </div>
+          <div class="steam">
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">E</span>
+              <h3>Eletrônica</h3>
+              <p>Na placa, cada peça tem um código único: R1, R2, C3. Esse é o <code>id</code>. E a lista de ligações diz qual pino vai em qual: é a chave estrangeira, apontando de uma peça para outra.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">M</span>
+              <h3>Matemática</h3>
+              <p>O nome "relacional" vem da matemática: em 1970, Edgar F. Codd, da IBM, propôs guardar os dados como <strong>relações</strong>, os conjuntos de pares e trincas que você vê na escola. Cada tabela é uma relação.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">A</span>
+              <h3>Arte</h3>
+              <p>No ateliê de sucata, ninguém joga tudo numa caixa só: parafusos numa gaveta, fios em outra, e cada gaveta com etiqueta. Organizar o banco é organizar o ateliê.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== DESAFIO EXTRA ===================== -->
+        <section class="parte" id="desafio">
+          <div class="cab">
+            <span class="olho">D1 · desafio extra</span>
+            <h2>Terminou antes? Tem mais.</h2>
+          </div>
+          <div class="cartao">
+            <p>Hoje cada pedido tem um produto só. Na vida real, um pedido tem vários. Crie a tabela <code>itens_pedido</code>, com <code>pedido_id</code>, <code>produto_id</code> e <code>quantidade</code>, as duas chaves estrangeiras, e desenhe no diagrama. Isso é um relacionamento <strong>muitos para muitos</strong> (N:N): um pedido tem muitos produtos, e um produto está em muitos pedidos.</p>
+          </div>
+        </section>
+
+        <!-- ===================== FECHAMENTO ===================== -->
+        <section class="parte" id="fechamento">
+          <div class="cab">
+            <span class="olho">F1 · fechamento</span>
+            <h2>E o banco do Projeto Integrador?</h2>
+          </div>
+          <div class="cartao">
+            <p>Em equipe, 10 minutos: esbocem no draw.io as tabelas do sistema do Projeto Integrador, com as chaves. Uma pessoa de cada equipe mostra o desenho para a turma em 1 minuto.</p>
+          </div>
+        </section>
+
+        <!-- ===================== MATERIAIS ===================== -->
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para estudar e praticar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="../curso/#/module/m6">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>curso/módulo 6</span>
+              <h4>Banco de dados com SQLite</h4>
+              <p>Lições e o quiz do módulo 6 do Curso Básico de PHP.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">quiz</span></span>
+            </a>
+            <a class="repo luz" href="https://app.diagrams.net/">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>app.diagrams.net</span>
+              <h4>draw.io</h4>
+              <p>Para desenhar o diagrama do banco, no navegador e de graça.</p>
+              <span class="repo-pe"><span class="ling">Diagrama</span><span class="etiqueta">ferramenta</span></span>
+            </a>
+            <a class="repo luz" href="https://sqlitebrowser.org/">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>sqlitebrowser.org</span>
+              <h4>DB Browser for SQLite</h4>
+              <p>Abre o arquivo do banco como planilha: estrutura, dados e SQL.</p>
+              <span class="repo-pe"><span class="ling">SQLite</span><span class="etiqueta">ferramenta</span></span>
+            </a>
+            <a class="repo luz" href="https://www.sqlite.org/foreignkeys.html">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>sqlite.org</span>
+              <h4>Chaves estrangeiras no SQLite</h4>
+              <p>A documentação oficial, com o PRAGMA foreign_keys (em inglês).</p>
+              <span class="repo-pe"><span class="ling">SQLite</span><span class="etiqueta">consulta</span></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ===================== ENTREGA ===================== -->
+        <section class="parte" id="entrega">
+          <div class="cartao entrega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <div>
+              <span class="olho">E1 · entrega</span>
+              <h3>Commit e push da pasta <code>cadastro-clientes</code> com o diagrama e as três tabelas</h3>
+              <p>Até o fim da aula, pelo menos com o passo 3, um commit por passo. Na próxima, o SQL na prática: as perguntas da gerente da loja.</p>
+            </div>
+          </div>
+        </section>
+
+        <nav class="nav-aulas" aria-label="Outras aulas">
+          <!-- EDITE AQUI: use <a href="aula-NN.html"> quando a página da aula vizinha for liberada; <span> enquanto não for -->
+          <a class="anterior" href="aula-11.html">
+            <span class="olho">← aula anterior</span>
+            <strong>Aula 11: Do array ao objeto</strong>
+          </a>
+          <span class="proxima">
+            <span class="olho">próxima aula →</span>
+            <strong>Aula 13: SQL na prática: criar, consultar e alterar dados</strong>
+          </span>
+        </nav>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Linguagem de Programação para Web II</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>&lt;?php echo "bons estudos!"; ?&gt;</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="../assets/js/aulas.js"></script>
+  <script src="../assets/js/tutorial-php.js?v=2"></script>
+  <script src="../assets/js/interativos-php.js?v=2"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>
