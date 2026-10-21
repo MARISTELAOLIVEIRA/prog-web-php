@@ -1,13 +1,15 @@
 /* ===================================================================
-   sql-php.js: SQL de verdade dentro da página, com o SQLite do sql.js (assets/vendor/sql.js) · versão 1 · 2026-10-21
+   sql-php.js: SQL de verdade dentro da página, com o SQLite do sql.js (assets/vendor/sql.js) · versão 2 · 2026-10-21
    - [data-sql-console]: console com o banco da loja (assets/sql/loja.sql). O aluno roda SELECT, UPDATE, DELETE...
      sem instalar nada; "Recomeçar o banco" volta tudo ao início. Os exemplos vêm do <select> (value = SQL).
    - [data-detetive-sql]: "Detetive SQL" (aula 13). O mesmo banco, mais a tabela entregas, com um pedido de outubro
      que não foi entregue (sorteado a cada visita). A equipe descobre qual é e quem comprou; cada consulta custa XP.
+   - [data-ataque-sql]: "Ataque e defesa" (aula 14). A mesma busca por e-mail feita de dois jeitos: colando o texto
+     no SQL (cai na injeção) e com consulta preparada (o texto é só texto). Cada jeito vale uma insígnia.
    Os resultados entram com textContent. O banco vive só na memória: recarregou a página, recomeçou.
    =================================================================== */
 (function () {
-  const caixas = document.querySelectorAll("[data-sql-console], [data-detetive-sql]");
+  const caixas = document.querySelectorAll("[data-sql-console], [data-detetive-sql], [data-ataque-sql]");
   if (!caixas.length) return;
 
   // a pasta assets/, a partir do endereço deste arquivo (assets/js/sql-php.js)
@@ -172,6 +174,69 @@
         }
       });
       placar();
+    });
+    document.querySelectorAll("[data-ataque-sql]").forEach(function (caixa) {
+      const db = novoBanco(SQL, script);
+      const campo = caixa.querySelector("input");
+      const saida = caixa.querySelector(".sql-saida");
+      const insignias = caixa.querySelector(".ataque-insignias");
+      const ganhas = {};
+      caixa.querySelectorAll("button").forEach(function (b) { b.disabled = false; });
+      saida.textContent = "";
+      saida.appendChild(el("p", "sql-ok", "Banco da loja carregado. Digite um e-mail, ou tente o ataque."));
+
+      function ganhar(chave, texto) {
+        if (ganhas[chave]) return;
+        ganhas[chave] = true;
+        insignias.appendChild(el("p", "planilha-xp", texto));
+        if (ganhas.ataque && ganhas.defesa) insignias.appendChild(el("p", "", "Dupla completa: 100 XP. Agora corrija o busca-insegura.php do tutorial."));
+      }
+
+      function mostrar(sqlMostrado, linhas, comAtaque, preparada) {
+        saida.textContent = "";
+        const p = el("p", "sql-ok", "SQL que foi para o banco: ");
+        p.appendChild(el("code", "", sqlMostrado));
+        saida.appendChild(p);
+        if (preparada) saida.appendChild(el("p", "sql-ok", "Valor do marcador :email → " + JSON.stringify(campo.value)));
+        if (!linhas.length) {
+          saida.appendChild(el("p", "", "Nenhum cadastro com esse e-mail."));
+        } else {
+          const ul = el("ul");
+          linhas.forEach(function (l) { ul.appendChild(el("li", "", l[0] + " · " + l[1])); });
+          saida.appendChild(ul);
+        }
+        if (!preparada && linhas.length > 1) {
+          saida.appendChild(el("p", "sql-erro", "Vazou! O texto digitado virou parte do comando, e o banco devolveu os telefones de todo mundo."));
+          ganhar("ataque", "🏴 Insígnia Hacker do bem · 50 XP");
+        }
+        if (preparada && comAtaque && !linhas.length) {
+          saida.appendChild(el("p", "sql-ok", "Bloqueado: com o prepare, o ataque é só um e-mail esquisito que não existe."));
+          ganhar("defesa", "🛡️ Insígnia Escudo · 50 XP");
+        }
+      }
+
+      caixa.querySelector("[data-colando]").addEventListener("click", function () {
+        const sql = "SELECT nome, telefone FROM clientes WHERE email = '" + campo.value + "'";
+        try {
+          const r = db.exec(sql);
+          mostrar(sql, r.length ? r[0].values : [], /'/.test(campo.value), false);
+        } catch (erro) {
+          saida.textContent = "";
+          const p = el("p", "sql-ok", "SQL que foi para o banco: ");
+          p.appendChild(el("code", "", sql));
+          saida.appendChild(p);
+          saida.appendChild(el("p", "sql-erro", "Erro: " + erro.message + ". O texto quebrou o comando: sinal de que dá para injetar SQL aqui."));
+        }
+      });
+      caixa.querySelector("[data-preparada]").addEventListener("click", function () {
+        const sql = "SELECT nome, telefone FROM clientes WHERE email = :email";
+        const stmt = db.prepare(sql);
+        stmt.bind({ ":email": campo.value });
+        const linhas = [];
+        while (stmt.step()) linhas.push(stmt.get());
+        stmt.free();
+        mostrar(sql, linhas, /'/.test(campo.value), true);
+      });
     });
   }).catch(function () {
     caixas.forEach(function (caixa) {
