@@ -115,7 +115,7 @@ Um módulo para cada tema da disciplina. Todos ficam liberados: comece por onde 
 | 🧰 **XAMPP** | O pacote com Apache, PHP e MySQL, para quem prefere tudo junto. |
 | 🗄️ **MySQL**, **SQLite** e **PDO** | Guardar os dados num lugar que não esquece. |
 | 💻 **VS Code** | Escrever e organizar o código. |
-| 🐙 **GitHub** | Guardar o projeto e fazer commit de cada etapa. |
+| <img src="https://maristelaoliveira.github.io/assets/img/octocat-stela.webp" width="22" height="22" alt="Octocat da Stela" align="absmiddle"> **GitHub** | Guardar o projeto e fazer commit de cada etapa. |
 | 📘 **Manual do PHP** ([php.net](https://www.php.net/manual/pt_BR/)) | A documentação oficial, em português. |
 | 🌐 **APIs e Web Services** | Fazer o sistema conversar com o mundo. |
 | 🤖 **IA** | Para testar, documentar e depurar, com senso crítico. |
