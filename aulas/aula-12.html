@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <!-- EDITE AQUI: número e tema da aula -->
-  <title>Aula 12: Mini Cadastro com SQLite · Web II: PHP · Stela</title>
-  <meta name="description" content="Aulas 12 e 13 de Linguagem de Programação para Web II: o Mini Cadastro, um MVC enxuto com PHP e SQLite no Apache do XAMPP, rumo ao CRUD completo.">
+  <title>Aula 12: Mini Loja com SQLite · Web II: PHP · Stela</title>
+  <meta name="description" content="Aulas 12 e 13 de Linguagem de Programação para Web II: a Mini Loja, um MVC enxuto com PHP e SQLite no Apache do XAMPP, com o CRUD completo de produtos.">
 
   <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
@@ -79,8 +79,8 @@
           <span class="etiqueta">Laboratório de práticas</span>
           <span class="etiqueta">SQLite</span>
         </div>
-        <h1>Mini Cadastro com SQLite</h1>
-        <p class="subtitulo">Quatro arquivos, um banco que nasce sozinho e o caminho até o CRUD completo.</p>
+        <h1>Mini Loja com SQLite</h1>
+        <p class="subtitulo">Quatro arquivos, um banco que nasce sozinho e o CRUD completo de produtos.</p>
       </div>
     </section>
 
@@ -90,7 +90,7 @@
         <div class="resumo">
           <div class="cartao">
             <span class="olho">Objetivo do dia</span>
-            <p>Montar o Mini Cadastro: listar, cadastrar e excluir clientes num banco SQLite, com o PHP no Apache do XAMPP.</p>
+            <p>Montar a Mini Loja: listar, cadastrar, excluir e editar produtos num banco SQLite, com o PHP no Apache do XAMPP.</p>
           </div>
           <div class="cartao">
             <span class="olho">Antes da aula</span>
@@ -115,21 +115,24 @@
           </div>
           <div class="texto">
             <p>
-              O cadastro funcionava, mas tinha arquivo para todo lado e ficou difícil saber onde mexer. Hoje a gente
-              recomeça pequeno: o <strong>Mini Cadastro</strong>, com quatro arquivos e um banco de verdade.
-              Quem perdeu aulas começa junto, do zero.
+              O cadastro de clientes tinha arquivo para todo lado, e ficou difícil saber onde mexer. Hoje a gente
+              recomeça pequeno, com uma loja de componentes eletrônicos: a <strong>Mini Loja</strong>. São quatro
+              arquivos e um banco de verdade. Quem perdeu aulas começa junto, do zero.
             </p>
-            <p>Até o fim do semestre, você monta um <strong>CRUD completo</strong> com esta mesma arquitetura. O caminho:</p>
+            <p>
+              Começamos pelo mais simples: <strong>produtos</strong>, só com nome e preço. A loja cresce no ritmo da
+              turma: clientes, conferência dos dados e login entram nas próximas aulas, sempre nos mesmos quatro arquivos.
+            </p>
           </div>
           <div class="tabela-rola">
             <table class="metodos">
-              <caption>Rumo ao CRUD</caption>
+              <caption>O CRUD de hoje</caption>
               <thead><tr><th>Letra</th><th>O que faz</th><th>SQL</th><th>Quando</th></tr></thead>
               <tbody>
-                <tr><td>R</td><td>lista os clientes</td><td>SELECT</td><td>hoje, versão 1</td></tr>
-                <tr><td>C</td><td>cadastra um cliente</td><td>INSERT</td><td>hoje, versão 2</td></tr>
-                <tr><td>D</td><td>exclui um cliente</td><td>DELETE</td><td>hoje, versão 3</td></tr>
-                <tr><td>U</td><td>edita um cliente</td><td>UPDATE</td><td>aula 14</td></tr>
+                <tr><td>R</td><td>lista os produtos</td><td>SELECT</td><td>versão 1</td></tr>
+                <tr><td>C</td><td>cadastra um produto</td><td>INSERT</td><td>versão 2</td></tr>
+                <tr><td>D</td><td>exclui um produto</td><td>DELETE</td><td>versão 3</td></tr>
+                <tr><td>U</td><td>edita um produto</td><td>UPDATE</td><td>versão 4</td></tr>
               </tbody>
             </table>
           </div>
@@ -147,19 +150,20 @@
               <span class="olho">C1</span>
               <h3>Quatro arquivos, cada um com um trabalho</h3>
               <p>É o MVC do restaurante, só que enxuto. Cada arquivo faz <strong>uma coisa só</strong>: deu problema, você já sabe onde procurar.</p>
-              <ul><li><code>index.html</code>: a <strong>porta</strong> do restaurante. Só HTML.</li><li><code>cadastro.php</code>: o <strong>garçom</strong> (controle). Recebe o pedido e leva a resposta.</li><li><code>banco.php</code>: a <strong>cozinha</strong> (modelo). O único que fala com o banco.</li><li><code>tela.php</code>: o <strong>prato</strong> (visão). Só mostra.</li></ul>
-              <p><strong>O caminho de um clique:</strong> você abre o <code>cadastro.php</code> → ele pede os clientes ao <code>banco.php</code> → recebe a lista → entrega para a <code>tela.php</code> mostrar.</p>
+              <ul><li><code>index.html</code>: a <strong>porta</strong> da loja. Só HTML.</li><li><code>cadastro.php</code>: o <strong>garçom</strong> (controle). Recebe o pedido e leva a resposta.</li><li><code>banco.php</code>: a <strong>cozinha</strong> (modelo). O único que fala com o banco.</li><li><code>tela.php</code>: o <strong>prato</strong> (visão). Só mostra.</li></ul>
+              <p><strong>O caminho de um clique:</strong> você abre o <code>cadastro.php</code> → ele pede os produtos ao <code>banco.php</code> → recebe a lista → entrega para a <code>tela.php</code> mostrar.</p>
             </div>
-            <pre class="codigo" aria-label="Os arquivos do Mini Cadastro"><code><span class="linha"><span class="num">1</span>cadastro-clientes/</span><span class="linha"><span class="num">2</span>    index.html        <span class="com">// a porta: a página inicial</span></span><span class="linha"><span class="num">3</span>    cadastro.php      <span class="com">// o garçom: o controle</span></span><span class="linha"><span class="num">4</span>    banco.php         <span class="com">// a cozinha: o modelo (todo o SQL)</span></span><span class="linha"><span class="num">5</span>    tela.php          <span class="com">// o prato: a visão (o HTML)</span></span><span class="linha"><span class="num">6</span>    teste.php         <span class="com">// confere o ambiente</span></span><span class="linha"><span class="num">7</span>    cadastro.sqlite   <span class="com">// o banco: nasce sozinho</span></span></code></pre>
+            <pre class="codigo" aria-label="Os arquivos da Mini Loja"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html          <span class="com">// a porta: a página inicial</span></span><span class="linha"><span class="num">3</span>    cadastro.php        <span class="com">// o garçom: o controle</span></span><span class="linha"><span class="num">4</span>    banco.php           <span class="com">// a cozinha: o modelo (todo o SQL)</span></span><span class="linha"><span class="num">5</span>    tela.php            <span class="com">// o prato: a visão (o HTML)</span></span><span class="linha"><span class="num">6</span>    teste.php           <span class="com">// confere o ambiente</span></span><span class="linha"><span class="num">7</span>    mini-loja.sqlite    <span class="com">// o banco: nasce sozinho</span></span></code></pre>
           </div>
           <div class="conceito">
             <div class="texto">
               <span class="olho">C2</span>
               <h3>O SQL do CRUD</h3>
-              <p>O banco é uma tabela, como uma planilha: cada linha é um cliente, cada coluna é um dado (<code>id</code>, <code>nome</code>, <code>email</code>).</p>
-              <p><strong>CRUD</strong> são as quatro coisas que todo sistema faz com os dados: <strong>C</strong>riar, <strong>L</strong>er (<em>Read</em>), <strong>A</strong>tualizar (<em>Update</em>) e <strong>A</strong>pagar (<em>Delete</em>). Cada uma tem o seu comando, e todos moram no <code>banco.php</code>.</p>
+              <p>O banco é uma tabela, como uma planilha: cada linha é um produto, cada coluna é um dado (<code>id</code>, <code>nome</code>, <code>preco</code>).</p>
+              <p><strong>CRUD</strong> são as quatro coisas que todo sistema faz com os dados: <strong>C</strong>riar, <strong>L</strong>er (<em>Read</em>), <strong>A</strong>tualizar (<em>Update</em>) e <strong>A</strong>pagar (<em>Delete</em>). Hoje você usa as quatro, e todas moram no <code>banco.php</code>.</p>
+              <p>Repare: no SQL, o preço usa <strong>ponto</strong> (<code>39.90</code>), como na calculadora.</p>
             </div>
-            <pre class="codigo" aria-label="Os quatro comandos do CRUD"><code><span class="linha"><span class="num">1</span><span class="com">// C: cria (cadastra) um cliente</span></span><span class="linha"><span class="num">2</span><span class="tag">INSERT</span> <span class="tag">INTO</span> clientes (nome, email) <span class="tag">VALUES</span> (<span class="str">'Ana Souza'</span>, <span class="str">'ana@email.com'</span>)</span><span class="linha"><span class="num">3</span><span class="com">// R: lê (lista) os clientes</span></span><span class="linha"><span class="num">4</span><span class="tag">SELECT</span> id, nome, email <span class="tag">FROM</span> clientes <span class="tag">ORDER</span> <span class="tag">BY</span> nome</span><span class="linha"><span class="num">5</span><span class="com">// U: atualiza (edita): fica para a aula 14</span></span><span class="linha"><span class="num">6</span><span class="tag">UPDATE</span> clientes <span class="tag">SET</span> email = <span class="str">'ana@novo.com'</span> <span class="tag">WHERE</span> id = 1</span><span class="linha"><span class="num">7</span><span class="com">// D: apaga (exclui) um cliente</span></span><span class="linha"><span class="num">8</span><span class="tag">DELETE</span> <span class="tag">FROM</span> clientes <span class="tag">WHERE</span> id = 1</span></code></pre>
+            <pre class="codigo" aria-label="Os quatro comandos do CRUD"><code><span class="linha"><span class="num">1</span><span class="com">// C: cria (cadastra) um produto</span></span><span class="linha"><span class="num">2</span><span class="tag">INSERT</span> <span class="tag">INTO</span> produtos (nome, preco) <span class="tag">VALUES</span> (<span class="str">'Placa ESP32'</span>, 39.90)</span><span class="linha"><span class="num">3</span><span class="com">// R: lê (lista) os produtos</span></span><span class="linha"><span class="num">4</span><span class="tag">SELECT</span> id, nome, preco <span class="tag">FROM</span> produtos <span class="tag">ORDER</span> <span class="tag">BY</span> nome</span><span class="linha"><span class="num">5</span><span class="com">// U: atualiza (edita) o produto de id 1</span></span><span class="linha"><span class="num">6</span><span class="tag">UPDATE</span> produtos <span class="tag">SET</span> preco = 42.50 <span class="tag">WHERE</span> id = 1</span><span class="linha"><span class="num">7</span><span class="com">// D: apaga (exclui) o produto de id 1</span></span><span class="linha"><span class="num">8</span><span class="tag">DELETE</span> <span class="tag">FROM</span> produtos <span class="tag">WHERE</span> id = 1</span></code></pre>
           </div>
           <div class="conceito">
             <div class="texto">
@@ -168,7 +172,7 @@
               <p>Nunca cole o que o usuário digitou dentro do SQL. Com o <code>prepare</code>, o comando vai com um marcador (<code>:nome</code>) e o dado vai separado, no <code>execute</code>.</p>
               <p class="dica cuidado"><strong>Por quê?</strong> Sem o <code>prepare</code>, alguém digita um pedaço de SQL no formulário e o banco obedece. Esse ataque se chama <strong>SQL injection</strong>.</p>
             </div>
-            <pre class="codigo" aria-label="Gravando com prepare"><code><span class="linha"><span class="num">1</span><span class="com">// 1. o comando, com os marcadores :nome e :email</span></span><span class="linha"><span class="num">2</span><span class="var">$stmt</span> = <span class="var">$pdo</span>-&gt;<span class="fn">prepare</span>(<span class="str">'INSERT INTO clientes (nome, email) VALUES (:nome, :email)'</span>);</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="com">// 2. os dados, separados</span></span><span class="linha"><span class="num">5</span><span class="var">$stmt</span>-&gt;<span class="fn">execute</span>([<span class="str">':nome'</span> =&gt; <span class="var">$nome</span>, <span class="str">':email'</span> =&gt; <span class="var">$email</span>]);</span></code></pre>
+            <pre class="codigo" aria-label="Gravando com prepare"><code><span class="linha"><span class="num">1</span><span class="com">// 1. o comando, com os marcadores :nome e :preco</span></span><span class="linha"><span class="num">2</span><span class="var">$stmt</span> = <span class="var">$pdo</span>-&gt;<span class="fn">prepare</span>(<span class="str">'INSERT INTO produtos (nome, preco) VALUES (:nome, :preco)'</span>);</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="com">// 2. os dados, separados</span></span><span class="linha"><span class="num">5</span><span class="var">$stmt</span>-&gt;<span class="fn">execute</span>([<span class="str">':nome'</span> =&gt; <span class="var">$nome</span>, <span class="str">':preco'</span> =&gt; <span class="var">$preco</span>]);</span></code></pre>
           </div>
 
           <!-- interativo: qual arquivo faz isso? (assets/js/interativos-php.js) -->
@@ -176,12 +180,12 @@
             <span class="olho">I1 · experimente</span>
             <h3>Qual arquivo faz isso? <span class="qual-placar">0 de 6</span></h3>
             <ol class="qual-lista">
-              <li data-certo="banco.php">Tem o SQL que grava o cliente.</li>
+              <li data-certo="banco.php">Tem o SQL que grava o produto.</li>
               <li data-certo="cadastro.php">Recebe o que veio do formulário, com <code>$_POST</code>.</li>
               <li data-certo="tela.php">Mostra a lista com <code>&lt;ul&gt;</code> e <code>&lt;li&gt;</code>.</li>
-              <li data-certo="banco.php">Cria a tabela <code>clientes</code> na primeira vez.</li>
-              <li data-certo="cadastro.php">Decide: deu erro ou pode gravar?</li>
-              <li data-certo="tela.php">Tem o botão Excluir.</li>
+              <li data-certo="banco.php">Cria a tabela <code>produtos</code> na primeira vez.</li>
+              <li data-certo="cadastro.php">Decide: é produto novo ou edição?</li>
+              <li data-certo="tela.php">Tem o link Editar e o botão Excluir.</li>
             </ol>
           </div>
         </section>
@@ -190,9 +194,9 @@
         <section class="parte" id="tutorial">
           <div class="cab">
             <span class="olho">T1 · tutorial</span>
-            <h2>Mão na massa: o Mini Cadastro em 3 versões</h2>
+            <h2>Mão na massa: a Mini Loja em 4 versões</h2>
             <p>Cada versão é o projeto inteiro, pronto para copiar. Faça uma de cada vez: copie, salve, recarregue o navegador, leia o "entenda o código" e só depois passe para a próxima.</p>
-            <p class="dica"><strong>Para refazer em casa:</strong> este passo a passo serve do zero, em qualquer computador com o XAMPP. Seu projeto também fica no GitHub: <strong>Code › Download ZIP</strong> e ele volta inteiro.</p>
+            <p class="dica"><strong>A meta de hoje:</strong> as 4 versões, o CRUD completo. Não deu tempo? Termine em casa: o passo a passo serve do zero, em qualquer computador com o XAMPP. E o seu projeto fica no GitHub: <strong>Code › Download ZIP</strong> e ele volta inteiro.</p>
           </div>
 
           <div class="tutorial-passo">
@@ -202,9 +206,9 @@
           <p><strong>Faça assim:</strong></p>
           <ol>
             <li>Abra o <strong>XAMPP Control Panel</strong> e clique em <strong>Start</strong> na linha do <strong>Apache</strong>. O MySQL não precisa: o SQLite é um arquivo.</li>
-            <li>Crie a pasta <code>C:\xampp\htdocs\cadastro-clientes</code>. Já tem a pasta <code>cadastro-clientes</code> da aula 11? Mova ela para dentro do <code>htdocs</code>: a faxina dos arquivos antigos fica para o fim.</li>
+            <li>Crie a pasta <code>C:\xampp\htdocs\mini-loja</code>. É uma pasta nova: o projeto antigo fica de lado, e a faxina dele está no fim.</li>
             <li>Abra a pasta no VS Code (<strong>Arquivo › Abrir pasta</strong>) e crie o <code>index.html</code> e o <code>teste.php</code> com o código das abas.</li>
-            <li>No navegador, abra <code>http://localhost/cadastro-clientes/teste.php</code>.</li>
+            <li>No navegador, abra <code>http://localhost/mini-loja/teste.php</code>.</li>
           </ol>
           <p><strong>Apareceu "SQLite: DESLIGADO"?</strong> É o problema mais comum quando entra o banco. Resolva assim:</p>
           <ol>
@@ -213,21 +217,21 @@
             <li>Salve, clique em <strong>Stop</strong> e depois em <strong>Start</strong> no Apache, e recarregue o <code>teste.php</code>.</li>
           </ol>
           <p class="dica cuidado"><strong>Apareceu "versão antiga"?</strong> No laboratório é assim mesmo: os computadores são da faculdade e você não consegue atualizar. Dá para estudar normalmente; só clique em <strong>Stop</strong> no Apache no fim da aula. O porquê está em "Virou notícia", mais abaixo.</p>
-          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+          <div class="tutorial-projeto" data-pasta="mini-loja">
             <script type="text/plain" data-arquivo="index.html" data-estado="novo">
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
-  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica no cadastro -->
-  <h1>Mini Cadastro</h1>
-  <p>O cadastro de clientes da loja, com PHP e SQLite.</p>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
 
   <ul>
-    <li><a href="cadastro.php">Abrir o cadastro</a></li>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
     <li><a href="teste.php">Testar o ambiente</a></li>
   </ul>
 </body>
@@ -264,7 +268,7 @@ $sqliteOk = extension_loaded('pdo_sqlite');
 </body>
 </html>
 </script>
-            <script type="text/plain" data-previa="teste.php (com o XAMPP atualizado)">
+            <script type="text/plain" data-previa="teste.php (com o PHP atualizado)">
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -288,9 +292,9 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             <h4>O que o teste.php confere</h4>
             <p><strong><code>teste.php</code></strong></p>
             <ol>
-              <li><code>PHP_VERSION</code> é a versão do PHP do seu XAMPP. O <code>version_compare</code> compara com a primeira versão corrigida do PHP2Shell.</li>
-              <li><code>extension_loaded('pdo_sqlite')</code> responde se o PHP sabe falar com o SQLite.</li>
-              <li>Os dois aparecem na tela como <strong>sim ou não</strong>. Use este teste em qualquer computador, antes de começar.</li>
+              <li><code>PHP_VERSION</code> é a versão do PHP do seu XAMPP. O <code>version_compare</code> compara com a primeira versão que corrigiu o PHP2Shell (veja "Virou notícia").</li>
+              <li><code>extension_loaded('pdo_sqlite')</code> responde se o PHP sabe falar com o SQLite. <strong>Este precisa dar "ligado".</strong></li>
+              <li>Use este teste em qualquer computador, antes de começar.</li>
             </ol>
           </div>
 
@@ -301,9 +305,9 @@ $sqliteOk = extension_loaded('pdo_sqlite');
           <p><strong>Faça assim</strong> (uma vez agora, e depois de cada versão):</p>
           <ol>
             <li>Entre em <a href="https://github.com">github.com</a> com a sua conta.</li>
-            <li>Abra o repositório <code>cadastro-clientes</code>. Não tem? Clique em <strong>New</strong>, dê esse nome, marque <strong>Public</strong> e clique em <strong>Create repository</strong>.</li>
-            <li>Clique em <strong>Add file › Upload files</strong>. No repositório vazio, clique no link <strong>uploading an existing file</strong>.</li>
-            <li>Arraste os arquivos da pasta para a página. <strong>Nunca arraste o <code>cadastro.sqlite</code></strong>: dado de cliente não vai para o GitHub.</li>
+            <li>Clique em <strong>New</strong>, dê o nome <code>mini-loja</code>, marque <strong>Public</strong> e clique em <strong>Create repository</strong>.</li>
+            <li>No repositório vazio, clique no link <strong>uploading an existing file</strong>. Das próximas vezes, use <strong>Add file › Upload files</strong>.</li>
+            <li>Arraste os arquivos da pasta para a página. <strong>Nunca arraste o <code>mini-loja.sqlite</code></strong>: o banco fica só no seu computador.</li>
             <li>Em <strong>Commit changes</strong>, escreva uma mensagem curta do que mudou e clique no botão verde <strong>Commit changes</strong>.</li>
           </ol>
           <p class="dica"><strong>Mandou um arquivo com o mesmo nome?</strong> O GitHub troca pelo novo e guarda o antigo no histórico (<strong>History</strong>). Nada se perde.</p>
@@ -312,15 +316,15 @@ $sqliteOk = extension_loaded('pdo_sqlite');
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 1 · R de Read</span>
             <h3>O banco nasce e a lista aparece</h3>
-            <p>O <code>banco.php</code> cria a tabela e põe dois clientes de exemplo. O <code>cadastro.php</code> pede a lista e chama a <code>tela.php</code>.</p>
+            <p>O <code>banco.php</code> cria a tabela e põe três produtos de exemplo. O <code>cadastro.php</code> pede a lista e chama a <code>tela.php</code>.</p>
           </div>
           <p><strong>Faça assim:</strong></p>
           <ol>
-            <li>Crie o <code>banco.php</code>, o <code>cadastro.php</code> e o <code>tela.php</code> com o código das abas. Se já existirem da aula 11, troque todo o conteúdo.</li>
-            <li>Abra <code>http://localhost/cadastro-clientes/</code> e clique em <strong>Abrir o cadastro</strong>: a Ana e o Bruno aparecem.</li>
-            <li>Olhe a pasta: o arquivo <code>cadastro.sqlite</code> apareceu sozinho. É o banco.</li>
+            <li>Crie o <code>banco.php</code>, o <code>cadastro.php</code> e o <code>tela.php</code> com o código das abas.</li>
+            <li>Abra <code>http://localhost/mini-loja/</code> e clique em <strong>Ver os produtos</strong>: a placa ESP32, o Arduino e o sensor aparecem.</li>
+            <li>Olhe a pasta: o arquivo <code>mini-loja.sqlite</code> apareceu sozinho. É o banco.</li>
           </ol>
-          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+          <div class="tutorial-projeto" data-pasta="mini-loja">
             <script type="text/plain" data-arquivo="banco.php" data-estado="novo">
 <?php
 // banco.php: o MODELO.
@@ -329,32 +333,33 @@ $sqliteOk = extension_loaded('pdo_sqlite');
 function conectar(): PDO
 {
     // o banco é um arquivo só; se ele não existe, o PHP cria
-    $pdo = new PDO('sqlite:' . __DIR__ . '/cadastro.sqlite');
+    $pdo = new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // a tabela nasce sozinha na primeira vez
-    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
-        email TEXT NOT NULL
+        preco REAL NOT NULL
     )');
 
-    // banco vazio? entram dois clientes de exemplo, para a lista não começar em branco
-    $total = $pdo->query('SELECT COUNT(*) FROM clientes')->fetchColumn();
+    // banco vazio? entram três produtos de exemplo, para a lista não começar em branco
+    $total = $pdo->query('SELECT COUNT(*) FROM produtos')->fetchColumn();
     if ($total == 0) {
-        $pdo->exec("INSERT INTO clientes (nome, email) VALUES
-            ('Ana Souza', 'ana@email.com'),
-            ('Bruno Lima', 'bruno@email.com')");
+        $pdo->exec("INSERT INTO produtos (nome, preco) VALUES
+            ('Placa ESP32', 39.90),
+            ('Arduino Uno', 59.90),
+            ('Sensor de temperatura DHT11', 12.50)");
     }
 
     return $pdo;
 }
 
-// devolve todos os clientes, em ordem alfabética
-function listarClientes(): array
+// R: devolve todos os produtos, em ordem alfabética
+function listarProdutos(): array
 {
     $pdo = conectar();
-    return $pdo->query('SELECT id, nome, email FROM clientes ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+    return $pdo->query('SELECT id, nome, preco FROM produtos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
 }
 </script>
             <script type="text/plain" data-arquivo="cadastro.php" data-estado="novo">
@@ -363,7 +368,7 @@ function listarClientes(): array
 // Pede os dados ao modelo (banco.php) e chama a visão (tela.php).
 require __DIR__ . '/banco.php';
 
-$clientes = listarClientes();
+$produtos = listarProdutos();
 
 require __DIR__ . '/tela.php';
 </script>
@@ -373,16 +378,16 @@ require __DIR__ . '/tela.php';
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
   <p><a href="index.html">← Página inicial</a></p>
-  <h1>Mini Cadastro</h1>
+  <h1>Mini Loja</h1>
 
-  <h2>Clientes (<?= count($clientes) ?>)</h2>
+  <h2>Produtos (<?= count($produtos) ?>)</h2>
   <ul>
-    <?php foreach ($clientes as $cliente): ?>
-      <li><?= htmlspecialchars($cliente['nome']) ?> · <?= htmlspecialchars($cliente['email']) ?></li>
+    <?php foreach ($produtos as $item): ?>
+      <li><?= htmlspecialchars($item['nome']) ?> · R$ <?= number_format($item['preco'], 2, ',', '.') ?></li>
     <?php endforeach; ?>
   </ul>
 </body>
@@ -393,15 +398,15 @@ require __DIR__ . '/tela.php';
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
-  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica no cadastro -->
-  <h1>Mini Cadastro</h1>
-  <p>O cadastro de clientes da loja, com PHP e SQLite.</p>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
 
   <ul>
-    <li><a href="cadastro.php">Abrir o cadastro</a></li>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
     <li><a href="teste.php">Testar o ambiente</a></li>
   </ul>
 </body>
@@ -443,16 +448,17 @@ $sqliteOk = extension_loaded('pdo_sqlite');
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
   <p><a href="index.html">← Página inicial</a></p>
-  <h1>Mini Cadastro</h1>
+  <h1>Mini Loja</h1>
 
-  <h2>Clientes (2)</h2>
+  <h2>Produtos (3)</h2>
   <ul>
-          <li>Ana Souza · ana@email.com</li>
-          <li>Bruno Lima · bruno@email.com</li>
+          <li>Arduino Uno · R$ 59,90</li>
+          <li>Placa ESP32 · R$ 39,90</li>
+          <li>Sensor de temperatura DHT11 · R$ 12,50</li>
       </ul>
 </body>
 </html>
@@ -463,39 +469,40 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             <h4>Versão 1, linha a linha</h4>
             <p><strong><code>banco.php</code></strong></p>
             <ol>
-              <li><code>new PDO('sqlite:' . __DIR__ . '/cadastro.sqlite')</code> abre o banco. <code>__DIR__</code> é a pasta deste arquivo. Se o <code>cadastro.sqlite</code> não existe, o PHP cria.</li>
+              <li><code>new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite')</code> abre o banco. <code>__DIR__</code> é a pasta deste arquivo. Se o <code>mini-loja.sqlite</code> não existe, o PHP cria.</li>
               <li><code>ERRMODE_EXCEPTION</code>: se o SQL tiver um erro, o PHP mostra o erro em vez de ficar quieto.</li>
-              <li><code>CREATE TABLE IF NOT EXISTS</code> cria a tabela só na primeira vez. O <code>id</code> se numera sozinho (<code>AUTOINCREMENT</code>).</li>
-              <li><code>COUNT(*)</code> conta os clientes. Se der zero, o <code>INSERT</code> põe a Ana e o Bruno, para a lista não começar vazia.</li>
-              <li><code>listarClientes()</code> faz o <code>SELECT</code> e devolve um array. Cada cliente é um array com as chaves <code>'id'</code>, <code>'nome'</code> e <code>'email'</code>.</li>
+              <li><code>CREATE TABLE IF NOT EXISTS</code> cria a tabela só na primeira vez. O <code>id</code> se numera sozinho (<code>AUTOINCREMENT</code>), e o <code>preco</code> é <code>REAL</code>: um número com casas decimais.</li>
+              <li><code>COUNT(*)</code> conta os produtos. Se der zero, o <code>INSERT</code> põe três de exemplo, para a lista não começar vazia.</li>
+              <li><code>listarProdutos()</code> faz o <code>SELECT</code> e devolve um array. Cada produto é um array com as chaves <code>'id'</code>, <code>'nome'</code> e <code>'preco'</code>.</li>
             </ol>
             <p><strong><code>cadastro.php</code></strong></p>
             <ol>
               <li><code>require</code> traz as funções do <code>banco.php</code> para cá.</li>
-              <li><code>$clientes = listarClientes();</code>: o garçom pede a lista à cozinha.</li>
-              <li><code>require __DIR__ . '/tela.php'</code> chama a visão. Ela enxerga a variável <code>$clientes</code>.</li>
+              <li><code>$produtos = listarProdutos();</code>: o garçom pede a lista à cozinha.</li>
+              <li><code>require __DIR__ . '/tela.php'</code> chama a visão. Ela enxerga a variável <code>$produtos</code>.</li>
             </ol>
             <p><strong><code>tela.php</code></strong></p>
             <ol>
               <li><code>&lt;?= ... ?&gt;</code> é o atalho de <code>&lt;?php echo ... ?&gt;</code>: escreve um valor no meio do HTML.</li>
-              <li><code>count($clientes)</code> mostra quantos clientes há.</li>
-              <li><code>foreach</code> repete o <code>&lt;li&gt;</code> uma vez para cada cliente.</li>
+              <li><code>count($produtos)</code> mostra quantos produtos há.</li>
+              <li><code>foreach ($produtos as $item)</code> repete o <code>&lt;li&gt;</code> uma vez para cada produto. A cada volta, <code>$item</code> é o produto da vez.</li>
+              <li><code>number_format($item['preco'], 2, ',', '.')</code> escreve o preço do jeito brasileiro: <code>39.9</code> vira <code>39,90</code>.</li>
               <li><code>htmlspecialchars</code> impede que um nome com código HTML bagunce a página. É segurança.</li>
             </ol>
           </div>
-          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste o <code>banco.php</code>, o <code>cadastro.php</code> e o <code>tela.php</code>, escreva <code>Versão 1: lista de clientes</code> e clique em <strong>Commit changes</strong>.</p>
+          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste o <code>banco.php</code>, o <code>cadastro.php</code> e o <code>tela.php</code>, escreva <code>Versão 1: lista de produtos</code> e clique em <strong>Commit changes</strong>.</p>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 2 · C de Create</span>
             <h3>O formulário cadastra</h3>
-            <p>A <code>tela.php</code> ganha o formulário. O <code>cadastro.php</code> confere os dados e manda gravar. O <code>banco.php</code> ganha o <code>inserirCliente()</code>.</p>
+            <p>A <code>tela.php</code> ganha o formulário. O <code>cadastro.php</code> recebe os dados e manda gravar. O <code>banco.php</code> ganha o <code>inserirProduto()</code>.</p>
           </div>
           <p><strong>Faça assim:</strong></p>
           <ol>
             <li>Troque o conteúdo dos três arquivos <code>.php</code> pelo das abas (a etiqueta "mudou" mostra quais).</li>
-            <li>Cadastre alguém. Depois tente um nome curto e um e-mail sem arroba: o aviso aparece.</li>
+            <li>Cadastre o <strong>Sensor ultrassônico HC-SR04</strong>, por <code>14.90</code>. Ele entra na lista em ordem alfabética.</li>
           </ol>
-          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+          <div class="tutorial-projeto" data-pasta="mini-loja">
             <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
 <?php
 // banco.php: o MODELO.
@@ -504,40 +511,41 @@ $sqliteOk = extension_loaded('pdo_sqlite');
 function conectar(): PDO
 {
     // o banco é um arquivo só; se ele não existe, o PHP cria
-    $pdo = new PDO('sqlite:' . __DIR__ . '/cadastro.sqlite');
+    $pdo = new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // a tabela nasce sozinha na primeira vez
-    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
-        email TEXT NOT NULL
+        preco REAL NOT NULL
     )');
 
-    // banco vazio? entram dois clientes de exemplo, para a lista não começar em branco
-    $total = $pdo->query('SELECT COUNT(*) FROM clientes')->fetchColumn();
+    // banco vazio? entram três produtos de exemplo, para a lista não começar em branco
+    $total = $pdo->query('SELECT COUNT(*) FROM produtos')->fetchColumn();
     if ($total == 0) {
-        $pdo->exec("INSERT INTO clientes (nome, email) VALUES
-            ('Ana Souza', 'ana@email.com'),
-            ('Bruno Lima', 'bruno@email.com')");
+        $pdo->exec("INSERT INTO produtos (nome, preco) VALUES
+            ('Placa ESP32', 39.90),
+            ('Arduino Uno', 59.90),
+            ('Sensor de temperatura DHT11', 12.50)");
     }
 
     return $pdo;
 }
 
-// devolve todos os clientes, em ordem alfabética
-function listarClientes(): array
+// R: devolve todos os produtos, em ordem alfabética
+function listarProdutos(): array
 {
     $pdo = conectar();
-    return $pdo->query('SELECT id, nome, email FROM clientes ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+    return $pdo->query('SELECT id, nome, preco FROM produtos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// grava um cliente novo (o prepare protege contra SQL injection)
-function inserirCliente(string $nome, string $email): void
+// C: grava um produto novo (o prepare protege contra SQL injection)
+function inserirProduto(string $nome, float $preco): void
 {
     $pdo = conectar();
-    $stmt = $pdo->prepare('INSERT INTO clientes (nome, email) VALUES (:nome, :email)');
-    $stmt->execute([':nome' => $nome, ':email' => $email]);
+    $stmt = $pdo->prepare('INSERT INTO produtos (nome, preco) VALUES (:nome, :preco)');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco]);
 }
 </script>
             <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
@@ -546,24 +554,18 @@ function inserirCliente(string $nome, string $email): void
 // Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
 require __DIR__ . '/banco.php';
 
-$erro = '';
-
-// o formulário foi enviado?
+// o formulário foi enviado? grava o produto
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+    $preco = (float) ($_POST['preco'] ?? 0);
+    inserirProduto($nome, $preco);
 
-    if (strlen($nome) < 3 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $erro = 'Confira: nome com pelo menos 3 letras e um e-mail válido.';
-    } else {
-        inserirCliente($nome, $email);
-        // volta para a página limpa: assim o F5 não cadastra de novo
-        header('Location: cadastro.php');
-        exit;
-    }
+    // volta para a página limpa: assim o F5 não cadastra de novo
+    header('Location: cadastro.php');
+    exit;
 }
 
-$clientes = listarClientes();
+$produtos = listarProdutos();
 
 require __DIR__ . '/tela.php';
 </script>
@@ -573,30 +575,27 @@ require __DIR__ . '/tela.php';
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
   <p><a href="index.html">← Página inicial</a></p>
-  <h1>Mini Cadastro</h1>
+  <h1>Mini Loja</h1>
 
-  <?php if ($erro): ?>
-    <p style="color: #c22450"><?= $erro ?></p>
-  <?php endif; ?>
-
-  <form method="post">
+  <h2>Novo produto</h2>
+  <form method="post" action="cadastro.php">
     <label for="nome">Nome</label>
-    <input id="nome" name="nome">
+    <input id="nome" name="nome" required>
 
-    <label for="email">E-mail</label>
-    <input id="email" name="email">
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required>
 
     <button type="submit">Cadastrar</button>
   </form>
 
-  <h2>Clientes (<?= count($clientes) ?>)</h2>
+  <h2>Produtos (<?= count($produtos) ?>)</h2>
   <ul>
-    <?php foreach ($clientes as $cliente): ?>
-      <li><?= htmlspecialchars($cliente['nome']) ?> · <?= htmlspecialchars($cliente['email']) ?></li>
+    <?php foreach ($produtos as $item): ?>
+      <li><?= htmlspecialchars($item['nome']) ?> · R$ <?= number_format($item['preco'], 2, ',', '.') ?></li>
     <?php endforeach; ?>
   </ul>
 </body>
@@ -607,15 +606,15 @@ require __DIR__ . '/tela.php';
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
-  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica no cadastro -->
-  <h1>Mini Cadastro</h1>
-  <p>O cadastro de clientes da loja, com PHP e SQLite.</p>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
 
   <ul>
-    <li><a href="cadastro.php">Abrir o cadastro</a></li>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
     <li><a href="teste.php">Testar o ambiente</a></li>
   </ul>
 </body>
@@ -652,65 +651,34 @@ $sqliteOk = extension_loaded('pdo_sqlite');
 </body>
 </html>
 </script>
-            <script type="text/plain" data-previa="Depois de cadastrar &quot;Caio Rocha&quot;">
+            <script type="text/plain" data-previa="Depois de cadastrar o sensor ultrassônico">
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
   <p><a href="index.html">← Página inicial</a></p>
-  <h1>Mini Cadastro</h1>
+  <h1>Mini Loja</h1>
 
-  
-  <form method="post">
+  <h2>Novo produto</h2>
+  <form method="post" action="cadastro.php">
     <label for="nome">Nome</label>
-    <input id="nome" name="nome">
+    <input id="nome" name="nome" required>
 
-    <label for="email">E-mail</label>
-    <input id="email" name="email">
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required>
 
     <button type="submit">Cadastrar</button>
   </form>
 
-  <h2>Clientes (3)</h2>
+  <h2>Produtos (4)</h2>
   <ul>
-          <li>Ana Souza · ana@email.com</li>
-          <li>Bruno Lima · bruno@email.com</li>
-          <li>Caio Rocha · caio@email.com</li>
-      </ul>
-</body>
-</html>
-</script>
-            <script type="text/plain" data-previa="Enviando &quot;Bi&quot; e &quot;bia&quot;">
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
-</head>
-<body>
-  <p><a href="index.html">← Página inicial</a></p>
-  <h1>Mini Cadastro</h1>
-
-      <p style="color: #c22450">Confira: nome com pelo menos 3 letras e um e-mail válido.</p>
-  
-  <form method="post">
-    <label for="nome">Nome</label>
-    <input id="nome" name="nome">
-
-    <label for="email">E-mail</label>
-    <input id="email" name="email">
-
-    <button type="submit">Cadastrar</button>
-  </form>
-
-  <h2>Clientes (3)</h2>
-  <ul>
-          <li>Ana Souza · ana@email.com</li>
-          <li>Bruno Lima · bruno@email.com</li>
-          <li>Caio Rocha · caio@email.com</li>
+          <li>Arduino Uno · R$ 59,90</li>
+          <li>Placa ESP32 · R$ 39,90</li>
+          <li>Sensor de temperatura DHT11 · R$ 12,50</li>
+          <li>Sensor ultrassônico HC-SR04 · R$ 14,90</li>
       </ul>
 </body>
 </html>
@@ -721,32 +689,31 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             <h4>Versão 2, o que mudou</h4>
             <p><strong><code>tela.php</code></strong></p>
             <ol>
-              <li>O <code>&lt;form method="post"&gt;</code> não tem <code>action</code>: ele envia para a própria página, o <code>cadastro.php</code>.</li>
-              <li>O <code>name</code> de cada campo vira a chave no PHP: <code>name="nome"</code> chega como <code>$_POST['nome']</code>.</li>
-              <li><code>&lt;?php if ($erro): ?&gt;</code> só mostra o aviso vermelho quando existe um erro.</li>
+              <li>O <code>&lt;form method="post" action="cadastro.php"&gt;</code> envia os campos para o controle.</li>
+              <li>O <code>name</code> de cada campo vira a chave no PHP: <code>name="preco"</code> chega como <code>$_POST['preco']</code>.</li>
+              <li><code>type="number" step="0.01"</code>: o campo só aceita número, com centavos. O <code>required</code> não deixa enviar vazio. A conferência dos dados no PHP entra numa próxima aula.</li>
             </ol>
             <p><strong><code>cadastro.php</code></strong></p>
             <ol>
-              <li><code>$erro = ''</code>: a página começa sem erro.</li>
               <li><code>$_SERVER['REQUEST_METHOD'] === 'POST'</code> quer dizer "o formulário foi enviado". Abrir a página pelo link é <code>GET</code>, e aí nada é gravado.</li>
               <li><code>trim</code> tira os espaços das pontas. O <code>?? ''</code> evita erro se o campo não veio.</li>
-              <li>A conferência: nome com menos de 3 letras (<code>strlen</code>) ou e-mail inválido (<code>filter_var</code>) vira aviso.</li>
-              <li>Deu certo? <code>inserirCliente()</code> grava, e o <code>header('Location: cadastro.php')</code> recarrega a página limpa. Assim, o F5 não cadastra a mesma pessoa duas vezes. O <code>exit</code> para o PHP ali.</li>
+              <li><code>(float)</code> transforma o texto <code>"14.90"</code> em número.</li>
+              <li><code>inserirProduto()</code> grava, e o <code>header('Location: cadastro.php')</code> recarrega a página limpa. Assim, o F5 não cadastra o mesmo produto duas vezes. O <code>exit</code> para o PHP ali.</li>
             </ol>
             <p><strong><code>banco.php</code></strong></p>
             <ol>
-              <li><code>inserirCliente()</code> é o <strong>C</strong> do CRUD: o <code>INSERT</code> com <code>prepare</code> e os dados separados, no <code>execute</code> (veja a C3).</li>
+              <li><code>inserirProduto()</code> é o <strong>C</strong> do CRUD: o <code>INSERT</code> com <code>prepare</code> e os dados separados, no <code>execute</code> (veja a C3).</li>
             </ol>
           </div>
-          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste de novo os três arquivos <code>.php</code>, escreva <code>Versão 2: cadastrar</code> e clique em <strong>Commit changes</strong>.</p>
+          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste de novo os três arquivos <code>.php</code>, escreva <code>Versão 2: cadastrar produtos</code> e clique em <strong>Commit changes</strong>.</p>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 3 · D de Delete</span>
             <h3>O botão Excluir</h3>
-            <p>Cada cliente ganha um botão. O <code>banco.php</code> apaga pelo <code>id</code>, o número que o banco deu ao cliente.</p>
+            <p>Cada produto ganha um botão. O <code>banco.php</code> apaga pelo <code>id</code>, o número que o banco deu ao produto.</p>
           </div>
-          <p><strong>Faça assim:</strong> troque os três arquivos <code>.php</code> e exclua um cliente de teste. Não deu tempo na aula? Termine em casa, com o "entenda o código".</p>
-          <div class="tutorial-projeto" data-pasta="cadastro-clientes">
+          <p><strong>Faça assim:</strong> troque os três arquivos <code>.php</code> e exclua o Arduino Uno.</p>
+          <div class="tutorial-projeto" data-pasta="mini-loja">
             <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
 <?php
 // banco.php: o MODELO.
@@ -755,47 +722,48 @@ $sqliteOk = extension_loaded('pdo_sqlite');
 function conectar(): PDO
 {
     // o banco é um arquivo só; se ele não existe, o PHP cria
-    $pdo = new PDO('sqlite:' . __DIR__ . '/cadastro.sqlite');
+    $pdo = new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // a tabela nasce sozinha na primeira vez
-    $pdo->exec('CREATE TABLE IF NOT EXISTS clientes (
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
-        email TEXT NOT NULL
+        preco REAL NOT NULL
     )');
 
-    // banco vazio? entram dois clientes de exemplo, para a lista não começar em branco
-    $total = $pdo->query('SELECT COUNT(*) FROM clientes')->fetchColumn();
+    // banco vazio? entram três produtos de exemplo, para a lista não começar em branco
+    $total = $pdo->query('SELECT COUNT(*) FROM produtos')->fetchColumn();
     if ($total == 0) {
-        $pdo->exec("INSERT INTO clientes (nome, email) VALUES
-            ('Ana Souza', 'ana@email.com'),
-            ('Bruno Lima', 'bruno@email.com')");
+        $pdo->exec("INSERT INTO produtos (nome, preco) VALUES
+            ('Placa ESP32', 39.90),
+            ('Arduino Uno', 59.90),
+            ('Sensor de temperatura DHT11', 12.50)");
     }
 
     return $pdo;
 }
 
-// devolve todos os clientes, em ordem alfabética
-function listarClientes(): array
+// R: devolve todos os produtos, em ordem alfabética
+function listarProdutos(): array
 {
     $pdo = conectar();
-    return $pdo->query('SELECT id, nome, email FROM clientes ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+    return $pdo->query('SELECT id, nome, preco FROM produtos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// grava um cliente novo (o prepare protege contra SQL injection)
-function inserirCliente(string $nome, string $email): void
+// C: grava um produto novo (o prepare protege contra SQL injection)
+function inserirProduto(string $nome, float $preco): void
 {
     $pdo = conectar();
-    $stmt = $pdo->prepare('INSERT INTO clientes (nome, email) VALUES (:nome, :email)');
-    $stmt->execute([':nome' => $nome, ':email' => $email]);
+    $stmt = $pdo->prepare('INSERT INTO produtos (nome, preco) VALUES (:nome, :preco)');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco]);
 }
 
-// apaga o cliente pelo id (o número que o banco deu a ele)
-function excluirCliente(int $id): void
+// D: apaga o produto pelo id (o número que o banco deu a ele)
+function excluirProduto(int $id): void
 {
     $pdo = conectar();
-    $stmt = $pdo->prepare('DELETE FROM clientes WHERE id = :id');
+    $stmt = $pdo->prepare('DELETE FROM produtos WHERE id = :id');
     $stmt->execute([':id' => $id]);
 }
 </script>
@@ -805,31 +773,25 @@ function excluirCliente(int $id): void
 // Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
 require __DIR__ . '/banco.php';
 
-$erro = '';
-
 // clicou em "Excluir"? apaga e volta para a página limpa
 if (isset($_POST['excluir'])) {
-    excluirCliente((int) $_POST['excluir']);
+    excluirProduto((int) $_POST['excluir']);
     header('Location: cadastro.php');
     exit;
 }
 
-// o formulário de cadastro foi enviado?
+// o formulário foi enviado? grava o produto
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+    $preco = (float) ($_POST['preco'] ?? 0);
+    inserirProduto($nome, $preco);
 
-    if (strlen($nome) < 3 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $erro = 'Confira: nome com pelo menos 3 letras e um e-mail válido.';
-    } else {
-        inserirCliente($nome, $email);
-        // volta para a página limpa: assim o F5 não cadastra de novo
-        header('Location: cadastro.php');
-        exit;
-    }
+    // volta para a página limpa: assim o F5 não cadastra de novo
+    header('Location: cadastro.php');
+    exit;
 }
 
-$clientes = listarClientes();
+$produtos = listarProdutos();
 
 require __DIR__ . '/tela.php';
 </script>
@@ -839,33 +801,30 @@ require __DIR__ . '/tela.php';
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
   <p><a href="index.html">← Página inicial</a></p>
-  <h1>Mini Cadastro</h1>
+  <h1>Mini Loja</h1>
 
-  <?php if ($erro): ?>
-    <p style="color: #c22450"><?= $erro ?></p>
-  <?php endif; ?>
-
-  <form method="post">
+  <h2>Novo produto</h2>
+  <form method="post" action="cadastro.php">
     <label for="nome">Nome</label>
-    <input id="nome" name="nome">
+    <input id="nome" name="nome" required>
 
-    <label for="email">E-mail</label>
-    <input id="email" name="email">
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required>
 
     <button type="submit">Cadastrar</button>
   </form>
 
-  <h2>Clientes (<?= count($clientes) ?>)</h2>
+  <h2>Produtos (<?= count($produtos) ?>)</h2>
   <ul>
-    <?php foreach ($clientes as $cliente): ?>
+    <?php foreach ($produtos as $item): ?>
       <li>
-        <?= htmlspecialchars($cliente['nome']) ?> · <?= htmlspecialchars($cliente['email']) ?>
-        <form method="post" style="display: inline">
-          <button name="excluir" value="<?= $cliente['id'] ?>">Excluir</button>
+        <?= htmlspecialchars($item['nome']) ?> · R$ <?= number_format($item['preco'], 2, ',', '.') ?>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="<?= $item['id'] ?>">Excluir</button>
         </form>
       </li>
     <?php endforeach; ?>
@@ -878,15 +837,15 @@ require __DIR__ . '/tela.php';
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
-  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica no cadastro -->
-  <h1>Mini Cadastro</h1>
-  <p>O cadastro de clientes da loja, com PHP e SQLite.</p>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
 
   <ul>
-    <li><a href="cadastro.php">Abrir o cadastro</a></li>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
     <li><a href="teste.php">Testar o ambiente</a></li>
   </ul>
 </body>
@@ -923,38 +882,38 @@ $sqliteOk = extension_loaded('pdo_sqlite');
 </body>
 </html>
 </script>
-            <script type="text/plain" data-previa="cadastro.php com o botão Excluir">
+            <script type="text/plain" data-previa="Depois de excluir o Arduino Uno">
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Cadastro</title>
+  <title>Mini Loja</title>
 </head>
 <body>
   <p><a href="index.html">← Página inicial</a></p>
-  <h1>Mini Cadastro</h1>
+  <h1>Mini Loja</h1>
 
-  
-  <form method="post">
+  <h2>Novo produto</h2>
+  <form method="post" action="cadastro.php">
     <label for="nome">Nome</label>
-    <input id="nome" name="nome">
+    <input id="nome" name="nome" required>
 
-    <label for="email">E-mail</label>
-    <input id="email" name="email">
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required>
 
     <button type="submit">Cadastrar</button>
   </form>
 
-  <h2>Clientes (2)</h2>
+  <h2>Produtos (2)</h2>
   <ul>
           <li>
-        Ana Souza · ana@email.com        <form method="post" style="display: inline">
+        Placa ESP32 · R$ 39,90        <form method="post" action="cadastro.php" style="display: inline">
           <button name="excluir" value="1">Excluir</button>
         </form>
       </li>
           <li>
-        Bruno Lima · bruno@email.com        <form method="post" style="display: inline">
-          <button name="excluir" value="2">Excluir</button>
+        Sensor de temperatura DHT11 · R$ 12,50        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="3">Excluir</button>
         </form>
       </li>
       </ul>
@@ -967,8 +926,8 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             <h4>Versão 3, o que mudou</h4>
             <p><strong><code>tela.php</code></strong></p>
             <ol>
-              <li>Cada cliente ganha um formulário pequeno, com um botão só.</li>
-              <li>O botão tem <code>name="excluir"</code> e <code>value</code> igual ao <code>id</code> do cliente. Clicou, chega <code>$_POST['excluir']</code> com esse número.</li>
+              <li>Cada produto ganha um formulário pequeno, com um botão só.</li>
+              <li>O botão tem <code>name="excluir"</code> e <code>value</code> igual ao <code>id</code> do produto. Clicou, chega <code>$_POST['excluir']</code> com esse número.</li>
             </ol>
             <p><strong><code>cadastro.php</code></strong></p>
             <ol>
@@ -977,32 +936,371 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             </ol>
             <p><strong><code>banco.php</code></strong></p>
             <ol>
-              <li><code>excluirCliente()</code> é o <strong>D</strong> do CRUD: <code>DELETE ... WHERE id = :id</code>.</li>
-              <li><strong>Cuidado:</strong> sem o <code>WHERE</code>, o <code>DELETE</code> apaga <strong>todos</strong> os clientes.</li>
+              <li><code>excluirProduto()</code> é o <strong>D</strong> do CRUD: <code>DELETE ... WHERE id = :id</code>.</li>
+              <li><strong>Cuidado:</strong> sem o <code>WHERE</code>, o <code>DELETE</code> apaga <strong>todos</strong> os produtos.</li>
             </ol>
           </div>
-          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste os três arquivos <code>.php</code>, escreva <code>Versão 3: excluir</code> e clique em <strong>Commit changes</strong>.</p>
+          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste os três arquivos <code>.php</code>, escreva <code>Versão 3: excluir produtos</code> e clique em <strong>Commit changes</strong>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 4 · U de Update</span>
+            <h3>Editar: o CRUD fica completo</h3>
+            <p>Cada produto ganha o link Editar. O mesmo formulário serve para cadastrar e para editar: quem decide é o <code>id</code> escondido.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Troque os três arquivos <code>.php</code>.</li>
+            <li>Clique em <strong>Editar</strong> na Placa ESP32: o formulário vem preenchido.</li>
+            <li>Mude o preço para <code>42.50</code> e clique em <strong>Salvar alterações</strong>.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="mini-loja">
+            <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
+<?php
+// banco.php: o MODELO.
+// Conecta no banco e guarda as funções que falam com ele. Todo o SQL mora aqui.
+
+function conectar(): PDO
+{
+    // o banco é um arquivo só; se ele não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // a tabela nasce sozinha na primeira vez
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        preco REAL NOT NULL
+    )');
+
+    // banco vazio? entram três produtos de exemplo, para a lista não começar em branco
+    $total = $pdo->query('SELECT COUNT(*) FROM produtos')->fetchColumn();
+    if ($total == 0) {
+        $pdo->exec("INSERT INTO produtos (nome, preco) VALUES
+            ('Placa ESP32', 39.90),
+            ('Arduino Uno', 59.90),
+            ('Sensor de temperatura DHT11', 12.50)");
+    }
+
+    return $pdo;
+}
+
+// R: devolve todos os produtos, em ordem alfabética
+function listarProdutos(): array
+{
+    $pdo = conectar();
+    return $pdo->query('SELECT id, nome, preco FROM produtos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// C: grava um produto novo (o prepare protege contra SQL injection)
+function inserirProduto(string $nome, float $preco): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('INSERT INTO produtos (nome, preco) VALUES (:nome, :preco)');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco]);
+}
+
+// D: apaga o produto pelo id (o número que o banco deu a ele)
+function excluirProduto(int $id): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('DELETE FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+}
+
+// busca um produto só, para preencher o formulário de edição
+function buscarProduto(int $id): ?array
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('SELECT id, nome, preco FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+
+// U: troca o nome e o preço do produto
+function atualizarProduto(int $id, string $nome, float $preco): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('UPDATE produtos SET nome = :nome, preco = :preco WHERE id = :id');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco, ':id' => $id]);
+}
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
+require __DIR__ . '/banco.php';
+
+// clicou em "Excluir"? apaga e volta para a página limpa
+if (isset($_POST['excluir'])) {
+    excluirProduto((int) $_POST['excluir']);
+    header('Location: cadastro.php');
+    exit;
+}
+
+// o formulário foi enviado? com id é edição; sem id é produto novo
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = (int) ($_POST['id'] ?? 0);
+    $nome = trim($_POST['nome'] ?? '');
+    $preco = (float) ($_POST['preco'] ?? 0);
+
+    if ($id > 0) {
+        atualizarProduto($id, $nome, $preco);
+    } else {
+        inserirProduto($nome, $preco);
+    }
+
+    // volta para a página limpa: assim o F5 não grava de novo
+    header('Location: cadastro.php');
+    exit;
+}
+
+// clicou em "Editar"? busca o produto para preencher o formulário
+$produto = null;
+if (isset($_GET['editar'])) {
+    $produto = buscarProduto((int) $_GET['editar']);
+}
+
+$produtos = listarProdutos();
+
+require __DIR__ . '/tela.php';
+</script>
+            <script type="text/plain" data-arquivo="tela.php" data-estado="mudou">
+<?php // tela.php: a VISÃO. Só o HTML; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <h2><?= $produto ? 'Editar produto' : 'Novo produto' ?></h2>
+  <form method="post" action="cadastro.php">
+    <!-- o id escondido diz ao controle qual produto editar (vazio = produto novo) -->
+    <input type="hidden" name="id" value="<?= $produto['id'] ?? '' ?>">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="<?= htmlspecialchars($produto['nome'] ?? '') ?>">
+
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="<?= $produto['preco'] ?? '' ?>">
+
+    <button type="submit"><?= $produto ? 'Salvar alterações' : 'Cadastrar' ?></button>
+    <?php if ($produto): ?>
+      <a href="cadastro.php">Cancelar</a>
+    <?php endif; ?>
+  </form>
+
+  <h2>Produtos (<?= count($produtos) ?>)</h2>
+  <ul>
+    <?php foreach ($produtos as $item): ?>
+      <li>
+        <?= htmlspecialchars($item['nome']) ?> · R$ <?= number_format($item['preco'], 2, ',', '.') ?>
+        <a href="cadastro.php?editar=<?= $item['id'] ?>">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="<?= $item['id'] ?>">Excluir</button>
+        </form>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="index.html" data-estado="igual">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
+
+  <ul>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
+    <li><a href="teste.php">Testar o ambiente</a></li>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="teste.php" data-estado="igual">
+<?php
+// teste.php: confere o ambiente antes de começar.
+// 1. a versão do PHP já tem a correção do PHP2Shell?
+// 2. o SQLite está ligado?
+
+// as primeiras versões corrigidas de cada série (21/10/2026)
+$corrigidas = ['8.5' => '8.5.12', '8.4' => '8.4.27', '8.3' => '8.3.36', '8.2' => '8.2.35'];
+$serie = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+$minima = $corrigidas[$serie] ?? null;
+$phpOk = $minima !== null && version_compare(PHP_VERSION, $minima, '>=');
+
+$sqliteOk = extension_loaded('pdo_sqlite');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste do ambiente</title>
+</head>
+<body>
+  <h1>Teste do ambiente</h1>
+
+  <p>PHP <?= PHP_VERSION ?>:
+    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
+
+  <p>SQLite:
+    <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Clicou em Editar na Placa ESP32">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <h2>Editar produto</h2>
+  <form method="post" action="cadastro.php">
+    <!-- o id escondido diz ao controle qual produto editar (vazio = produto novo) -->
+    <input type="hidden" name="id" value="1">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="Placa ESP32">
+
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="39.9">
+
+    <button type="submit">Salvar alterações</button>
+          <a href="cadastro.php">Cancelar</a>
+      </form>
+
+  <h2>Produtos (3)</h2>
+  <ul>
+          <li>
+        Arduino Uno · R$ 59,90        <a href="cadastro.php?editar=2">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="2">Excluir</button>
+        </form>
+      </li>
+          <li>
+        Placa ESP32 · R$ 39,90        <a href="cadastro.php?editar=1">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="1">Excluir</button>
+        </form>
+      </li>
+          <li>
+        Sensor de temperatura DHT11 · R$ 12,50        <a href="cadastro.php?editar=3">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="3">Excluir</button>
+        </form>
+      </li>
+      </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Depois de salvar o preço novo e cadastrar um LED">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <h2>Novo produto</h2>
+  <form method="post" action="cadastro.php">
+    <!-- o id escondido diz ao controle qual produto editar (vazio = produto novo) -->
+    <input type="hidden" name="id" value="">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="">
+
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="">
+
+    <button type="submit">Cadastrar</button>
+      </form>
+
+  <h2>Produtos (4)</h2>
+  <ul>
+          <li>
+        Arduino Uno · R$ 59,90        <a href="cadastro.php?editar=2">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="2">Excluir</button>
+        </form>
+      </li>
+          <li>
+        LED vermelho · R$ 0,50        <a href="cadastro.php?editar=4">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="4">Excluir</button>
+        </form>
+      </li>
+          <li>
+        Placa ESP32 com Wi-Fi · R$ 42,50        <a href="cadastro.php?editar=1">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="1">Excluir</button>
+        </form>
+      </li>
+          <li>
+        Sensor de temperatura DHT11 · R$ 12,50        <a href="cadastro.php?editar=3">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="3">Excluir</button>
+        </form>
+      </li>
+      </ul>
+</body>
+</html>
+</script>
+          </div>
+          <div class="cartao entenda">
+            <span class="olho">entenda o código</span>
+            <h4>Versão 4, o que mudou</h4>
+            <p><strong><code>tela.php</code></strong></p>
+            <ol>
+              <li>Cada produto ganha o link <code>cadastro.php?editar=1</code>. O número vai no próprio endereço e chega como <code>$_GET['editar']</code>.</li>
+              <li>O <strong>mesmo formulário</strong> serve para os dois: com um <code>$produto</code> para editar, o título vira "Editar produto" e o botão, "Salvar alterações".</li>
+              <li><code>&lt;input type="hidden" name="id"&gt;</code> é um campo escondido: leva o <code>id</code> do produto junto. Vazio, é produto novo.</li>
+              <li><code>value="..."</code> preenche os campos com os dados atuais. O <code>?? ''</code> deixa vazio quando não há produto.</li>
+            </ol>
+            <p><strong><code>cadastro.php</code></strong></p>
+            <ol>
+              <li><code>isset($_GET['editar'])</code>: clicaram em Editar? Então <code>buscarProduto()</code> traz o produto para a tela.</li>
+              <li>No envio do formulário, <code>$id &gt; 0</code> decide: tem id, é edição (<code>atualizarProduto</code>); não tem, é produto novo (<code>inserirProduto</code>).</li>
+            </ol>
+            <p><strong><code>banco.php</code></strong></p>
+            <ol>
+              <li><code>buscarProduto()</code> faz um <code>SELECT</code> com <code>WHERE id</code> e devolve um produto só. Não achou? Devolve <code>null</code>, e a tela mostra o formulário vazio.</li>
+              <li><code>atualizarProduto()</code> é o <strong>U</strong> do CRUD: <code>UPDATE produtos SET nome = :nome, preco = :preco WHERE id = :id</code>.</li>
+              <li><strong>Cuidado:</strong> sem o <code>WHERE</code>, o <code>UPDATE</code> muda <strong>todos</strong> os produtos.</li>
+            </ol>
+          </div>
+          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste os três arquivos <code>.php</code>, escreva <code>Versão 4: editar produtos (CRUD completo)</code> e clique em <strong>Commit changes</strong>.</p>
 
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Para fechar</span>
-            <h3>Faxina: apague o que não usamos mais</h3>
-            <p>O Mini Cadastro não usa mais os arquivos das aulas anteriores. Se eles ficam na pasta, confundem. Fez a aula 11? Apague estes:</p>
+            <h3>Faxina: o projeto antigo sai de cena</h3>
+            <p>A Mini Loja mora numa pasta nova. O cadastro de clientes das aulas anteriores não é mais usado, e arquivo parado só confunde.</p>
           </div>
-          <ul>
-            <li><code>Cliente.php</code>, <code>clientes.php</code>, <code>tela-cadastro.php</code> e <code>validar.php</code></li>
-            <li><code>teste-cliente.php</code></li>
-            <li><code>.gitignore</code>: com o upload, quem escolhe o que sobe é você</li>
-            <li>o banco antigo, <code>clientes.sqlite</code></li>
-          </ul>
-          <p>Os outros (<code>banco.php</code> e <code>cadastro.php</code>) você já trocou pelos novos na versão 1.</p>
           <p><strong>Faça assim:</strong></p>
           <ol>
-            <li><strong>Na pasta:</strong> no VS Code, clique com o botão direito no arquivo e escolha <strong>Excluir</strong>.</li>
-            <li><strong>No GitHub:</strong> abra o arquivo, clique nos <strong>⋯</strong> (no canto direito, em cima do código), escolha <strong>Delete file</strong> e clique em <strong>Commit changes</strong>. Um arquivo por vez.</li>
-            <li>Confira: a pasta tem só os arquivos abaixo. O GitHub tem os mesmos, menos o <code>cadastro.sqlite</code>.</li>
+            <li><strong>Mandou a pasta antiga (<code>cadastro-clientes</code>) para o GitHub?</strong> Então apague a pasta do computador: ela fica guardada lá.</li>
+            <li><strong>Não mandou?</strong> Envie antes, por upload, e só depois apague.</li>
+            <li>No GitHub, deixe o repositório antigo como está: ele vira o seu histórico. Daqui para a frente, tudo vai para o <code>mini-loja</code>.</li>
+            <li>Confira: a pasta <code>mini-loja</code> tem só estes arquivos.</li>
           </ol>
-          <pre class="codigo" aria-label="A pasta depois da faxina"><code><span class="linha"><span class="num">1</span>cadastro-clientes/</span><span class="linha"><span class="num">2</span>    index.html</span><span class="linha"><span class="num">3</span>    cadastro.php</span><span class="linha"><span class="num">4</span>    banco.php</span><span class="linha"><span class="num">5</span>    tela.php</span><span class="linha"><span class="num">6</span>    teste.php</span><span class="linha"><span class="num">7</span>    cadastro.sqlite   <span class="com">// só na pasta, nunca no GitHub</span></span></code></pre>
-          <p class="dica"><strong>Apagou e se arrependeu?</strong> O GitHub guarda tudo no histórico (<strong>History</strong>). Nada se perde.</p>
+          <pre class="codigo" aria-label="A pasta da Mini Loja"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html</span><span class="linha"><span class="num">3</span>    cadastro.php</span><span class="linha"><span class="num">4</span>    banco.php</span><span class="linha"><span class="num">5</span>    tela.php</span><span class="linha"><span class="num">6</span>    teste.php</span><span class="linha"><span class="num">7</span>    mini-loja.sqlite   <span class="com">// só na pasta, nunca no GitHub</span></span></code></pre>
         </section>
 
         <!-- ===================== VIROU NOTÍCIA (explicação para leigos) ===================== -->
@@ -1094,20 +1392,21 @@ $sqliteOk = extension_loaded('pdo_sqlite');
         <section class="parte" id="atividade">
           <div class="cab">
             <span class="olho">A1 · atividade</span>
-            <h2>Mini Cadastro</h2>
+            <h2>Mini Loja</h2>
             <p>Vá marcando os passos: o que você marcar fica salvo neste navegador e, se você entrar com o e-mail da faculdade (botão <strong>Entrar</strong>, no topo), na sua conta.</p>
           </div>
           <div class="cartao">
-            <div class="progresso-atividade" data-progresso="passos-aula-12-mini">
-              <span class="contagem">0 de 7</span>
+            <div class="progresso-atividade" data-progresso="passos-aula-12-loja">
+              <span class="contagem">0 de 8</span>
               <span class="barra-progresso"><span></span></span>
             </div>
-            <ol class="checklist" id="passos-aula-12-mini">
+            <ol class="checklist" id="passos-aula-12-loja">
               <li><label><input type="checkbox"><span>Liguei o Apache, e o <code>teste.php</code> mostrou o SQLite ligado.</span></label></li>
               <li><label><input type="checkbox"><span>Criei a página inicial (<code>index.html</code>).</span></label></li>
-              <li><label><input type="checkbox"><span>Versão 1: a lista aparece, e o <code>cadastro.sqlite</code> nasceu na pasta.</span></label></li>
-              <li><label><input type="checkbox"><span>Versão 2: cadastrei um cliente e vi o aviso de dados errados.</span></label></li>
-              <li><label><input type="checkbox"><span>Versão 3: excluí um cliente de teste.</span></label></li>
+              <li><label><input type="checkbox"><span>Versão 1: a lista aparece, e o <code>mini-loja.sqlite</code> nasceu na pasta.</span></label></li>
+              <li><label><input type="checkbox"><span>Versão 2: cadastrei um produto.</span></label></li>
+              <li><label><input type="checkbox"><span>Versão 3: excluí um produto.</span></label></li>
+              <li><label><input type="checkbox"><span>Versão 4: editei o preço de um produto.</span></label></li>
               <li><label><input type="checkbox"><span>Acertei os 6 do "Qual arquivo faz isso?".</span></label></li>
               <li><label><input type="checkbox"><span>Fiz a faxina e enviei tudo ao GitHub por upload.</span></label></li>
             </ol>
@@ -1124,17 +1423,17 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             <div class="cartao">
               <span class="letra" aria-hidden="true">E</span>
               <h3>Eletrônica</h3>
-              <p>Num projeto com Arduino, o sensor mede, o microcontrolador decide e o display mostra. No Mini Cadastro é igual: o <code>banco.php</code> guarda, o <code>cadastro.php</code> decide e a <code>tela.php</code> mostra.</p>
+              <p>Os produtos de exemplo são peças de verdade: o ESP32 e o Arduino são o "cérebro" de muitos projetos, e o DHT11 mede temperatura e umidade. Num circuito, o sensor mede, o microcontrolador decide e o display mostra. Na Mini Loja, o <code>banco.php</code> guarda, o <code>cadastro.php</code> decide e a <code>tela.php</code> mostra.</p>
             </div>
             <div class="cartao">
               <span class="letra" aria-hidden="true">M</span>
               <h3>Matemática</h3>
-              <p>A tabela é um conjunto de clientes. O <code>SELECT</code> escolhe elementos, o <code>ORDER BY</code> ordena e o <code>COUNT</code> conta. É teoria dos conjuntos com outro nome.</p>
+              <p>No banco, o preço é <code>REAL</code>: um número com casas decimais. O <code>number_format</code> arredonda para duas casas (<code>39.9</code> vira <code>39,90</code>), e o <code>ORDER BY</code> põe tudo em ordem alfabética.</p>
             </div>
             <div class="cartao">
               <span class="letra" aria-hidden="true">A</span>
               <h3>Arte</h3>
-              <p>A <code>tela.php</code> é a única que cuida da aparência. Quer outra cara para o sistema? Mexe só nela, e o resto continua funcionando.</p>
+              <p>A <code>tela.php</code> é a única que cuida da aparência. Quer outra cara para a loja? Mexe só nela, e o resto continua funcionando.</p>
             </div>
           </div>
         </section>
@@ -1173,8 +1472,8 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             <div>
               <span class="olho">E1 · entrega</span>
-              <h3>O repositório <code>cadastro-clientes</code> no GitHub</h3>
-              <p>Pelo menos com a versão 2, enviada por upload. Na aula 14, o Mini Cadastro ganha o <strong>U</strong> do CRUD: editar.</p>
+              <h3>O repositório <code>mini-loja</code> no GitHub</h3>
+              <p>Pelo menos com a versão 2, enviada por upload. Na próxima aula, a loja cresce mais um pouco.</p>
             </div>
           </div>
         </section>
