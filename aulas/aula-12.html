@@ -36,7 +36,7 @@
         <a href="../#aulas">← Todas as aulas</a>
         <a href="#conceitos">Conceitos</a>
         <a href="#tutorial">Tutorial</a>
-        <a href="#caso">Caso</a>
+        <a href="#noticia">Notícia</a>
         <a href="#atividade">Atividade</a>
         <a href="#entrega">Entrega</a>
       </nav>
@@ -212,7 +212,7 @@
             <li>Procure (<code>Ctrl + F</code>) por <code>pdo_sqlite</code>. Se a linha for <code>;extension=pdo_sqlite</code>, apague o <code>;</code> do começo. Faça o mesmo com <code>;extension=sqlite3</code>.</li>
             <li>Salve, clique em <strong>Stop</strong> e depois em <strong>Start</strong> no Apache, e recarregue o <code>teste.php</code>.</li>
           </ol>
-          <p class="dica cuidado"><strong>Apareceu "PHP DESATUALIZADO"?</strong> Esse XAMPP tem a falha PHP2Shell (veja o caso de uso). No laboratório, avise a professora. Em casa, baixe o XAMPP novo em <a href="https://www.apachefriends.org/download.html">apachefriends.org</a>.</p>
+          <p class="dica cuidado"><strong>Apareceu "versão antiga"?</strong> No laboratório é assim mesmo: os computadores são da faculdade e você não consegue atualizar. Dá para estudar normalmente; só clique em <strong>Stop</strong> no Apache no fim da aula. O porquê está em "Virou notícia", mais abaixo.</p>
           <div class="tutorial-projeto" data-pasta="cadastro-clientes">
             <script type="text/plain" data-arquivo="index.html" data-estado="novo">
 <!DOCTYPE html>
@@ -257,7 +257,7 @@ $sqliteOk = extension_loaded('pdo_sqlite');
   <h1>Teste do ambiente</h1>
 
   <p>PHP <?= PHP_VERSION ?>:
-    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'DESATUALIZADO. Baixe o XAMPP novo no site oficial.' ?></p>
+    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
 
   <p>SQLite:
     <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
@@ -431,7 +431,7 @@ $sqliteOk = extension_loaded('pdo_sqlite');
   <h1>Teste do ambiente</h1>
 
   <p>PHP <?= PHP_VERSION ?>:
-    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'DESATUALIZADO. Baixe o XAMPP novo no site oficial.' ?></p>
+    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
 
   <p>SQLite:
     <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
@@ -645,7 +645,7 @@ $sqliteOk = extension_loaded('pdo_sqlite');
   <h1>Teste do ambiente</h1>
 
   <p>PHP <?= PHP_VERSION ?>:
-    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'DESATUALIZADO. Baixe o XAMPP novo no site oficial.' ?></p>
+    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
 
   <p>SQLite:
     <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
@@ -916,7 +916,7 @@ $sqliteOk = extension_loaded('pdo_sqlite');
   <h1>Teste do ambiente</h1>
 
   <p>PHP <?= PHP_VERSION ?>:
-    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'DESATUALIZADO. Baixe o XAMPP novo no site oficial.' ?></p>
+    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
 
   <p>SQLite:
     <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
@@ -1005,27 +1005,76 @@ $sqliteOk = extension_loaded('pdo_sqlite');
           <p class="dica"><strong>Apagou e se arrependeu?</strong> O GitHub guarda tudo no histórico (<strong>History</strong>). Nada se perde.</p>
         </section>
 
+        <!-- ===================== VIROU NOTÍCIA (explicação para leigos) ===================== -->
+        <section class="parte" id="noticia">
+          <div class="cab">
+            <span class="olho">N1 · virou notícia</span>
+            <h2>O que aconteceu com o PHP?</h2>
+            <p>Em outubro de 2026, o PHP foi parar no noticiário, com apelido e tudo: <strong>PHP2Shell</strong>. Se alguém da sua família perguntar, a explicação é esta.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">sem tecnês</span>
+            <p>Pense num restaurante. O site é o salão, e o PHP é o cozinheiro: é ele que monta cada prato, ou seja, cada página que chega até você.</p>
+            <p>Descobriram que a cozinha tinha uma <strong>porta dos fundos destrancada</strong>. Por ela, um estranho entrava sem crachá e mandava o cozinheiro fazer o que quisesse: abrir a despensa, levar as receitas, fechar o restaurante.</p>
+            <p><strong>Em tecnês:</strong> duas falhas deixavam um invasor rodar comandos no servidor, sem precisar de senha.</p>
+          </div>
+          <ol class="log">
+            <li class="commit">
+              <div class="commit-linha"><h3>Os ataques começam</h3><span class="etiqueta">17/10</span></div>
+              <p>Criminosos já usavam a porta antes de quase todo mundo saber que ela existia.</p>
+            </li>
+            <li class="commit">
+              <div class="commit-linha"><h3>A falha vem a público</h3><span class="etiqueta">20/10</span></div>
+              <p>O mundo fica sabendo, e ela ganha o apelido PHP2Shell.</p>
+            </li>
+            <li class="commit andamento">
+              <div class="commit-linha"><h3>Sai o conserto</h3><span class="etiqueta verde">21/10</span></div>
+              <p>O PHP lança versões novas (8.5.12, 8.4.27, 8.3.36 e 8.2.35): é a fechadura nova. A agência de cibersegurança dos Estados Unidos (CISA) pede para atualizar já.</p>
+            </li>
+            <li class="commit">
+              <div class="commit-linha"><h3>Entra na lista dos ataques reais</h3><span class="etiqueta">26/10</span></div>
+              <p>A CISA põe as duas falhas na lista das que criminosos estão usando de verdade.</p>
+            </li>
+          </ol>
+          <div class="texto">
+            <h3>Por que virou notícia?</h3>
+            <p>Porque o PHP está por trás de uma parte enorme dos sites do mundo, e a porta dava acesso total. O TechCrunch chegou a chamar o caso de "PHP-ocalypse".</p>
+            <h3>E nós com isso?</h3>
+            <ul>
+              <li>O XAMPP do laboratório tem a versão antiga, e você não consegue atualizar: os computadores são da faculdade.</li>
+              <li>Para estudar, ligue o Apache só durante a aula e clique em <strong>Stop</strong> no fim. Porta fechada, ninguém entra.</li>
+              <li>No seu computador, quando puder, instale o XAMPP novo.</li>
+              <li>Site de verdade, na internet, nunca fica com a versão antiga. Atualizar é trocar a fechadura.</li>
+            </ul>
+            <p class="fontes"><strong>Fontes:</strong>
+              <a href="https://www.cisa.gov/news-events/alerts/2026/10/21/critical-vulnerabilities-php-require-immediate-patching">CISA, 21/10/2026</a> ·
+              <a href="https://www.tenable.com/blog/php2shell-cve-2026-109618-cve-2026-109619-frequently-asked-questions-about-critical-php-remote">Tenable, perguntas frequentes</a> ·
+              <a href="https://techcrunch.com/2026/10/24/php-ocalypse-how-two-critical-web-bugs-almost-broke-the-internet/">TechCrunch, 24/10/2026</a>
+            </p>
+          </div>
+        </section>
+
         <!-- ===================== CASO DE USO (caso real) ===================== -->
         <section class="parte" id="caso">
           <div class="cab">
             <span class="olho">CU1 · caso de uso</span>
             <h2>PHP2Shell: o Apache do XAMPP na mira</h2>
-            <p>Caso real, de outubro de 2026. As fontes estão no fim da seção.</p>
+            <p>Caso real, de outubro de 2026. A história está em "Virou notícia", logo acima.</p>
           </div>
           <div class="cartao caso">
-            <p><strong>Ator:</strong> Estudante com o XAMPP no notebook</p>
+            <p><strong>Ator:</strong> Estudante com o XAMPP no laboratório e em casa</p>
             <p><strong>Objetivo:</strong> Programar em PHP sem deixar o computador aberto para ataques.</p>
             <h3>Fluxo principal</h3>
             <ol>
               <li>Antes de começar, abre o <code>teste.php</code> e confere a versão do PHP.</li>
-              <li>Se estiver desatualizada, baixa o XAMPP novo no site oficial.</li>
-              <li>Liga o Apache só enquanto está programando e desliga no fim.</li>
+              <li>No laboratório, liga o Apache só enquanto está programando e clica em Stop no fim.</li>
+              <li>Em casa, no computador dele, instala o XAMPP novo.</li>
             </ol>
             <h3>E se...</h3>
             <ul>
-              <li><strong>O XAMPP é antigo?</strong> Em 21/10/2026, o PHP corrigiu duas falhas críticas, o PHP2Shell. Com elas, alguém de fora roda comandos no servidor <strong>sem precisar de senha</strong>. Já havia ataques desde 17/10, antes da correção.</li>
+              <li><strong>Não dá para atualizar</strong>, como no laboratório? Estude com o Apache ligado só durante a aula e sem dados de verdade.</li>
               <li><strong>O PHP roda dentro do Apache</strong> (o mod_php, que é como o XAMPP funciona)? Esse é apontado como o caso de <strong>maior risco</strong>.</li>
-              <li><strong>Não dá para atualizar já?</strong> A orientação oficial é tirar o sistema do ar até corrigir.</li>
+              <li><strong>É um site de verdade, na internet?</strong> Atualizar já. Sem dar, a orientação oficial é tirar do ar até corrigir.</li>
             </ul>
             <h3>Para pensar</h3>
             <ol>
@@ -1035,7 +1084,6 @@ $sqliteOk = extension_loaded('pdo_sqlite');
             </ol>
             <p class="fontes"><strong>Fontes:</strong>
               <a href="https://www.cisa.gov/news-events/alerts/2026/10/21/critical-vulnerabilities-php-require-immediate-patching">CISA, alerta de 21/10/2026</a> ·
-              <a href="https://www.tenable.com/blog/php2shell-cve-2026-109618-cve-2026-109619-frequently-asked-questions-about-critical-php-remote">Tenable, perguntas frequentes</a> ·
               <a href="https://www.apachefriends.org/download.html">XAMPP, versões corrigidas</a> ·
               <a href="https://www.helpnetsecurity.com/2024/06/13/cve-2024-4577-exploited/">Help Net Security, CVE-2024-4577 (2024)</a>
             </p>
@@ -1055,7 +1103,7 @@ $sqliteOk = extension_loaded('pdo_sqlite');
               <span class="barra-progresso"><span></span></span>
             </div>
             <ol class="checklist" id="passos-aula-12-mini">
-              <li><label><input type="checkbox"><span>Liguei o Apache, e o <code>teste.php</code> mostrou o PHP atualizado e o SQLite ligado.</span></label></li>
+              <li><label><input type="checkbox"><span>Liguei o Apache, e o <code>teste.php</code> mostrou o SQLite ligado.</span></label></li>
               <li><label><input type="checkbox"><span>Criei a página inicial (<code>index.html</code>).</span></label></li>
               <li><label><input type="checkbox"><span>Versão 1: a lista aparece, e o <code>cadastro.sqlite</code> nasceu na pasta.</span></label></li>
               <li><label><input type="checkbox"><span>Versão 2: cadastrei um cliente e vi o aviso de dados errados.</span></label></li>
