@@ -1,4 +1,4 @@
-/* interativos-php.css: o visual das brincadeiras das aulas de PHP (assets/js/interativos-php.js) · versão 4 · 2026-10-21 */
+/* interativos-php.css: o visual das brincadeiras das aulas de PHP (assets/js/interativos-php.js) · versão 5 · 2026-11-03 */
 .interativo { display: grid; gap: .8rem; }
 .molde-campos { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: end; }
 .molde-campos label { display: grid; gap: .3rem; font-size: .92rem; color: var(--texto-2); }
@@ -67,3 +67,15 @@
 [data-ataque-sql] > label { font-size: .9rem; color: var(--texto-2); }
 .ataque-campo { width: 100%; max-width: 24rem; padding: .5rem .7rem; border: 1px solid var(--borda-forte); border-radius: 10px; background: var(--chip); color: #f2efe6; font-family: var(--f-mono); font-size: .95rem; box-sizing: border-box; }
 .sql-saida code { overflow-wrap: anywhere; }
+
+/* Qual arquivo faz isso? (Mini Cadastro) */
+.qual-lista { list-style: none; padding: 0; margin: 0; display: grid; gap: .6rem; }
+.qual-lista li { display: grid; gap: .4rem; padding: .7rem .9rem; border: 1px solid var(--borda); border-radius: 12px; }
+.qual-lista li.certo { border-color: color-mix(in srgb, var(--menta) 60%, transparent); }
+.qual-botoes { display: flex; flex-wrap: wrap; gap: .4rem; }
+.qual-opcao { padding: .35rem .8rem; border: 1px solid var(--borda-forte); border-radius: 999px; background: var(--superficie-2); color: var(--texto); font-family: var(--f-mono); font-size: .85rem; cursor: pointer; }
+.qual-opcao.acertou { border-color: var(--menta); color: var(--menta); }
+.qual-opcao.errou { opacity: .55; text-decoration: line-through; }
+.qual-aviso { font-size: .88rem; color: var(--texto-2); min-height: 1.2em; }
+.qual-placar { font-family: var(--f-mono); color: var(--ouro-forte); }
+

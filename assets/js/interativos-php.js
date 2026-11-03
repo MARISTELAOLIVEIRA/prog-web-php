@@ -1,10 +1,12 @@
 /* ===================================================================
-   interativos-php.js: as brincadeiras das aulas de PHP · versão 2 · 2026-10-20
+   interativos-php.js: as brincadeiras das aulas de PHP · versão 3 · 2026-11-03 ("Qual arquivo faz isso?")
    - [data-molde-cliente]: "Laboratório do molde" (aula 11). Cada clique fabrica um objeto Cliente,
      com os mesmos atributos e métodos da classe do tutorial (primeiroNome e validar).
    - [data-fabrica-classes]: "Fábrica de classes" (aula 11). Sorteia a classe que a dupla vai criar.
    - [data-planilha-loja]: "Quebra-cabeça da planilha" (aula 12). Cada coluna da planilha vai para uma
      tabela (clientes, produtos ou pedidos); 10 XP por acerto e bônus de primeira.
+   - [data-qual-arquivo]: "Qual arquivo faz isso?" (Mini Cadastro). Cada <li data-certo="..."> ganha um botão
+     por arquivo (data-opcoes no contêiner, separados por vírgula) e responde com acerto ou curto-circuito.
    Os textos entram com textContent; a animação do sorteio para com o botão de pausa.
    =================================================================== */
 (function () {
@@ -58,6 +60,41 @@
       pecas.prepend(peca);
       // ficam as 4 peças mais novas
       while (pecas.children.length > 4) pecas.lastElementChild.remove();
+    });
+  });
+
+  // ---------- Qual arquivo faz isso? ----------
+  document.querySelectorAll("[data-qual-arquivo]").forEach(function (caixa) {
+    const opcoes = caixa.dataset.opcoes.split(",");
+    const placar = caixa.querySelector(".qual-placar");
+    const itens = caixa.querySelectorAll("li[data-certo]");
+    let acertos = 0;
+
+    itens.forEach(function (item) {
+      const botoes = el("span", "qual-botoes");
+      const aviso = el("span", "qual-aviso");
+      aviso.setAttribute("role", "status");
+      opcoes.forEach(function (opcao) {
+        const nome = opcao.trim();
+        const b = el("button", "qual-opcao", nome);
+        b.type = "button";
+        b.addEventListener("click", function () {
+          if (item.classList.contains("certo")) return;
+          if (nome === item.dataset.certo) {
+            item.classList.add("certo");
+            b.classList.add("acertou");
+            aviso.textContent = "Compilou de primeira!";
+            acertos++;
+            if (placar) placar.textContent = acertos + " de " + itens.length;
+          } else {
+            b.classList.add("errou");
+            aviso.textContent = "Curto-circuito. Confere a trilha e tenta de novo.";
+          }
+        });
+        botoes.appendChild(b);
+      });
+      item.appendChild(botoes);
+      item.appendChild(aviso);
     });
   });
 
