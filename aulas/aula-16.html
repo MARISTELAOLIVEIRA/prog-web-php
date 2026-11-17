@@ -1,0 +1,1929 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: número e tema da aula -->
+  <title>Aula 16: Mini Loja, a área do funcionário · Web II: PHP · Stela</title>
+  <meta name="description" content="Aula 16 de Web II (PHP): cadastro e login do funcionário na Mini Loja, com senha guardada em hash e só quem entrou mexe nos produtos.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=2">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+  <link rel="stylesheet" href="../assets/css/tutorial-php.css?v=8">
+  <link rel="stylesheet" href="../assets/css/interativos-php.css?v=6">
+  <link rel="stylesheet" href="../assets/css/conta.css?v=4">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/php.svg" alt="PHP: página inicial da disciplina" width="48" height="48"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da aula">
+        <a href="../#aulas">← Todas as aulas</a>
+        <a href="#conceitos">Conceitos</a>
+        <a href="#tutorial">Tutorial</a>
+        <a href="#caso">Caso</a>
+        <a href="#atividade">Atividade</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO DA AULA ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">PHP</a> <span aria-hidden="true">/</span>
+          <a href="../#aulas">Aulas</a> <span aria-hidden="true">/</span>
+          <span>Aula 16</span>
+        </p>
+
+        <!-- EDITE AQUI: número, tipo de aula, unidade e título -->
+        <div class="aula-etiquetas">
+          <span class="etiqueta senac">Fac Senac DF</span>
+          <span class="etiqueta ouro">Aula 16</span>
+          <span class="etiqueta">Projeto</span>
+          <span class="etiqueta">Login</span>
+        </div>
+        <h1>Mini Loja: a área do funcionário</h1>
+        <p class="subtitulo">O funcionário ganha crachá, entra com senha, e só quem entrou mexe nos produtos.</p>
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da aula">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Objetivo do dia</span>
+            <p>Criar o cadastro e o login do funcionário. Depois, trancar a loja: o visitante só olha a vitrine, e só o funcionário logado cadastra, edita e exclui.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Antes da aula</span>
+            <p>Ter a Mini Loja com foto (versão 3 da <a href="aula-14.html#tutorial">aula 14</a>).</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Como conta ponto</span>
+            <p>Faz parte do projeto da Mini Loja, enviado ao GitHub por upload.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <!-- ===================== O PROBLEMA ===================== -->
+        <section class="parte" id="problema">
+          <div class="cab">
+            <span class="olho">P1 · o problema</span>
+            <h2>Qualquer um mexe na loja</h2>
+          </div>
+          <div class="texto">
+            <p>Hoje, quem abre a Mini Loja pode cadastrar, editar e <strong>excluir</strong> produtos. É uma loja sem porta: qualquer cliente entra no estoque.</p>
+            <p>Numa loja de verdade, o funcionário tem <strong>crachá</strong>. Sem crachá, você fica no balcão. Hoje a Mini Loja ganha os três:</p>
+          </div>
+          <div class="tabela-rola">
+            <table class="metodos">
+              <caption>O que muda hoje</caption>
+              <thead><tr><th>Versão</th><th>Na loja de verdade</th><th>Na Mini Loja</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>fazer o crachá</td><td>o funcionário se cadastra (a senha vira hash)</td></tr>
+                <tr><td>2</td><td>passar o crachá na porta</td><td>entrar e sair (login e sessão)</td></tr>
+                <tr><td>3</td><td>trancar o estoque</td><td>só quem entrou mexe nos produtos e cadastra colegas</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== CONCEITOS ===================== -->
+        <section class="parte" id="conceitos">
+          <div class="cab">
+            <span class="olho">C1–C3 · conceitos</span>
+            <h2>Três ideias, e só</h2>
+          </div>
+
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C1</span>
+              <h3>A senha nunca entra pura no banco</h3>
+              <p>O <code>password_hash</code> mói a senha e guarda o resultado, o <strong>hash</strong>. É como carne moída: não dá para voltar ao bife.</p>
+              <p>Na hora de entrar, o <code>password_verify</code> mói a senha digitada e compara as duas.</p>
+              <p class="dica cuidado"><strong>Por quê?</strong> Se o banco vazar, o ladrão leva só carne moída, e não as senhas.</p>
+            </div>
+            <pre class="codigo" aria-label="password_hash e password_verify"><code><span class="linha"><span class="num">1</span><span class="var">$hash</span> = <span class="fn">password_hash</span>(<span class="str">'12345678'</span>, <span class="var">PASSWORD_DEFAULT</span>);</span><span class="linha"><span class="num">2</span><span class="com">// $2y$12$Kq0... (60 letras; muda a cada vez)</span></span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="fn">password_verify</span>(<span class="str">'12345678'</span>, <span class="var">$hash</span>);  <span class="com">// true</span></span><span class="linha"><span class="num">5</span><span class="fn">password_verify</span>(<span class="str">'chute123'</span>, <span class="var">$hash</span>);  <span class="com">// false</span></span></code></pre>
+          </div>
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C2</span>
+              <h3>A sessão é o crachá no peito</h3>
+              <p>Cada página do PHP esquece você. A <strong>sessão</strong> é a memória do servidor: entrou com a senha certa? Ele anota em <code>$_SESSION</code>, e as próximas páginas sabem quem você é.</p>
+              <p>O <code>session_start()</code> vem <strong>antes de qualquer HTML</strong>, no começo do arquivo.</p>
+              <p>Sair é tirar o crachá: <code>session_destroy()</code>.</p>
+            </div>
+            <pre class="codigo" aria-label="A sessão"><code><span class="linha"><span class="num">1</span><span class="fn">session_start</span>();  <span class="com">// sempre na primeira linha</span></span><span class="linha"><span class="num">2</span></span><span class="linha"><span class="num">3</span><span class="com">// entrou: anota o nome no crachá</span></span><span class="linha"><span class="num">4</span><span class="var">$_SESSION</span>[<span class="str">'funcionario'</span>] = <span class="str">'Ana'</span>;</span><span class="linha"><span class="num">5</span></span><span class="linha"><span class="num">6</span><span class="com">// em qualquer página: quem está aqui?</span></span><span class="linha"><span class="num">7</span><span class="var">$logado</span> = <span class="var">$_SESSION</span>[<span class="str">'funcionario'</span>] ?? <span class="str">''</span>;</span></code></pre>
+          </div>
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C3</span>
+              <h3>A tranca fica no controle</h3>
+              <p>Esconder o botão "Excluir" não basta: alguém pode mandar o formulário sem a tela. Quem tranca de verdade é o <strong>garçom</strong> (<code>cadastro.php</code>): sem crachá, ele manda a pessoa para a porta.</p>
+              <p class="dica">A tela esconde os botões para ficar bonito. O controle barra para ficar <strong>seguro</strong>.</p>
+            </div>
+            <pre class="codigo" aria-label="A tranca no controle"><code><span class="linha"><span class="num">1</span><span class="com">// sem crachá e tentando mexer? vai para a porta</span></span><span class="linha"><span class="num">2</span><span class="kw">if</span> (<span class="var">$logado</span> === <span class="str">''</span> &amp;&amp; <span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>] === <span class="str">'POST'</span>) {</span><span class="linha"><span class="num">3</span>    <span class="fn">header</span>(<span class="str">'Location: funcionario.php'</span>);</span><span class="linha"><span class="num">4</span>    <span class="kw">exit</span>;</span><span class="linha"><span class="num">5</span>}</span></code></pre>
+          </div>
+        </section>
+
+        <!-- ===================== TUTORIAL ===================== -->
+        <section class="parte" id="tutorial">
+          <div class="cab">
+            <span class="olho">T1 · tutorial</span>
+            <h2>Mão na massa: o login em 3 versões</h2>
+            <p>Cada versão é o projeto inteiro, pronto para copiar. Copie, salve, teste e passe para a próxima.</p>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Antes de começar</span>
+            <h3>Apache ligado e a Mini Loja aberta</h3>
+          </div>
+          <ol>
+            <li>No <strong>XAMPP</strong>, <strong>Start</strong> no Apache. No VS Code, a pasta <code>C:\xampp\htdocs\mini-loja</code> (a versão 3 da <a href="aula-14.html#tutorial">aula 14</a>).</li>
+          </ol>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 1 · o crachá</span>
+            <h3>O funcionário se cadastra</h3>
+            <p>Dois arquivos novos, no mesmo jeito MVC: <code>funcionario.php</code> (o garçom) e <code>tela-funcionario.php</code> (o prato). O <code>banco.php</code> ganha a tabela <code>funcionarios</code>.</p>
+          </div>
+          <ol>
+            <li>Troque o <code>banco.php</code> e o <code>index.html</code>; crie os dois arquivos novos.</li>
+            <li>Abra <code>http://localhost/mini-loja/funcionario.php</code> e cadastre você.</li>
+            <li>Tente de novo com o mesmo e-mail e com uma senha de 3 letras: o garçom recusa.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="mini-loja">
+            <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
+<?php
+// banco.php: o MODELO.
+// Conecta no banco e guarda as funções que falam com ele. Todo o SQL mora aqui.
+
+function conectar(): PDO
+{
+    // o banco é um arquivo só; se ele não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // a tabela nasce sozinha na primeira vez
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        preco REAL NOT NULL
+    )');
+
+    // a coluna da foto (aula 14). A tabela já existia? O ALTER TABLE acrescenta a coluna, uma vez só
+    $colunas = $pdo->query('PRAGMA table_info(produtos)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('imagem', $colunas)) {
+        $pdo->exec('ALTER TABLE produtos ADD COLUMN imagem TEXT');
+    }
+
+    // NOVO: a tabela dos funcionários. A senha nunca entra pura: entra o "hash" dela
+    $pdo->exec('CREATE TABLE IF NOT EXISTS funcionarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        senha TEXT NOT NULL
+    )');
+
+    // banco vazio? entram três produtos de exemplo, para a lista não começar em branco
+    $total = $pdo->query('SELECT COUNT(*) FROM produtos')->fetchColumn();
+    if ($total == 0) {
+        $pdo->exec("INSERT INTO produtos (nome, preco) VALUES
+            ('Placa ESP32', 39.90),
+            ('Arduino Uno', 59.90),
+            ('Sensor de temperatura DHT11', 12.50)");
+    }
+
+    return $pdo;
+}
+
+// R: devolve todos os produtos, em ordem alfabética (agora com a foto)
+function listarProdutos(): array
+{
+    $pdo = conectar();
+    return $pdo->query('SELECT id, nome, preco, imagem FROM produtos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// C: grava um produto novo; a imagem é só o NOME do arquivo (a foto fica na pasta uploads)
+function inserirProduto(string $nome, float $preco, string $imagem): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('INSERT INTO produtos (nome, preco, imagem) VALUES (:nome, :preco, :imagem)');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco, ':imagem' => $imagem]);
+}
+
+// D: apaga o produto pelo id (o número que o banco deu a ele)
+function excluirProduto(int $id): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('DELETE FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+}
+
+// busca um produto só, para preencher o formulário de edição
+function buscarProduto(int $id): ?array
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('SELECT id, nome, preco, imagem FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+
+// U: troca o nome, o preço e a foto do produto
+function atualizarProduto(int $id, string $nome, float $preco, string $imagem): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('UPDATE produtos SET nome = :nome, preco = :preco, imagem = :imagem WHERE id = :id');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco, ':imagem' => $imagem, ':id' => $id]);
+}
+
+// NOVO: grava um funcionário; a senha já chega embaralhada (o hash)
+function inserirFuncionario(string $nome, string $email, string $hash): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('INSERT INTO funcionarios (nome, email, senha) VALUES (:nome, :email, :senha)');
+    $stmt->execute([':nome' => $nome, ':email' => $email, ':senha' => $hash]);
+}
+
+// NOVO: procura o funcionário pelo e-mail (devolve null se não tem)
+function buscarFuncionario(string $email): ?array
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('SELECT id, nome, email, senha FROM funcionarios WHERE email = :email');
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+</script>
+            <script type="text/plain" data-arquivo="funcionario.php" data-estado="novo">
+<?php
+// funcionario.php: o CONTROLE da área do funcionário.
+// Recebe o cadastro, confere, pede ao modelo (banco.php) e chama a visão (tela-funcionario.php).
+require __DIR__ . '/banco.php';
+
+// começa sem aviso
+$erro = '';
+$aviso = '';
+
+// o formulário foi enviado? confere tudo antes de gravar
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $email = strtolower(trim($_POST['email'] ?? ''));
+    $senha = $_POST['senha'] ?? '';
+
+    if ($nome === '') {
+        $erro = 'Escreva o seu nome.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erro = 'Esse e-mail não parece um e-mail.';
+    } elseif (strlen($senha) < 8) {
+        $erro = 'A senha precisa de 8 caracteres ou mais.';
+    } elseif (buscarFuncionario($email)) {
+        $erro = 'Esse e-mail já tem cadastro.';
+    } else {
+        // password_hash embaralha a senha de um jeito que não tem volta
+        inserirFuncionario($nome, $email, password_hash($senha, PASSWORD_DEFAULT));
+        $aviso = 'Cadastro feito, ' . $nome . '! Na versão 2, você vai usar esse e-mail para entrar.';
+    }
+}
+
+require __DIR__ . '/tela-funcionario.php';
+</script>
+            <script type="text/plain" data-arquivo="tela-funcionario.php" data-estado="novo">
+<?php // tela-funcionario.php: a VISÃO da área do funcionário. Só o HTML ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja · Funcionário</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Área do funcionário</h1>
+
+  <?php if ($erro): ?>
+    <p style="color: firebrick"><strong>Não deu:</strong> <?= htmlspecialchars($erro) ?></p>
+  <?php endif; ?>
+  <?php if ($aviso): ?>
+    <p style="color: green"><?= htmlspecialchars($aviso) ?></p>
+  <?php endif; ?>
+
+  <h2>Cadastrar funcionário</h2>
+  <form method="post" action="funcionario.php">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="<?= htmlspecialchars($nome ?? '') ?>">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required value="<?= htmlspecialchars($email ?? '') ?>">
+
+    <!-- type="password" esconde o que a pessoa digita -->
+    <label for="senha">Senha (8 caracteres ou mais)</label>
+    <input id="senha" name="senha" type="password" minlength="8" required>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="index.html" data-estado="mudou">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
+
+  <ul>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
+    <li><a href="funcionario.php">Área do funcionário</a></li>
+    <li><a href="teste.php">Testar o ambiente</a></li>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="igual">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
+require __DIR__ . '/banco.php';
+
+// o garçom confere a foto antes de pendurar no cardápio.
+// Devolve '' quando está tudo certo, ou a frase do problema.
+function conferirImagem(array $arquivo): string
+{
+    // grande demais? (o php.ini também tem um limite, o upload_max_filesize)
+    if ($arquivo['error'] === UPLOAD_ERR_INI_SIZE || $arquivo['size'] > 2 * 1024 * 1024) {
+        return 'A foto passou de 2 MB. Diminua e tente de novo.';
+    }
+    if ($arquivo['error'] !== UPLOAD_ERR_OK) {
+        return 'A foto não chegou inteira. Tente de novo.';
+    }
+    if ($arquivo['size'] === 0) {
+        return 'A foto chegou vazia.';
+    }
+    // getimagesize olha DENTRO do arquivo; o nome pode mentir, o conteúdo não
+    $info = getimagesize($arquivo['tmp_name']);
+    if ($info === false || !in_array($info[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP])) {
+        return 'Isso não é uma foto JPG, PNG ou WEBP.';
+    }
+    return '';
+}
+
+// guarda a foto conferida com um nome inventado pelo sistema e devolve esse nome
+function guardarImagem(array $arquivo): string
+{
+    $extensoes = [IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp'];
+    $tipo = getimagesize($arquivo['tmp_name'])[2];
+
+    // o nome que veio do computador do usuário é jogado fora
+    $nome = bin2hex(random_bytes(8)) . '.' . $extensoes[$tipo];
+
+    if (!is_dir(__DIR__ . '/uploads')) {
+        mkdir(__DIR__ . '/uploads');
+    }
+    move_uploaded_file($arquivo['tmp_name'], __DIR__ . '/uploads/' . $nome);
+    return $nome;
+}
+
+// tira uma foto da pasta uploads (basename impede sair da pasta)
+function apagarImagem(string $nome): void
+{
+    $caminho = __DIR__ . '/uploads/' . basename($nome);
+    if ($nome !== '' && is_file($caminho)) {
+        unlink($caminho);
+    }
+}
+
+// clicou em "Excluir"? apaga a foto, depois o produto, e volta para a página limpa
+if (isset($_POST['excluir'])) {
+    $id = (int) $_POST['excluir'];
+    $produto = buscarProduto($id);
+    if ($produto) {
+        apagarImagem($produto['imagem'] ?? '');
+    }
+    excluirProduto($id);
+    header('Location: cadastro.php');
+    exit;
+}
+
+// começa sem aviso e sem produto para editar
+$erro = '';
+$produto = null;
+
+// o formulário foi enviado? com id é edição; sem id é produto novo
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = (int) ($_POST['id'] ?? 0);
+    $nome = trim($_POST['nome'] ?? '');
+    $preco = (float) ($_POST['preco'] ?? 0);
+
+    // escolheram uma foto? o garçom confere antes de guardar
+    $imagem = '';
+    $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
+    if ($temFoto) {
+        $erro = conferirImagem($_FILES['imagem']);
+    }
+
+    if ($erro === '') {
+        if ($temFoto) {
+            $imagem = guardarImagem($_FILES['imagem']);
+        }
+        if ($id > 0) {
+            // edição: sem foto nova, fica a de antes; com foto nova, a antiga sai da pasta
+            $antigo = buscarProduto($id);
+            $fotoAntiga = $antigo['imagem'] ?? '';
+            if ($imagem === '') {
+                $imagem = $fotoAntiga;
+            } else {
+                apagarImagem($fotoAntiga);
+            }
+            atualizarProduto($id, $nome, $preco, $imagem);
+        } else {
+            inserirProduto($nome, $preco, $imagem);
+        }
+
+        // volta para a página limpa: assim o F5 não grava de novo
+        header('Location: cadastro.php');
+        exit;
+    }
+
+    // deu problema: a tela volta com o aviso e com o que a pessoa já tinha digitado
+    $produto = ['id' => $id ?: '', 'nome' => $nome, 'preco' => $preco];
+}
+
+// clicou em "Editar"? busca o produto para preencher o formulário
+if (isset($_GET['editar'])) {
+    $produto = buscarProduto((int) $_GET['editar']);
+}
+
+$produtos = listarProdutos();
+
+require __DIR__ . '/tela.php';
+</script>
+            <script type="text/plain" data-arquivo="tela.php" data-estado="igual">
+<?php // tela.php: a VISÃO. Só o HTML; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <h2><?= !empty($produto['id']) ? 'Editar produto' : 'Novo produto' ?></h2>
+
+  <?php if ($erro): ?>
+    <p style="color: firebrick"><strong>Foto recusada:</strong> <?= htmlspecialchars($erro) ?></p>
+  <?php endif; ?>
+  <!-- sem o enctype, o arquivo não viaja (chega só o nome dele) -->
+  <form method="post" action="cadastro.php" enctype="multipart/form-data">
+    <!-- o id escondido diz ao controle qual produto editar (vazio = produto novo) -->
+    <input type="hidden" name="id" value="<?= $produto['id'] ?? '' ?>">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="<?= htmlspecialchars($produto['nome'] ?? '') ?>">
+
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="<?= $produto['preco'] ?? '' ?>">
+
+    <?php if (!empty($produto['imagem'])): ?>
+      <p>Foto atual: <img src="uploads/<?= htmlspecialchars($produto['imagem']) ?>" alt="" width="60"></p>
+    <?php endif; ?>
+
+    <label for="imagem"><?= !empty($produto['id']) ? 'Trocar a foto (só se quiser)' : 'Foto do produto' ?></label>
+    <input id="imagem" name="imagem" type="file" accept="image/jpeg, image/png, image/webp">
+    <small>JPG, PNG ou WEBP, até 2 MB.</small>
+
+    <button type="submit"><?= !empty($produto['id']) ? 'Salvar alterações' : 'Cadastrar' ?></button>
+    <?php if (!empty($produto['id'])): ?>
+      <a href="cadastro.php">Cancelar</a>
+    <?php endif; ?>
+  </form>
+
+  <h2>Produtos (<?= count($produtos) ?>)</h2>
+  <ul>
+    <?php foreach ($produtos as $item): ?>
+      <li>
+        <?php if ($item['imagem']): ?>
+          <img src="uploads/<?= htmlspecialchars($item['imagem']) ?>" alt="" width="60">
+        <?php else: ?>
+          <span>📦 sem foto</span>
+        <?php endif; ?>
+        <?= htmlspecialchars($item['nome']) ?> · R$ <?= number_format($item['preco'], 2, ',', '.') ?>
+        <a href="cadastro.php?editar=<?= $item['id'] ?>">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="<?= $item['id'] ?>">Excluir</button>
+        </form>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Depois de cadastrar a Ana">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja · Funcionário</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Área do funcionário</h1>
+
+        <p style="color: green">Cadastro feito, Ana! Na versão 2, você vai usar esse e-mail para entrar.</p>
+  
+  <h2>Cadastrar funcionário</h2>
+  <form method="post" action="funcionario.php">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="Ana">
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required value="ana@loja.com">
+
+    <!-- type="password" esconde o que a pessoa digita -->
+    <label for="senha">Senha (8 caracteres ou mais)</label>
+    <input id="senha" name="senha" type="password" minlength="8" required>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+</body>
+</html>
+</script>
+          </div>
+
+          <div class="cartao entenda">
+            <span class="olho">entenda o código</span>
+            <h4>Versão 1, o que mudou</h4>
+            <ol>
+              <li><strong><code>banco.php</code>:</strong> a tabela <code>funcionarios</code> nasce sozinha. O <code>email</code> é <code>UNIQUE</code>: dois cadastros com o mesmo e-mail, não.</li>
+              <li><strong><code>funcionario.php</code>:</strong> confere nome, e-mail (<code>filter_var</code>), senha de 8 ou mais e e-mail repetido. Tudo certo? <code>password_hash</code> e grava.</li>
+              <li><strong><code>tela-funcionario.php</code>:</strong> o <code>type="password"</code> esconde o que a pessoa digita.</li>
+            </ol>
+          </div>
+          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste o <code>banco.php</code>, o <code>index.html</code> e os dois arquivos novos, escreva <code>Versão 1: cadastro do funcionário</code> e clique em <strong>Commit changes</strong>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 2 · a porta</span>
+            <h3>Entrar e sair</h3>
+            <p>A área do funcionário ganha o formulário <strong>Entrar</strong>. Senha certa? O servidor anota você na sessão e abre o cadastro de produtos.</p>
+          </div>
+          <ol>
+            <li>Troque o <code>funcionario.php</code> e o <code>tela-funcionario.php</code>.</li>
+            <li>Entre com a senha errada (aparece "E-mail ou senha errados") e depois com a certa.</li>
+            <li>Volte à área do funcionário: aparece "Olá" com o seu nome. Clique em <strong>Sair</strong>.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="mini-loja">
+            <script type="text/plain" data-arquivo="funcionario.php" data-estado="mudou">
+<?php
+// funcionario.php: o CONTROLE da área do funcionário.
+// NOVO: a sessão é a "memória" do servidor sobre você; tem que vir antes de qualquer HTML
+session_start();
+require __DIR__ . '/banco.php';
+
+// NOVO: clicou em "Sair"? esquece quem estava logado e volta
+if (isset($_GET['sair'])) {
+    $_SESSION = [];
+    session_destroy();
+    header('Location: funcionario.php');
+    exit;
+}
+
+$erro = '';
+$aviso = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // NOVO: o campo escondido "acao" diz qual formulário foi enviado
+    $acao = $_POST['acao'] ?? '';
+    $nome = trim($_POST['nome'] ?? '');
+    $email = strtolower(trim($_POST['email'] ?? ''));
+    $senha = $_POST['senha'] ?? '';
+
+    if ($acao === 'entrar') {
+        // NOVO: password_verify compara a senha digitada com o hash guardado
+        $funcionario = buscarFuncionario($email);
+        if ($funcionario && password_verify($senha, $funcionario['senha'])) {
+            session_regenerate_id(true);  // crachá novo a cada entrada
+            $_SESSION['funcionario'] = $funcionario['nome'];
+            header('Location: cadastro.php');
+            exit;
+        }
+        // não conta qual dos dois errou: assim ninguém descobre e-mails cadastrados
+        $erro = 'E-mail ou senha errados.';
+    }
+
+    if ($acao === 'cadastrar') {
+        if ($nome === '') {
+            $erro = 'Escreva o seu nome.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $erro = 'Esse e-mail não parece um e-mail.';
+        } elseif (strlen($senha) < 8) {
+            $erro = 'A senha precisa de 8 caracteres ou mais.';
+        } elseif (buscarFuncionario($email)) {
+            $erro = 'Esse e-mail já tem cadastro.';
+        } else {
+            inserirFuncionario($nome, $email, password_hash($senha, PASSWORD_DEFAULT));
+            $aviso = 'Cadastro feito, ' . $nome . '! Agora é só entrar.';
+        }
+    }
+}
+
+// NOVO: quem está logado (vazio = ninguém)
+$logado = $_SESSION['funcionario'] ?? '';
+
+require __DIR__ . '/tela-funcionario.php';
+</script>
+            <script type="text/plain" data-arquivo="tela-funcionario.php" data-estado="mudou">
+<?php // tela-funcionario.php: a VISÃO da área do funcionário. Só o HTML ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja · Funcionário</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Área do funcionário</h1>
+
+  <?php if ($erro): ?>
+    <p style="color: firebrick"><strong>Não deu:</strong> <?= htmlspecialchars($erro) ?></p>
+  <?php endif; ?>
+  <?php if ($aviso): ?>
+    <p style="color: green"><?= htmlspecialchars($aviso) ?></p>
+  <?php endif; ?>
+
+  <!-- NOVO: já entrou? mostra quem é e o botão de sair -->
+  <?php if ($logado): ?>
+    <p>Olá, <strong><?= htmlspecialchars($logado) ?></strong>! <a href="cadastro.php">Cadastrar produtos</a> · <a href="funcionario.php?sair=1">Sair</a></p>
+  <?php else: ?>
+    <h2>Entrar</h2>
+    <form method="post" action="funcionario.php">
+      <input type="hidden" name="acao" value="entrar">
+
+      <label for="email-entrar">E-mail</label>
+      <input id="email-entrar" name="email" type="email" required>
+
+      <label for="senha-entrar">Senha</label>
+      <input id="senha-entrar" name="senha" type="password" required>
+
+      <button type="submit">Entrar</button>
+    </form>
+  <?php endif; ?>
+
+  <h2>Cadastrar funcionário</h2>
+  <form method="post" action="funcionario.php">
+    <input type="hidden" name="acao" value="cadastrar">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required>
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="senha">Senha (8 caracteres ou mais)</label>
+    <input id="senha" name="senha" type="password" minlength="8" required>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="banco.php" data-estado="igual">
+<?php
+// banco.php: o MODELO.
+// Conecta no banco e guarda as funções que falam com ele. Todo o SQL mora aqui.
+
+function conectar(): PDO
+{
+    // o banco é um arquivo só; se ele não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // a tabela nasce sozinha na primeira vez
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        preco REAL NOT NULL
+    )');
+
+    // a coluna da foto (aula 14). A tabela já existia? O ALTER TABLE acrescenta a coluna, uma vez só
+    $colunas = $pdo->query('PRAGMA table_info(produtos)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('imagem', $colunas)) {
+        $pdo->exec('ALTER TABLE produtos ADD COLUMN imagem TEXT');
+    }
+
+    // a tabela dos funcionários. A senha nunca entra pura: entra o "hash" dela
+    $pdo->exec('CREATE TABLE IF NOT EXISTS funcionarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        senha TEXT NOT NULL
+    )');
+
+    // banco vazio? entram três produtos de exemplo, para a lista não começar em branco
+    $total = $pdo->query('SELECT COUNT(*) FROM produtos')->fetchColumn();
+    if ($total == 0) {
+        $pdo->exec("INSERT INTO produtos (nome, preco) VALUES
+            ('Placa ESP32', 39.90),
+            ('Arduino Uno', 59.90),
+            ('Sensor de temperatura DHT11', 12.50)");
+    }
+
+    return $pdo;
+}
+
+// R: devolve todos os produtos, em ordem alfabética (agora com a foto)
+function listarProdutos(): array
+{
+    $pdo = conectar();
+    return $pdo->query('SELECT id, nome, preco, imagem FROM produtos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// C: grava um produto novo; a imagem é só o NOME do arquivo (a foto fica na pasta uploads)
+function inserirProduto(string $nome, float $preco, string $imagem): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('INSERT INTO produtos (nome, preco, imagem) VALUES (:nome, :preco, :imagem)');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco, ':imagem' => $imagem]);
+}
+
+// D: apaga o produto pelo id (o número que o banco deu a ele)
+function excluirProduto(int $id): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('DELETE FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+}
+
+// busca um produto só, para preencher o formulário de edição
+function buscarProduto(int $id): ?array
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('SELECT id, nome, preco, imagem FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+
+// U: troca o nome, o preço e a foto do produto
+function atualizarProduto(int $id, string $nome, float $preco, string $imagem): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('UPDATE produtos SET nome = :nome, preco = :preco, imagem = :imagem WHERE id = :id');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco, ':imagem' => $imagem, ':id' => $id]);
+}
+
+// grava um funcionário; a senha já chega embaralhada (o hash)
+function inserirFuncionario(string $nome, string $email, string $hash): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('INSERT INTO funcionarios (nome, email, senha) VALUES (:nome, :email, :senha)');
+    $stmt->execute([':nome' => $nome, ':email' => $email, ':senha' => $hash]);
+}
+
+// procura o funcionário pelo e-mail (devolve null se não tem)
+function buscarFuncionario(string $email): ?array
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('SELECT id, nome, email, senha FROM funcionarios WHERE email = :email');
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+</script>
+            <script type="text/plain" data-arquivo="index.html" data-estado="igual">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
+
+  <ul>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
+    <li><a href="funcionario.php">Área do funcionário</a></li>
+    <li><a href="teste.php">Testar o ambiente</a></li>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="igual">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
+require __DIR__ . '/banco.php';
+
+// o garçom confere a foto antes de pendurar no cardápio.
+// Devolve '' quando está tudo certo, ou a frase do problema.
+function conferirImagem(array $arquivo): string
+{
+    // grande demais? (o php.ini também tem um limite, o upload_max_filesize)
+    if ($arquivo['error'] === UPLOAD_ERR_INI_SIZE || $arquivo['size'] > 2 * 1024 * 1024) {
+        return 'A foto passou de 2 MB. Diminua e tente de novo.';
+    }
+    if ($arquivo['error'] !== UPLOAD_ERR_OK) {
+        return 'A foto não chegou inteira. Tente de novo.';
+    }
+    if ($arquivo['size'] === 0) {
+        return 'A foto chegou vazia.';
+    }
+    // getimagesize olha DENTRO do arquivo; o nome pode mentir, o conteúdo não
+    $info = getimagesize($arquivo['tmp_name']);
+    if ($info === false || !in_array($info[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP])) {
+        return 'Isso não é uma foto JPG, PNG ou WEBP.';
+    }
+    return '';
+}
+
+// guarda a foto conferida com um nome inventado pelo sistema e devolve esse nome
+function guardarImagem(array $arquivo): string
+{
+    $extensoes = [IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp'];
+    $tipo = getimagesize($arquivo['tmp_name'])[2];
+
+    // o nome que veio do computador do usuário é jogado fora
+    $nome = bin2hex(random_bytes(8)) . '.' . $extensoes[$tipo];
+
+    if (!is_dir(__DIR__ . '/uploads')) {
+        mkdir(__DIR__ . '/uploads');
+    }
+    move_uploaded_file($arquivo['tmp_name'], __DIR__ . '/uploads/' . $nome);
+    return $nome;
+}
+
+// tira uma foto da pasta uploads (basename impede sair da pasta)
+function apagarImagem(string $nome): void
+{
+    $caminho = __DIR__ . '/uploads/' . basename($nome);
+    if ($nome !== '' && is_file($caminho)) {
+        unlink($caminho);
+    }
+}
+
+// clicou em "Excluir"? apaga a foto, depois o produto, e volta para a página limpa
+if (isset($_POST['excluir'])) {
+    $id = (int) $_POST['excluir'];
+    $produto = buscarProduto($id);
+    if ($produto) {
+        apagarImagem($produto['imagem'] ?? '');
+    }
+    excluirProduto($id);
+    header('Location: cadastro.php');
+    exit;
+}
+
+// começa sem aviso e sem produto para editar
+$erro = '';
+$produto = null;
+
+// o formulário foi enviado? com id é edição; sem id é produto novo
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = (int) ($_POST['id'] ?? 0);
+    $nome = trim($_POST['nome'] ?? '');
+    $preco = (float) ($_POST['preco'] ?? 0);
+
+    // escolheram uma foto? o garçom confere antes de guardar
+    $imagem = '';
+    $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
+    if ($temFoto) {
+        $erro = conferirImagem($_FILES['imagem']);
+    }
+
+    if ($erro === '') {
+        if ($temFoto) {
+            $imagem = guardarImagem($_FILES['imagem']);
+        }
+        if ($id > 0) {
+            // edição: sem foto nova, fica a de antes; com foto nova, a antiga sai da pasta
+            $antigo = buscarProduto($id);
+            $fotoAntiga = $antigo['imagem'] ?? '';
+            if ($imagem === '') {
+                $imagem = $fotoAntiga;
+            } else {
+                apagarImagem($fotoAntiga);
+            }
+            atualizarProduto($id, $nome, $preco, $imagem);
+        } else {
+            inserirProduto($nome, $preco, $imagem);
+        }
+
+        // volta para a página limpa: assim o F5 não grava de novo
+        header('Location: cadastro.php');
+        exit;
+    }
+
+    // deu problema: a tela volta com o aviso e com o que a pessoa já tinha digitado
+    $produto = ['id' => $id ?: '', 'nome' => $nome, 'preco' => $preco];
+}
+
+// clicou em "Editar"? busca o produto para preencher o formulário
+if (isset($_GET['editar'])) {
+    $produto = buscarProduto((int) $_GET['editar']);
+}
+
+$produtos = listarProdutos();
+
+require __DIR__ . '/tela.php';
+</script>
+            <script type="text/plain" data-arquivo="tela.php" data-estado="igual">
+<?php // tela.php: a VISÃO. Só o HTML; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <h2><?= !empty($produto['id']) ? 'Editar produto' : 'Novo produto' ?></h2>
+
+  <?php if ($erro): ?>
+    <p style="color: firebrick"><strong>Foto recusada:</strong> <?= htmlspecialchars($erro) ?></p>
+  <?php endif; ?>
+  <!-- sem o enctype, o arquivo não viaja (chega só o nome dele) -->
+  <form method="post" action="cadastro.php" enctype="multipart/form-data">
+    <!-- o id escondido diz ao controle qual produto editar (vazio = produto novo) -->
+    <input type="hidden" name="id" value="<?= $produto['id'] ?? '' ?>">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="<?= htmlspecialchars($produto['nome'] ?? '') ?>">
+
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="<?= $produto['preco'] ?? '' ?>">
+
+    <?php if (!empty($produto['imagem'])): ?>
+      <p>Foto atual: <img src="uploads/<?= htmlspecialchars($produto['imagem']) ?>" alt="" width="60"></p>
+    <?php endif; ?>
+
+    <label for="imagem"><?= !empty($produto['id']) ? 'Trocar a foto (só se quiser)' : 'Foto do produto' ?></label>
+    <input id="imagem" name="imagem" type="file" accept="image/jpeg, image/png, image/webp">
+    <small>JPG, PNG ou WEBP, até 2 MB.</small>
+
+    <button type="submit"><?= !empty($produto['id']) ? 'Salvar alterações' : 'Cadastrar' ?></button>
+    <?php if (!empty($produto['id'])): ?>
+      <a href="cadastro.php">Cancelar</a>
+    <?php endif; ?>
+  </form>
+
+  <h2>Produtos (<?= count($produtos) ?>)</h2>
+  <ul>
+    <?php foreach ($produtos as $item): ?>
+      <li>
+        <?php if ($item['imagem']): ?>
+          <img src="uploads/<?= htmlspecialchars($item['imagem']) ?>" alt="" width="60">
+        <?php else: ?>
+          <span>📦 sem foto</span>
+        <?php endif; ?>
+        <?= htmlspecialchars($item['nome']) ?> · R$ <?= number_format($item['preco'], 2, ',', '.') ?>
+        <a href="cadastro.php?editar=<?= $item['id'] ?>">Editar</a>
+        <form method="post" action="cadastro.php" style="display: inline">
+          <button name="excluir" value="<?= $item['id'] ?>">Excluir</button>
+        </form>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Errou a senha">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja · Funcionário</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Área do funcionário</h1>
+
+      <p style="color: firebrick"><strong>Não deu:</strong> E-mail ou senha errados.</p>
+    
+  <!-- NOVO: já entrou? mostra quem é e o botão de sair -->
+      <h2>Entrar</h2>
+    <form method="post" action="funcionario.php">
+      <input type="hidden" name="acao" value="entrar">
+
+      <label for="email-entrar">E-mail</label>
+      <input id="email-entrar" name="email" type="email" required>
+
+      <label for="senha-entrar">Senha</label>
+      <input id="senha-entrar" name="senha" type="password" required>
+
+      <button type="submit">Entrar</button>
+    </form>
+  
+  <h2>Cadastrar funcionário</h2>
+  <form method="post" action="funcionario.php">
+    <input type="hidden" name="acao" value="cadastrar">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required>
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="senha">Senha (8 caracteres ou mais)</label>
+    <input id="senha" name="senha" type="password" minlength="8" required>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Entrou">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja · Funcionário</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Área do funcionário</h1>
+
+    
+  <!-- NOVO: já entrou? mostra quem é e o botão de sair -->
+      <p>Olá, <strong>Ana</strong>! <a href="cadastro.php">Cadastrar produtos</a> · <a href="funcionario.php?sair=1">Sair</a></p>
+  
+  <h2>Cadastrar funcionário</h2>
+  <form method="post" action="funcionario.php">
+    <input type="hidden" name="acao" value="cadastrar">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required>
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="senha">Senha (8 caracteres ou mais)</label>
+    <input id="senha" name="senha" type="password" minlength="8" required>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+</body>
+</html>
+</script>
+          </div>
+
+          <div class="cartao entenda">
+            <span class="olho">entenda o código</span>
+            <h4>Versão 2, o que mudou</h4>
+            <ol>
+              <li><code>session_start()</code> na primeira linha: liga a memória do servidor.</li>
+              <li>O campo escondido <code>acao</code> diz qual formulário chegou: <code>entrar</code> ou <code>cadastrar</code>.</li>
+              <li><code>password_verify</code> confere a senha. Certa? <code>session_regenerate_id</code> dá um crachá novo, e <code>$_SESSION['funcionario']</code> guarda o nome.</li>
+              <li>Errou? A mensagem não diz se foi o e-mail ou a senha: assim ninguém descobre quem tem cadastro.</li>
+              <li><code>?sair=1</code> esvazia a sessão e a destrói.</li>
+            </ol>
+          </div>
+          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste o <code>funcionario.php</code> e o <code>tela-funcionario.php</code>, escreva <code>Versão 2: entrar e sair</code> e clique em <strong>Commit changes</strong>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Pausa aqui · a porta aberta</span>
+            <h3>Saia e tente cadastrar um produto</h3>
+          </div>
+          <ol>
+            <li>Clique em <strong>Sair</strong> e abra <code>http://localhost/mini-loja/cadastro.php</code>.</li>
+            <li>Cadastre um produto. Entrou? Então o login existe, mas <strong>a porta do estoque continua aberta</strong>. A versão 3 tranca.</li>
+          </ol>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 3 · a tranca</span>
+            <h3>Só quem entrou mexe na loja</h3>
+            <p>O visitante vê a vitrine. Cadastrar, editar e excluir produto, só com crachá. E funcionário novo, só pelas mãos de quem já entrou: o primeiro cadastro é o do <strong>administrador</strong>.</p>
+          </div>
+          <ol>
+            <li>Troque o <code>banco.php</code>, o <code>cadastro.php</code>, o <code>tela.php</code>, o <code>funcionario.php</code> e o <code>tela-funcionario.php</code>.</li>
+            <li>Sem entrar, abra <code>cadastro.php</code>: só a lista, sem formulário e sem "Excluir". Abra <code>funcionario.php</code>: sem o cadastro.</li>
+            <li>Entre: o formulário volta, e você pode cadastrar um colega.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="mini-loja">
+            <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
+<?php
+// banco.php: o MODELO.
+// Conecta no banco e guarda as funções que falam com ele. Todo o SQL mora aqui.
+
+function conectar(): PDO
+{
+    // o banco é um arquivo só; se ele não existe, o PHP cria
+    $pdo = new PDO('sqlite:' . __DIR__ . '/mini-loja.sqlite');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // a tabela nasce sozinha na primeira vez
+    $pdo->exec('CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        preco REAL NOT NULL
+    )');
+
+    // a coluna da foto (aula 14). A tabela já existia? O ALTER TABLE acrescenta a coluna, uma vez só
+    $colunas = $pdo->query('PRAGMA table_info(produtos)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('imagem', $colunas)) {
+        $pdo->exec('ALTER TABLE produtos ADD COLUMN imagem TEXT');
+    }
+
+    // a tabela dos funcionários. A senha nunca entra pura: entra o "hash" dela
+    $pdo->exec('CREATE TABLE IF NOT EXISTS funcionarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        senha TEXT NOT NULL
+    )');
+
+    // banco vazio? entram três produtos de exemplo, para a lista não começar em branco
+    $total = $pdo->query('SELECT COUNT(*) FROM produtos')->fetchColumn();
+    if ($total == 0) {
+        $pdo->exec("INSERT INTO produtos (nome, preco) VALUES
+            ('Placa ESP32', 39.90),
+            ('Arduino Uno', 59.90),
+            ('Sensor de temperatura DHT11', 12.50)");
+    }
+
+    return $pdo;
+}
+
+// R: devolve todos os produtos, em ordem alfabética (agora com a foto)
+function listarProdutos(): array
+{
+    $pdo = conectar();
+    return $pdo->query('SELECT id, nome, preco, imagem FROM produtos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// C: grava um produto novo; a imagem é só o NOME do arquivo (a foto fica na pasta uploads)
+function inserirProduto(string $nome, float $preco, string $imagem): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('INSERT INTO produtos (nome, preco, imagem) VALUES (:nome, :preco, :imagem)');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco, ':imagem' => $imagem]);
+}
+
+// D: apaga o produto pelo id (o número que o banco deu a ele)
+function excluirProduto(int $id): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('DELETE FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+}
+
+// busca um produto só, para preencher o formulário de edição
+function buscarProduto(int $id): ?array
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('SELECT id, nome, preco, imagem FROM produtos WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+
+// U: troca o nome, o preço e a foto do produto
+function atualizarProduto(int $id, string $nome, float $preco, string $imagem): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('UPDATE produtos SET nome = :nome, preco = :preco, imagem = :imagem WHERE id = :id');
+    $stmt->execute([':nome' => $nome, ':preco' => $preco, ':imagem' => $imagem, ':id' => $id]);
+}
+
+// grava um funcionário; a senha já chega embaralhada (o hash)
+function inserirFuncionario(string $nome, string $email, string $hash): void
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('INSERT INTO funcionarios (nome, email, senha) VALUES (:nome, :email, :senha)');
+    $stmt->execute([':nome' => $nome, ':email' => $email, ':senha' => $hash]);
+}
+
+// procura o funcionário pelo e-mail (devolve null se não tem)
+function buscarFuncionario(string $email): ?array
+{
+    $pdo = conectar();
+    $stmt = $pdo->prepare('SELECT id, nome, email, senha FROM funcionarios WHERE email = :email');
+    $stmt->execute([':email' => $email]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+
+// NOVO: quantos funcionários a loja tem (zero = o primeiro cadastro é livre)
+function contarFuncionarios(): int
+{
+    $pdo = conectar();
+    return (int) $pdo->query('SELECT COUNT(*) FROM funcionarios')->fetchColumn();
+}
+</script>
+            <script type="text/plain" data-arquivo="cadastro.php" data-estado="mudou">
+<?php
+// cadastro.php: o CONTROLE.
+// Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
+// NOVO: a sessão conta quem está logado
+session_start();
+require __DIR__ . '/banco.php';
+
+// NOVO: a tranca. Visitante só olha; mexer (cadastrar, editar, excluir) é com funcionário logado
+$logado = $_SESSION['funcionario'] ?? '';
+if ($logado === '' && ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['editar']))) {
+    header('Location: funcionario.php');
+    exit;
+}
+
+// o garçom confere a foto antes de pendurar no cardápio.
+// Devolve '' quando está tudo certo, ou a frase do problema.
+function conferirImagem(array $arquivo): string
+{
+    // grande demais? (o php.ini também tem um limite, o upload_max_filesize)
+    if ($arquivo['error'] === UPLOAD_ERR_INI_SIZE || $arquivo['size'] > 2 * 1024 * 1024) {
+        return 'A foto passou de 2 MB. Diminua e tente de novo.';
+    }
+    if ($arquivo['error'] !== UPLOAD_ERR_OK) {
+        return 'A foto não chegou inteira. Tente de novo.';
+    }
+    if ($arquivo['size'] === 0) {
+        return 'A foto chegou vazia.';
+    }
+    // getimagesize olha DENTRO do arquivo; o nome pode mentir, o conteúdo não
+    $info = getimagesize($arquivo['tmp_name']);
+    if ($info === false || !in_array($info[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP])) {
+        return 'Isso não é uma foto JPG, PNG ou WEBP.';
+    }
+    return '';
+}
+
+// guarda a foto conferida com um nome inventado pelo sistema e devolve esse nome
+function guardarImagem(array $arquivo): string
+{
+    $extensoes = [IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp'];
+    $tipo = getimagesize($arquivo['tmp_name'])[2];
+
+    // o nome que veio do computador do usuário é jogado fora
+    $nome = bin2hex(random_bytes(8)) . '.' . $extensoes[$tipo];
+
+    if (!is_dir(__DIR__ . '/uploads')) {
+        mkdir(__DIR__ . '/uploads');
+    }
+    move_uploaded_file($arquivo['tmp_name'], __DIR__ . '/uploads/' . $nome);
+    return $nome;
+}
+
+// tira uma foto da pasta uploads (basename impede sair da pasta)
+function apagarImagem(string $nome): void
+{
+    $caminho = __DIR__ . '/uploads/' . basename($nome);
+    if ($nome !== '' && is_file($caminho)) {
+        unlink($caminho);
+    }
+}
+
+// clicou em "Excluir"? apaga a foto, depois o produto, e volta para a página limpa
+if (isset($_POST['excluir'])) {
+    $id = (int) $_POST['excluir'];
+    $produto = buscarProduto($id);
+    if ($produto) {
+        apagarImagem($produto['imagem'] ?? '');
+    }
+    excluirProduto($id);
+    header('Location: cadastro.php');
+    exit;
+}
+
+// começa sem aviso e sem produto para editar
+$erro = '';
+$produto = null;
+
+// o formulário foi enviado? com id é edição; sem id é produto novo
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = (int) ($_POST['id'] ?? 0);
+    $nome = trim($_POST['nome'] ?? '');
+    $preco = (float) ($_POST['preco'] ?? 0);
+
+    // escolheram uma foto? o garçom confere antes de guardar
+    $imagem = '';
+    $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
+    if ($temFoto) {
+        $erro = conferirImagem($_FILES['imagem']);
+    }
+
+    if ($erro === '') {
+        if ($temFoto) {
+            $imagem = guardarImagem($_FILES['imagem']);
+        }
+        if ($id > 0) {
+            // edição: sem foto nova, fica a de antes; com foto nova, a antiga sai da pasta
+            $antigo = buscarProduto($id);
+            $fotoAntiga = $antigo['imagem'] ?? '';
+            if ($imagem === '') {
+                $imagem = $fotoAntiga;
+            } else {
+                apagarImagem($fotoAntiga);
+            }
+            atualizarProduto($id, $nome, $preco, $imagem);
+        } else {
+            inserirProduto($nome, $preco, $imagem);
+        }
+
+        // volta para a página limpa: assim o F5 não grava de novo
+        header('Location: cadastro.php');
+        exit;
+    }
+
+    // deu problema: a tela volta com o aviso e com o que a pessoa já tinha digitado
+    $produto = ['id' => $id ?: '', 'nome' => $nome, 'preco' => $preco];
+}
+
+// clicou em "Editar"? busca o produto para preencher o formulário
+if (isset($_GET['editar'])) {
+    $produto = buscarProduto((int) $_GET['editar']);
+}
+
+$produtos = listarProdutos();
+
+require __DIR__ . '/tela.php';
+</script>
+            <script type="text/plain" data-arquivo="tela.php" data-estado="mudou">
+<?php // tela.php: a VISÃO. Só o HTML; as variáveis vêm do cadastro.php ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <!-- NOVO: quem está logado vê o próprio nome; o visitante vê o caminho para entrar -->
+  <?php if ($logado): ?>
+    <p>Olá, <strong><?= htmlspecialchars($logado) ?></strong>! · <a href="funcionario.php">Área do funcionário</a> · <a href="funcionario.php?sair=1">Sair</a></p>
+  <?php else: ?>
+    <p>É funcionário? <a href="funcionario.php">Entre</a> para cadastrar produtos.</p>
+  <?php endif; ?>
+
+  <!-- NOVO: o formulário só aparece para o funcionário logado -->
+  <?php if ($logado): ?>
+
+  <h2><?= !empty($produto['id']) ? 'Editar produto' : 'Novo produto' ?></h2>
+
+  <?php if ($erro): ?>
+    <p style="color: firebrick"><strong>Foto recusada:</strong> <?= htmlspecialchars($erro) ?></p>
+  <?php endif; ?>
+  <!-- sem o enctype, o arquivo não viaja (chega só o nome dele) -->
+  <form method="post" action="cadastro.php" enctype="multipart/form-data">
+    <!-- o id escondido diz ao controle qual produto editar (vazio = produto novo) -->
+    <input type="hidden" name="id" value="<?= $produto['id'] ?? '' ?>">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="<?= htmlspecialchars($produto['nome'] ?? '') ?>">
+
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="<?= $produto['preco'] ?? '' ?>">
+
+    <?php if (!empty($produto['imagem'])): ?>
+      <p>Foto atual: <img src="uploads/<?= htmlspecialchars($produto['imagem']) ?>" alt="" width="60"></p>
+    <?php endif; ?>
+
+    <label for="imagem"><?= !empty($produto['id']) ? 'Trocar a foto (só se quiser)' : 'Foto do produto' ?></label>
+    <input id="imagem" name="imagem" type="file" accept="image/jpeg, image/png, image/webp">
+    <small>JPG, PNG ou WEBP, até 2 MB.</small>
+
+    <button type="submit"><?= !empty($produto['id']) ? 'Salvar alterações' : 'Cadastrar' ?></button>
+    <?php if (!empty($produto['id'])): ?>
+      <a href="cadastro.php">Cancelar</a>
+    <?php endif; ?>
+  </form>
+  <?php endif; ?>
+
+  <h2>Produtos (<?= count($produtos) ?>)</h2>
+  <ul>
+    <?php foreach ($produtos as $item): ?>
+      <li>
+        <?php if ($item['imagem']): ?>
+          <img src="uploads/<?= htmlspecialchars($item['imagem']) ?>" alt="" width="60">
+        <?php else: ?>
+          <span>📦 sem foto</span>
+        <?php endif; ?>
+        <?= htmlspecialchars($item['nome']) ?> · R$ <?= number_format($item['preco'], 2, ',', '.') ?>
+        <?php if ($logado): ?>
+          <a href="cadastro.php?editar=<?= $item['id'] ?>">Editar</a>
+          <form method="post" action="cadastro.php" style="display: inline">
+            <button name="excluir" value="<?= $item['id'] ?>">Excluir</button>
+          </form>
+        <?php endif; ?>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="funcionario.php" data-estado="mudou">
+<?php
+// funcionario.php: o CONTROLE da área do funcionário.
+// a sessão é a "memória" do servidor sobre você; tem que vir antes de qualquer HTML
+session_start();
+require __DIR__ . '/banco.php';
+
+// clicou em "Sair"? esquece quem estava logado e volta
+if (isset($_GET['sair'])) {
+    $_SESSION = [];
+    session_destroy();
+    header('Location: funcionario.php');
+    exit;
+}
+
+$erro = '';
+$aviso = '';
+
+// NOVO: funcionário novo só entra pelas mãos de quem já está logado
+// (a loja sem ninguém? o primeiro cadastro é livre: é o do administrador)
+$podeCadastrar = isset($_SESSION['funcionario']) || contarFuncionarios() === 0;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // o campo escondido "acao" diz qual formulário foi enviado
+    $acao = $_POST['acao'] ?? '';
+    $nome = trim($_POST['nome'] ?? '');
+    $email = strtolower(trim($_POST['email'] ?? ''));
+    $senha = $_POST['senha'] ?? '';
+
+    if ($acao === 'entrar') {
+        // password_verify compara a senha digitada com o hash guardado
+        $funcionario = buscarFuncionario($email);
+        if ($funcionario && password_verify($senha, $funcionario['senha'])) {
+            session_regenerate_id(true);  // crachá novo a cada entrada
+            $_SESSION['funcionario'] = $funcionario['nome'];
+            header('Location: cadastro.php');
+            exit;
+        }
+        // não conta qual dos dois errou: assim ninguém descobre e-mails cadastrados
+        $erro = 'E-mail ou senha errados.';
+    }
+
+    if ($acao === 'cadastrar') {
+        if (!$podeCadastrar) {
+            $erro = 'Só um funcionário logado cadastra outro.';
+        } elseif ($nome === '') {
+            $erro = 'Escreva o seu nome.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $erro = 'Esse e-mail não parece um e-mail.';
+        } elseif (strlen($senha) < 8) {
+            $erro = 'A senha precisa de 8 caracteres ou mais.';
+        } elseif (buscarFuncionario($email)) {
+            $erro = 'Esse e-mail já tem cadastro.';
+        } else {
+            inserirFuncionario($nome, $email, password_hash($senha, PASSWORD_DEFAULT));
+            $aviso = 'Cadastro feito, ' . $nome . '! Agora é só entrar.';
+        }
+    }
+}
+
+// quem está logado (vazio = ninguém)
+$logado = $_SESSION['funcionario'] ?? '';
+
+// NOVO: depois de um cadastro, a conta muda (a loja já não está vazia)
+$podeCadastrar = $logado !== '' || contarFuncionarios() === 0;
+
+require __DIR__ . '/tela-funcionario.php';
+</script>
+            <script type="text/plain" data-arquivo="tela-funcionario.php" data-estado="mudou">
+<?php // tela-funcionario.php: a VISÃO da área do funcionário. Só o HTML ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja · Funcionário</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Área do funcionário</h1>
+
+  <?php if ($erro): ?>
+    <p style="color: firebrick"><strong>Não deu:</strong> <?= htmlspecialchars($erro) ?></p>
+  <?php endif; ?>
+  <?php if ($aviso): ?>
+    <p style="color: green"><?= htmlspecialchars($aviso) ?></p>
+  <?php endif; ?>
+
+  <!-- já entrou? mostra quem é e o botão de sair -->
+  <?php if ($logado): ?>
+    <p>Olá, <strong><?= htmlspecialchars($logado) ?></strong>! <a href="cadastro.php">Cadastrar produtos</a> · <a href="funcionario.php?sair=1">Sair</a></p>
+  <?php else: ?>
+    <h2>Entrar</h2>
+    <form method="post" action="funcionario.php">
+      <input type="hidden" name="acao" value="entrar">
+
+      <label for="email-entrar">E-mail</label>
+      <input id="email-entrar" name="email" type="email" required>
+
+      <label for="senha-entrar">Senha</label>
+      <input id="senha-entrar" name="senha" type="password" required>
+
+      <button type="submit">Entrar</button>
+    </form>
+  <?php endif; ?>
+
+  <!-- NOVO: o formulário de cadastro só aparece para quem pode usar -->
+  <?php if ($podeCadastrar): ?>
+  <h2><?= $logado ? 'Cadastrar funcionário' : 'Primeiro acesso: cadastre o administrador' ?></h2>
+  <form method="post" action="funcionario.php">
+    <input type="hidden" name="acao" value="cadastrar">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required>
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="senha">Senha (8 caracteres ou mais)</label>
+    <input id="senha" name="senha" type="password" minlength="8" required>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+  <?php endif; ?>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="index.html" data-estado="igual">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <!-- index.html: a página inicial. É só HTML: o PHP entra quando você clica nos produtos -->
+  <h1>Mini Loja</h1>
+  <p>Componentes eletrônicos para os seus projetos, com PHP e SQLite.</p>
+
+  <ul>
+    <li><a href="cadastro.php">Ver os produtos</a></li>
+    <li><a href="funcionario.php">Área do funcionário</a></li>
+    <li><a href="teste.php">Testar o ambiente</a></li>
+  </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="O visitante">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <!-- NOVO: quem está logado vê o próprio nome; o visitante vê o caminho para entrar -->
+      <p>É funcionário? <a href="funcionario.php">Entre</a> para cadastrar produtos.</p>
+  
+  <!-- NOVO: o formulário só aparece para o funcionário logado -->
+  
+  <h2>Produtos (3)</h2>
+  <ul>
+          <li>
+                  <span>📦 sem foto</span>
+                Arduino Uno · R$ 59,90              </li>
+          <li>
+                  <span>📦 sem foto</span>
+                Placa ESP32 · R$ 39,90              </li>
+          <li>
+                  <span>📦 sem foto</span>
+                Sensor de temperatura DHT11 · R$ 12,50              </li>
+      </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="O funcionário logado">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Mini Loja</h1>
+
+  <!-- NOVO: quem está logado vê o próprio nome; o visitante vê o caminho para entrar -->
+      <p>Olá, <strong>Ana</strong>! · <a href="funcionario.php">Área do funcionário</a> · <a href="funcionario.php?sair=1">Sair</a></p>
+  
+  <!-- NOVO: o formulário só aparece para o funcionário logado -->
+  
+  <h2>Novo produto</h2>
+
+    <!-- sem o enctype, o arquivo não viaja (chega só o nome dele) -->
+  <form method="post" action="cadastro.php" enctype="multipart/form-data">
+    <!-- o id escondido diz ao controle qual produto editar (vazio = produto novo) -->
+    <input type="hidden" name="id" value="">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required value="">
+
+    <label for="preco">Preço (R$)</label>
+    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="">
+
+    
+    <label for="imagem">Foto do produto</label>
+    <input id="imagem" name="imagem" type="file" accept="image/jpeg, image/png, image/webp">
+    <small>JPG, PNG ou WEBP, até 2 MB.</small>
+
+    <button type="submit">Cadastrar</button>
+      </form>
+  
+  <h2>Produtos (3)</h2>
+  <ul>
+          <li>
+                  <span>📦 sem foto</span>
+                Arduino Uno · R$ 59,90                  <a href="cadastro.php?editar=2">Editar</a>
+          <form method="post" action="cadastro.php" style="display: inline">
+            <button name="excluir" value="2">Excluir</button>
+          </form>
+              </li>
+          <li>
+                  <span>📦 sem foto</span>
+                Placa ESP32 · R$ 39,90                  <a href="cadastro.php?editar=1">Editar</a>
+          <form method="post" action="cadastro.php" style="display: inline">
+            <button name="excluir" value="1">Excluir</button>
+          </form>
+              </li>
+          <li>
+                  <span>📦 sem foto</span>
+                Sensor de temperatura DHT11 · R$ 12,50                  <a href="cadastro.php?editar=3">Editar</a>
+          <form method="post" action="cadastro.php" style="display: inline">
+            <button name="excluir" value="3">Excluir</button>
+          </form>
+              </li>
+      </ul>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Loja sem funcionários">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Loja · Funcionário</title>
+</head>
+<body>
+  <p><a href="index.html">← Página inicial</a></p>
+  <h1>Área do funcionário</h1>
+
+    
+  <!-- já entrou? mostra quem é e o botão de sair -->
+      <h2>Entrar</h2>
+    <form method="post" action="funcionario.php">
+      <input type="hidden" name="acao" value="entrar">
+
+      <label for="email-entrar">E-mail</label>
+      <input id="email-entrar" name="email" type="email" required>
+
+      <label for="senha-entrar">Senha</label>
+      <input id="senha-entrar" name="senha" type="password" required>
+
+      <button type="submit">Entrar</button>
+    </form>
+  
+  <!-- NOVO: o formulário de cadastro só aparece para quem pode usar -->
+    <h2>Primeiro acesso: cadastre o administrador</h2>
+  <form method="post" action="funcionario.php">
+    <input type="hidden" name="acao" value="cadastrar">
+
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" required>
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="senha">Senha (8 caracteres ou mais)</label>
+    <input id="senha" name="senha" type="password" minlength="8" required>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+  </body>
+</html>
+</script>
+          </div>
+
+          <div class="cartao entenda">
+            <span class="olho">entenda o código</span>
+            <h4>Versão 3, o que mudou</h4>
+            <ol>
+              <li><strong><code>cadastro.php</code>:</strong> <code>session_start()</code> no começo. Sem crachá e tentando mexer (<code>POST</code> ou <code>?editar</code>)? <code>header('Location: funcionario.php')</code> e <code>exit</code>.</li>
+              <li><strong><code>tela.php</code>:</strong> o formulário, o "Editar" e o "Excluir" só aparecem com <code>$logado</code>.</li>
+              <li><strong><code>banco.php</code>:</strong> <code>contarFuncionarios()</code>. Zero? O primeiro cadastro é livre.</li>
+              <li><strong><code>funcionario.php</code>:</strong> <code>$podeCadastrar</code>: só quem está logado (ou a loja vazia) cadastra funcionário.</li>
+            </ol>
+          </div>
+          <p class="tutorial-commit">Funcionou? Envie para o GitHub: <strong>Add file › Upload files</strong>, arraste os cinco arquivos <code>.php</code>, escreva <code>Versão 3: só quem entrou mexe na loja</code> e clique em <strong>Commit changes</strong>.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Para fechar</span>
+            <h3>O que vai e o que não vai para o GitHub</h3>
+          </div>
+          <ol>
+            <li><strong>Vai:</strong> os arquivos <code>.php</code> e o <code>index.html</code>.</li>
+            <li><strong>Não vai:</strong> o <code>mini-loja.sqlite</code> (agora com as senhas, mesmo em hash) e a pasta <code>uploads</code>.</li>
+            <li>No fim da aula, <strong>Stop</strong> no Apache.</li>
+          </ol>
+        </section>
+
+        <!-- ===================== CASO DE USO (fictício) ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Entrar para cadastrar produtos</h2>
+            <p>Caso fictício, da própria Mini Loja.</p>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Funcionária da Mini Loja</p>
+            <p><strong>Objetivo:</strong> Cadastrar produtos sem que os visitantes mexam no estoque.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>Abre a área do funcionário e digita o e-mail e a senha.</li>
+              <li>O sistema confere a senha com o hash guardado.</li>
+              <li>O sistema anota a funcionária na sessão e abre o cadastro de produtos.</li>
+              <li>Ela cadastra, edita e exclui; no fim, clica em Sair.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li><strong>Errar a senha?</strong> "E-mail ou senha errados", sem dizer qual dos dois.</li>
+              <li><strong>Um visitante mandar o formulário de produto?</strong> O controle manda ele para a porta, e nada é gravado.</li>
+              <li><strong>Um visitante tentar se cadastrar como funcionário?</strong> Só quem já entrou cadastra colegas.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Por que esconder o botão "Excluir" não basta?</li>
+              <li>Se o banco vazar, o que o ladrão leva? E se a senha estivesse pura?</li>
+              <li>Por que a mensagem de erro não diz "esse e-mail não existe"?</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== ATIVIDADE ===================== -->
+        <section class="parte" id="atividade">
+          <div class="cab">
+            <span class="olho">A1 · atividade</span>
+            <h2>A área do funcionário</h2>
+            <p>Vá marcando os passos: o que você marcar fica salvo neste navegador e, se você entrar com o e-mail da faculdade (botão <strong>Entrar</strong>, no topo), na sua conta.</p>
+          </div>
+          <div class="cartao">
+            <div class="progresso-atividade" data-progresso="passos-aula-16-login">
+              <span class="contagem">0 de 6</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <ol class="checklist" id="passos-aula-16-login">
+              <li><label><input type="checkbox"><span>Versão 1: me cadastrei, e o e-mail repetido foi recusado.</span></label></li>
+              <li><label><input type="checkbox"><span>Versão 2: a senha errada não entrou; a certa mostrou "Olá".</span></label></li>
+              <li><label><input type="checkbox"><span>Pausa aqui: vi que, sem a tranca, o visitante cadastrava produto.</span></label></li>
+              <li><label><input type="checkbox"><span>Versão 3: sem entrar, o cadastro de produtos sumiu.</span></label></li>
+              <li><label><input type="checkbox"><span>Versão 3: logado, cadastrei um produto com foto e um colega.</span></label></li>
+              <li><label><input type="checkbox"><span>Enviei os arquivos ao GitHub (sem o <code>.sqlite</code> e sem a pasta <code>uploads</code>).</span></label></li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ===================== STEAM ===================== -->
+        <section class="parte" id="steam">
+          <div class="cab">
+            <span class="olho">S1 · conexão STEAM</span>
+            <h2>Crachás, fechaduras e contas</h2>
+          </div>
+          <div class="steam">
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">E</span>
+              <h3>Eletrônica</h3>
+              <p>Um ESP32 com leitor RFID faz a mesma coisa na porta de verdade: lê o crachá, confere numa lista e só então aciona a fechadura.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">M</span>
+              <h3>Matemática</h3>
+              <p>O <code>$2y$12$</code> no começo do hash quer dizer custo 12: a senha é moída 2<sup>12</sup> = 4.096 vezes. Para quem tenta adivinhar, cada chute fica 4.096 vezes mais caro.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra" aria-hidden="true">A</span>
+              <h3>Arte</h3>
+              <p>Desenhe o crachá da Mini Loja: cor, logo e o nome do funcionário. Depois, leve esse visual para a tela de entrar.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== MATERIAIS ===================== -->
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para estudar e praticar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="https://www.php.net/manual/pt_BR/function.password-hash.php">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>php.net</span>
+              <h4>password_hash</h4>
+              <p>Como o PHP guarda a senha, e por que usar o <code>PASSWORD_DEFAULT</code>.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">consulta</span></span>
+            </a>
+            <a class="repo luz" href="https://www.php.net/manual/pt_BR/book.session.php">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>php.net</span>
+              <h4>Sessões</h4>
+              <p>O <code>session_start</code>, o <code>$_SESSION</code> e o <code>session_destroy</code>.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>PHP</span><span class="etiqueta">consulta</span></span>
+            </a>
+            <a class="repo luz" href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>owasp.org</span>
+              <h4>OWASP: guardar senhas (em inglês)</h4>
+              <p>Os cuidados com senhas que os profissionais de segurança usam.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/php.svg" alt="" width="20" height="20"></span>Segurança</span><span class="etiqueta">ir além</span></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ===================== ENTREGA ===================== -->
+        <section class="parte" id="entrega">
+          <div class="cartao entrega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <div>
+              <span class="olho">E1 · entrega</span>
+              <h3>A sua Mini Loja no GitHub</h3>
+              <p>Com a foto do produto e a área do funcionário (versão 3), do seu jeito: mude, melhore e envie por upload.</p>
+            </div>
+          </div>
+        </section>
+
+        <nav class="nav-aulas" aria-label="Outras aulas">
+          <!-- EDITE AQUI: use <a href="aula-NN.html"> quando a página da aula vizinha for liberada; <span> enquanto não for -->
+          <a class="anterior" href="aula-14.html">
+            <span class="olho">← aula anterior</span>
+            <strong>Aulas 14 e 15: a foto do produto</strong>
+          </a>
+          <span class="proxima">
+            <span class="olho">próxima aula →</span>
+            <strong>Aula 17</strong>
+          </span>
+        </nav>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Linguagem de Programação para Web II</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>&lt;?php echo "bons estudos!"; ?&gt;</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="../assets/js/conta.js?v=7" data-disciplina="prog-web-php"></script>
+  <script src="../assets/js/aulas.js?v=3"></script>
+  <script src="../assets/js/tutorial-php.js?v=2"></script>
+  <script src="../assets/js/interativos-php.js?v=4"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>
