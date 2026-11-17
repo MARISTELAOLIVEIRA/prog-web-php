@@ -1,4 +1,4 @@
-/* interativos-php.css: o visual das brincadeiras das aulas de PHP (assets/js/interativos-php.js) · versão 5 · 2026-11-03 */
+/* interativos-php.css: o visual das brincadeiras das aulas de PHP (assets/js/interativos-php.js) · versão 6 · 2026-11-17 */
 .interativo { display: grid; gap: .8rem; }
 .molde-campos { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: end; }
 .molde-campos label { display: grid; gap: .3rem; font-size: .92rem; color: var(--texto-2); }
@@ -79,3 +79,30 @@
 .qual-aviso { font-size: .88rem; color: var(--texto-2); min-height: 1.2em; }
 .qual-placar { font-family: var(--f-mono); color: var(--ouro-forte); }
 
+/* O garçom confere a foto (aula 14) */
+.garcom-fila { list-style: none; padding: 0; margin: 0; display: grid; gap: .7rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.garcom-arquivo { display: grid; gap: .45rem; padding: .8rem .9rem; border: 1px solid var(--borda); border-radius: 12px; background: var(--superficie-2); transition: border-color .3s; }
+.garcom-arquivo.certo { border-color: var(--menta); }
+.garcom-arquivo.errado { border-color: #e5383b; }
+.garcom-cab { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.garcom-cab code { font-weight: 700; word-break: break-all; }
+.garcom-icone { font-size: 1.4rem; line-height: 1; }
+.garcom-tam { margin-left: auto; font-family: var(--f-mono); font-size: .8rem; color: var(--texto-3); }
+.garcom-dentro { margin: 0; font-size: .9rem; color: var(--texto-2); }
+.garcom-botoes { display: flex; flex-wrap: wrap; gap: .4rem; }
+.garcom-botao { padding: .4rem .8rem; border: 1px solid var(--borda-forte); border-radius: 999px; background: var(--superficie); color: var(--texto); font: inherit; font-size: .88rem; cursor: pointer; }
+.garcom-botao.escolhido { border-color: var(--ouro); color: var(--ouro-forte); }
+.garcom-botao:disabled { cursor: default; }
+.garcom-aviso { margin: 0; font-size: .88rem; min-height: 1.2em; }
+.garcom-cardapio { padding: .9rem 1rem; border-radius: 12px; background: var(--chip); color: #f2efe6; display: grid; gap: .5rem; }
+.garcom-rotulo { margin: 0; font-family: var(--f-mono); font-size: .85rem; color: #ecc874; }
+.garcom-penduradas { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; min-height: 2.6rem; }
+.garcom-foto { display: flex; align-items: center; gap: .4rem; padding: .35rem .7rem; border: 1px solid #9fd0b7; border-radius: 10px; font-size: .82rem; }
+.garcom-foto code { color: #9fd0b7; }
+.garcom-foto.estrago { border-color: #e5383b; }
+.garcom-foto.estrago code { color: #ff8a8d; }
+.garcom-foto.pulso { animation: garcom-pulso 1.2s ease-out 2; }
+@keyframes garcom-pulso { 0% { box-shadow: 0 0 0 0 rgba(159,208,183,.7); } 100% { box-shadow: 0 0 0 12px rgba(159,208,183,0); } }
+.pausado .garcom-foto.pulso { animation: none; }
+@media (prefers-reduced-motion: reduce) { .garcom-foto.pulso { animation: none; } }
+.garcom-fim { font-weight: 700; color: var(--ouro-forte); }
