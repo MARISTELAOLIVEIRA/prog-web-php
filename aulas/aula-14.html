@@ -162,7 +162,7 @@
               <p>É como a etiqueta do pote na cozinha: o caderno não guarda o açúcar, guarda <strong>em que pote ele está</strong>.</p>
               <p>A tabela já existe, então a coluna entra com <code>ALTER TABLE</code>, uma vez só. O <code>banco.php</code> faz isso sozinho.</p>
             </div>
-            <pre class="codigo" aria-label="A pasta da Mini Loja com as fotos"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html          <span class="com">// a porta</span></span><span class="linha"><span class="num">3</span>    cadastro.php        <span class="com">// o garçom: confere e guarda a foto</span></span><span class="linha"><span class="num">4</span>    banco.php           <span class="com">// a cozinha: anota o nome da foto</span></span><span class="linha"><span class="num">5</span>    tela.php            <span class="com">// o prato: mostra a foto</span></span><span class="linha"><span class="num">6</span>    teste.php</span><span class="linha"><span class="num">7</span>    mini-loja.sqlite    <span class="com">// só no computador</span></span><span class="linha"><span class="num">8</span>    uploads/            <span class="com">// NOVO: as fotos (nasce sozinha)</span></span><span class="linha"><span class="num">9</span>        a3f9c1e07b2d4e88.jpg</span></code></pre>
+            <pre class="codigo" aria-label="A pasta da Mini Loja com as fotos"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html          <span class="com">// a porta</span></span><span class="linha"><span class="num">3</span>    cadastro.php        <span class="com">// o garçom: confere e guarda a foto</span></span><span class="linha"><span class="num">4</span>    banco.php           <span class="com">// a cozinha: anota o nome da foto</span></span><span class="linha"><span class="num">5</span>    tela.php            <span class="com">// o prato: mostra a foto</span></span><span class="linha"><span class="num">6</span>    mini-loja.sqlite    <span class="com">// só no computador</span></span><span class="linha"><span class="num">7</span>    uploads/            <span class="com">// NOVO: as fotos (nasce sozinha)</span></span><span class="linha"><span class="num">8</span>        a3f9c1e07b2d4e88.jpg</span></code></pre>
           </div>
           <div class="conceito">
             <div class="texto">
@@ -205,7 +205,6 @@
           <ol>
             <li>Abra o <strong>XAMPP Control Panel</strong> e clique em <strong>Start</strong> na linha do <strong>Apache</strong>.</li>
             <li>Abra a pasta <code>C:\xampp\htdocs\mini-loja</code> no VS Code. Não tem a pasta? Crie e copie os arquivos da versão 4 da <a href="aula-12.html#tutorial">aula 12</a>.</li>
-            <li>No navegador, abra <code>http://localhost/mini-loja/teste.php</code>: o SQLite precisa dar "ligado".</li>
             <li>Tenha à mão <strong>duas fotos pequenas</strong> de componentes (baixe da internet ou tire com o celular).</li>
           </ol>
 
@@ -416,37 +415,6 @@ require __DIR__ . '/tela.php';
     <li><a href="cadastro.php">Ver os produtos</a></li>
     <li><a href="teste.php">Testar o ambiente</a></li>
   </ul>
-</body>
-</html>
-</script>
-            <script type="text/plain" data-arquivo="teste.php" data-estado="igual">
-<?php
-// teste.php: confere o ambiente antes de começar.
-// 1. a versão do PHP já tem a correção do PHP2Shell?
-// 2. o SQLite está ligado?
-
-// as primeiras versões corrigidas de cada série (21/10/2026)
-$corrigidas = ['8.5' => '8.5.12', '8.4' => '8.4.27', '8.3' => '8.3.36', '8.2' => '8.2.35'];
-$serie = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-$minima = $corrigidas[$serie] ?? null;
-$phpOk = $minima !== null && version_compare(PHP_VERSION, $minima, '>=');
-
-$sqliteOk = extension_loaded('pdo_sqlite');
-?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Teste do ambiente</title>
-</head>
-<body>
-  <h1>Teste do ambiente</h1>
-
-  <p>PHP <?= PHP_VERSION ?>:
-    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
-
-  <p>SQLite:
-    <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
 </body>
 </html>
 </script>
@@ -813,37 +781,6 @@ function atualizarProduto(int $id, string $nome, float $preco): void
     <li><a href="cadastro.php">Ver os produtos</a></li>
     <li><a href="teste.php">Testar o ambiente</a></li>
   </ul>
-</body>
-</html>
-</script>
-            <script type="text/plain" data-arquivo="teste.php" data-estado="igual">
-<?php
-// teste.php: confere o ambiente antes de começar.
-// 1. a versão do PHP já tem a correção do PHP2Shell?
-// 2. o SQLite está ligado?
-
-// as primeiras versões corrigidas de cada série (21/10/2026)
-$corrigidas = ['8.5' => '8.5.12', '8.4' => '8.4.27', '8.3' => '8.3.36', '8.2' => '8.2.35'];
-$serie = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-$minima = $corrigidas[$serie] ?? null;
-$phpOk = $minima !== null && version_compare(PHP_VERSION, $minima, '>=');
-
-$sqliteOk = extension_loaded('pdo_sqlite');
-?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Teste do ambiente</title>
-</head>
-<body>
-  <h1>Teste do ambiente</h1>
-
-  <p>PHP <?= PHP_VERSION ?>:
-    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
-
-  <p>SQLite:
-    <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
 </body>
 </html>
 </script>
@@ -1291,37 +1228,6 @@ require __DIR__ . '/tela.php';
     <li><a href="cadastro.php">Ver os produtos</a></li>
     <li><a href="teste.php">Testar o ambiente</a></li>
   </ul>
-</body>
-</html>
-</script>
-            <script type="text/plain" data-arquivo="teste.php" data-estado="igual">
-<?php
-// teste.php: confere o ambiente antes de começar.
-// 1. a versão do PHP já tem a correção do PHP2Shell?
-// 2. o SQLite está ligado?
-
-// as primeiras versões corrigidas de cada série (21/10/2026)
-$corrigidas = ['8.5' => '8.5.12', '8.4' => '8.4.27', '8.3' => '8.3.36', '8.2' => '8.2.35'];
-$serie = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-$minima = $corrigidas[$serie] ?? null;
-$phpOk = $minima !== null && version_compare(PHP_VERSION, $minima, '>=');
-
-$sqliteOk = extension_loaded('pdo_sqlite');
-?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Teste do ambiente</title>
-</head>
-<body>
-  <h1>Teste do ambiente</h1>
-
-  <p>PHP <?= PHP_VERSION ?>:
-    <?= $phpOk ? 'atualizado, com a correção do PHP2Shell.' : 'versão antiga, sem a correção de outubro de 2026. Dá para estudar: só clique em Stop no Apache no fim da aula.' ?></p>
-
-  <p>SQLite:
-    <?= $sqliteOk ? 'ligado. Pode começar!' : 'DESLIGADO. Ligue o pdo_sqlite no php.ini (veja o passo a passo da aula).' ?></p>
 </body>
 </html>
 </script>
