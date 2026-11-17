@@ -495,3 +495,5 @@
 .tutorial-bonus .etiqueta {
   justify-self: start;
 }
+/* data-sem-copiar: o código fica para ler e digitar, não para selecionar */
+.tp-sem-copiar .tp-texto { -webkit-user-select: none; user-select: none; }

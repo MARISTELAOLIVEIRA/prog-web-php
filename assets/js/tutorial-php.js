@@ -1,12 +1,13 @@
 /*
   tutorial-php.js: mostra os arquivos de um projeto PHP como no VS Code (abas, números de linha e cores),
   com botão para copiar cada arquivo e a prévia do que o navegador mostra.
-  versão 3 · 2026-10-21 (cores para .sql)
+  versão 4 · 2026-11-17 (data-sem-copiar: sem o botão Copiar, para o aluno digitar)
 
   Uso, dentro de <div class="tutorial-projeto" data-pasta="cadastro-clientes">:
     <script type="text/plain" data-arquivo="cadastro.php" data-estado="novo">...código...</script>
     <script type="text/plain" data-previa="Primeira visita">...HTML que o PHP gerou...</script>
   data-estado: "novo", "mudou" ou "igual" (aparece como etiqueta na aba).
+  data-sem-copiar na caixa: tira o botão Copiar e a seleção do código (o aluno digita no VS Code).
 */
 (function () {
   "use strict";
@@ -74,6 +75,7 @@
     contador++;
     var id = "tp" + contador;
     var pasta = caixa.dataset.pasta || "projeto";
+    var semCopiar = caixa.hasAttribute("data-sem-copiar");
     var arquivos = [];
     var previas = [];
     caixa.querySelectorAll("script[type='text/plain']").forEach(function (s) {
@@ -85,7 +87,7 @@
     });
 
     var janela = document.createElement("div");
-    janela.className = "tp-janela";
+    janela.className = "tp-janela" + (semCopiar ? " tp-sem-copiar" : "");
     janela.innerHTML =
       '<div class="tp-barra"><span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span><span class="tp-titulo"></span></div>' +
       '<div class="tp-abas" role="tablist" aria-label="Arquivos de ' + escapar(pasta) + '"></div>' +
@@ -120,8 +122,10 @@
       painel.innerHTML =
         '<div class="tp-codigo"><pre class="tp-linhas" aria-hidden="true">' + numeros + "</pre>" +
         '<pre class="tp-texto"><code>' + (/\.sql$/.test(arq.nome) ? colorirSql : colorir)(arq.codigo.replace(/\n$/, "")) + "</code></pre></div>" +
-        '<div class="tp-acoes"><button type="button" class="tp-copiar">Copiar ' + escapar(arq.nome) + '</button><span class="tp-aviso" aria-live="polite"></span></div>';
-      painel.querySelector(".tp-copiar").addEventListener("click", function () {
+        (semCopiar
+          ? '<div class="tp-acoes"><span class="tp-aviso">⌨️ Digite no VS Code: é digitando que o código entra na cabeça.</span></div>'
+          : '<div class="tp-acoes"><button type="button" class="tp-copiar">Copiar ' + escapar(arq.nome) + '</button><span class="tp-aviso" aria-live="polite"></span></div>');
+      if (!semCopiar) painel.querySelector(".tp-copiar").addEventListener("click", function () {
         var aviso = painel.querySelector(".tp-aviso");
         function ok() { aviso.textContent = "Copiado! Agora é colar no VS Code."; }
         function falhou() {
