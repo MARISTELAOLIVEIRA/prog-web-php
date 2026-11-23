@@ -161,7 +161,7 @@
             <div class="texto">
               <span class="olho">C3</span>
               <h3>A tranca fica no controle</h3>
-              <p>Esconder o botão "Excluir" não basta: alguém pode mandar o formulário sem a tela. Quem tranca de verdade é o <strong>garçom</strong> (<code>cadastro.php</code>): sem crachá, ele manda a pessoa para a porta.</p>
+              <p>Esconder o botão "Excluir" não basta: alguém pode mandar o formulário sem a tela. Quem tranca de verdade é o <strong>vendedor</strong> (<code>cadastro.php</code>): sem crachá, ele manda a pessoa para a porta.</p>
               <p class="dica">A tela esconde os botões para ficar bonito. O controle barra para ficar <strong>seguro</strong>.</p>
             </div>
             <pre class="codigo" aria-label="A tranca no controle"><code><span class="linha"><span class="num">1</span><span class="com">// sem crachá e tentando mexer? vai para a porta</span></span><span class="linha"><span class="num">2</span><span class="kw">if</span> (<span class="var">$logado</span> === <span class="str">''</span> &amp;&amp; <span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>] === <span class="str">'POST'</span>) {</span><span class="linha"><span class="num">3</span>    <span class="fn">header</span>(<span class="str">'Location: funcionario.php'</span>);</span><span class="linha"><span class="num">4</span>    <span class="kw">exit</span>;</span><span class="linha"><span class="num">5</span>}</span></code></pre>
@@ -187,12 +187,12 @@
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 1 · o crachá</span>
             <h3>O funcionário se cadastra</h3>
-            <p>Dois arquivos novos, no mesmo jeito MVC: <code>funcionario.php</code> (o garçom) e <code>tela-funcionario.php</code> (o prato). O <code>banco.php</code> ganha a tabela <code>funcionarios</code>.</p>
+            <p>Dois arquivos novos, no mesmo jeito MVC: <code>funcionario.php</code> (o vendedor) e <code>tela-funcionario.php</code> (o balcão). O <code>banco.php</code> ganha a tabela <code>funcionarios</code>.</p>
           </div>
           <ol>
             <li>Troque o <code>banco.php</code> e o <code>index.html</code>; crie os dois arquivos novos.</li>
             <li>Abra <code>http://localhost/mini-loja/funcionario.php</code> e cadastre você.</li>
-            <li>Tente de novo com o mesmo e-mail e com uma senha de 3 letras: o garçom recusa.</li>
+            <li>Tente de novo com o mesmo e-mail e com uma senha de 3 letras: o vendedor recusa.</li>
           </ol>
           <div class="tutorial-projeto" data-pasta="mini-loja">
             <script type="text/plain" data-arquivo="banco.php" data-estado="mudou">
@@ -391,7 +391,7 @@ require __DIR__ . '/tela-funcionario.php';
 // Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
 require __DIR__ . '/banco.php';
 
-// o garçom confere a foto antes de pendurar no cardápio.
+// o vendedor confere a foto antes de pôr na vitrine.
 // Devolve '' quando está tudo certo, ou a frase do problema.
 function conferirImagem(array $arquivo): string
 {
@@ -460,7 +460,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $preco = (float) ($_POST['preco'] ?? 0);
 
-    // escolheram uma foto? o garçom confere antes de guardar
+    // escolheram uma foto? o vendedor confere antes de guardar
     $imagem = '';
     $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
     if ($temFoto) {
@@ -860,7 +860,7 @@ function buscarFuncionario(string $email): ?array
 // Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
 require __DIR__ . '/banco.php';
 
-// o garçom confere a foto antes de pendurar no cardápio.
+// o vendedor confere a foto antes de pôr na vitrine.
 // Devolve '' quando está tudo certo, ou a frase do problema.
 function conferirImagem(array $arquivo): string
 {
@@ -929,7 +929,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $preco = (float) ($_POST['preco'] ?? 0);
 
-    // escolheram uma foto? o garçom confere antes de guardar
+    // escolheram uma foto? o vendedor confere antes de guardar
     $imagem = '';
     $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
     if ($temFoto) {
@@ -1270,7 +1270,7 @@ if ($logado === '' && ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['edi
     exit;
 }
 
-// o garçom confere a foto antes de pendurar no cardápio.
+// o vendedor confere a foto antes de pôr na vitrine.
 // Devolve '' quando está tudo certo, ou a frase do problema.
 function conferirImagem(array $arquivo): string
 {
@@ -1339,7 +1339,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $preco = (float) ($_POST['preco'] ?? 0);
 
-    // escolheram uma foto? o garçom confere antes de guardar
+    // escolheram uma foto? o vendedor confere antes de guardar
     $imagem = '';
     $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
     if ($temFoto) {
@@ -1923,7 +1923,7 @@ require __DIR__ . '/tela-funcionario.php';
   <script src="../assets/js/conta.js?v=7" data-disciplina="prog-web-php"></script>
   <script src="../assets/js/aulas.js?v=3"></script>
   <script src="../assets/js/tutorial-php.js?v=4"></script>
-  <script src="../assets/js/interativos-php.js?v=4"></script>
+  <script src="../assets/js/interativos-php.js?v=5"></script>
   <script src="../assets/js/matrix.js?v=2"></script>
 </body>
 </html>

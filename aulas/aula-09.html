@@ -329,9 +329,9 @@
             <div class="texto">
               <span class="olho">C8</span>
               <h3>Cada arquivo com seu trabalho: o MVC</h3>
-              <p>Num restaurante, o garçom não cozinha e a cozinheira não vai até a mesa. Cada um faz a sua parte, e por isso a casa funciona até lotada. No código é igual, e esse jeito de organizar tem nome: <strong>MVC</strong>, de <em>Model, View, Controller</em> (Modelo, Visão e Controle).</p>
+              <p>Numa loja de informática, o vendedor não arruma o estoque e o estoquista não atende no balcão. Cada um faz a sua parte, e por isso a loja funciona até lotada. No código é igual, e esse jeito de organizar tem nome: <strong>MVC</strong>, de <em>Model, View, Controller</em> (Modelo, Visão e Controle).</p>
               <p><strong>Modelo</strong> (<code>clientes.php</code>): o único que fala com o banco. Os comandos do C6 e do C7 moram lá, dentro de funções. <strong>Visão</strong> (<code>tela-cadastro.php</code>): só o HTML da página. <strong>Controle</strong> (<code>cadastro.php</code>): recebe o pedido, chama o modelo e mostra a visão.</p>
-              <p class="dica"><strong>Regra de ouro:</strong> SQL só no modelo, HTML só na visão. Achou um <code>SELECT</code> no meio do HTML? Alguém entrou na cozinha errada.</p>
+              <p class="dica"><strong>Regra de ouro:</strong> SQL só no modelo, HTML só na visão. Achou um <code>SELECT</code> no meio do HTML? Alguém entrou no estoque pela porta errada.</p>
             </div>
             <pre class="codigo" aria-label="O controle chamando o modelo e a visão"><code><span class="linha"><span class="num">1</span><span class="com">// cadastro.php (o controle): só coordena</span></span><span class="linha"><span class="num">2</span><span class="var">$erros</span> = <span class="fn">validarCliente</span>(<span class="var">$nome</span>, <span class="var">$email</span>);</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="tag">if</span> (!<span class="var">$erros</span>) {</span><span class="linha"><span class="num">5</span>    <span class="fn">inserirCliente</span>(<span class="var">$nome</span>, <span class="var">$email</span>);   <span class="com">// o modelo grava</span></span><span class="linha"><span class="num">6</span>}</span><span class="linha"><span class="num">7</span></span><span class="linha"><span class="num">8</span><span class="var">$clientes</span> = <span class="fn">listarClientes</span>();        <span class="com">// o modelo busca</span></span><span class="linha"><span class="num">9</span></span><span class="linha"><span class="num">10</span><span class="tag">require</span> __DIR__ . <span class="str">'/tela-cadastro.php'</span>;  <span class="com">// a visão mostra</span></span></code></pre>
           </div>
@@ -341,33 +341,33 @@
               <li style="--cor: var(--texto-2)">
                 <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect x="6" y="9" width="36" height="30" rx="4"/><path d="M6 16h36"/><path d="M12 23h18"/><path d="M12 29h12"/><path d="M30 33h6"/></svg>
                 <span class="mvc-papel">1 · quem pede</span>
-                <strong>O cliente na mesa</strong>
+                <strong>O cliente na loja</strong>
                 <code>navegador</code>
                 <span class="mvc-faz">Preenche o formulário e faz o pedido.</span>
               </li>
               <li style="--cor: var(--ouro)">
                 <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect x="12" y="8" width="24" height="32" rx="3"/><rect x="18" y="5" width="12" height="6" rx="2"/><path d="M17 20l3 3 5-5"/><path d="M28 21h4"/><path d="M17 31l3 3 5-5"/><path d="M28 32h4"/></svg>
                 <span class="mvc-papel">2 · Controle (C)</span>
-                <strong>O garçom</strong>
+                <strong>O vendedor</strong>
                 <code>cadastro.php</code>
-                <span class="mvc-faz">Anota o pedido, confere com o <code>validar.php</code> e leva para a cozinha.</span>
+                <span class="mvc-faz">Anota o pedido, confere com o <code>validar.php</code> e leva para o estoque.</span>
               </li>
               <li style="--cor: var(--menta)">
-                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 22h32"/><path d="M11 22v12a6 6 0 0 0 6 6h14a6 6 0 0 0 6-6V22"/><path d="M8 26H5"/><path d="M40 26h3"/><path d="M18 16c0-2 2-2 2-4s-2-2-2-4"/><path d="M24 16c0-2 2-2 2-4s-2-2-2-4"/><path d="M30 16c0-2 2-2 2-4s-2-2-2-4"/></svg>
+                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 16l16-8 16 8v18l-16 8-16-8z"/><path d="M8 16l16 8 16-8"/><path d="M24 24v18"/><path d="M16 12l16 8"/></svg>
                 <span class="mvc-papel">3 · Modelo (M)</span>
-                <strong>A cozinha</strong>
+                <strong>O estoque</strong>
                 <code>clientes.php</code>
-                <span class="mvc-faz">A única que mexe na despensa: o banco (<code>banco.php</code> e <code>clientes.sqlite</code>).</span>
+                <span class="mvc-faz">O único que mexe no depósito: o banco (<code>banco.php</code> e <code>clientes.sqlite</code>).</span>
               </li>
               <li style="--cor: var(--neon)">
-                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 34a16 16 0 0 1 32 0"/><path d="M5 34h38"/><path d="M24 18v-3"/><circle cx="24" cy="13" r="2"/><path d="M10 39h28"/></svg>
+                <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 22h38"/><path d="M8 22v17h32V22"/><path d="M14 22v-7h20v7"/><path d="M20 31h8"/></svg>
                 <span class="mvc-papel">4 · Visão (V)</span>
-                <strong>O prato servido</strong>
+                <strong>O balcão</strong>
                 <code>tela-cadastro.php</code>
-                <span class="mvc-faz">A página pronta, que volta para o navegador. Só mostra, não cozinha.</span>
+                <span class="mvc-faz">A página pronta, que volta para o navegador. Só mostra, não mexe no estoque.</span>
               </li>
             </ol>
-            <figcaption>O caminho de um cadastro. O garçom não cozinha e a cozinha não vai até a mesa: cada arquivo com seu trabalho.</figcaption>
+            <figcaption>O caminho de um cadastro. O vendedor não arruma o estoque e o estoquista não atende no balcão: cada arquivo com seu trabalho.</figcaption>
           </figure>
 
           <p class="dica"><strong>Para rodar:</strong> na pasta do projeto, abra o terminal e digite <code>php -S localhost:8000</code>. Depois abra <code>http://localhost:8000/cadastro.php</code>. No XAMPP, coloque a pasta dentro de <code>htdocs</code>.</p>
@@ -931,11 +931,11 @@ clientes.sqlite
                 <tr><th scope="col">Arquivo</th><th scope="col">Papel</th><th scope="col">O que faz</th></tr>
               </thead>
               <tbody>
-                <tr><td><code>cadastro.php</code></td><td>Controle<br><small>o garçom</small></td><td>Recebe o formulário, chama as funções e mostra a tela</td></tr>
-                <tr><td><code>validar.php</code></td><td>ajuda o controle<br><small>o bloquinho do garçom</small></td><td>Confere nome e e-mail</td></tr>
-                <tr><td><code>clientes.php</code></td><td>Modelo<br><small>a cozinha</small></td><td>Todo o SQL: grava, confere e lista</td></tr>
-                <tr><td><code>banco.php</code></td><td>ajuda o modelo<br><small>a porta da despensa</small></td><td>Abre o banco e cria a tabela</td></tr>
-                <tr><td><code>tela-cadastro.php</code></td><td>Visão<br><small>o prato servido</small></td><td>Só o HTML da página</td></tr>
+                <tr><td><code>cadastro.php</code></td><td>Controle<br><small>o vendedor</small></td><td>Recebe o formulário, chama as funções e mostra a tela</td></tr>
+                <tr><td><code>validar.php</code></td><td>ajuda o controle<br><small>o bloquinho do vendedor</small></td><td>Confere nome e e-mail</td></tr>
+                <tr><td><code>clientes.php</code></td><td>Modelo<br><small>o estoque</small></td><td>Todo o SQL: grava, confere e lista</td></tr>
+                <tr><td><code>banco.php</code></td><td>ajuda o modelo<br><small>a porta do depósito</small></td><td>Abre o banco e cria a tabela</td></tr>
+                <tr><td><code>tela-cadastro.php</code></td><td>Visão<br><small>o balcão</small></td><td>Só o HTML da página</td></tr>
               </tbody>
             </table>
           </div>
@@ -1175,7 +1175,7 @@ clientes.sqlite
             <ul>
               <li>Mude o título da página e a cor dos avisos mexendo só no <code>tela-cadastro.php</code>.</li>
               <li>Crie no modelo (<code>clientes.php</code>) a função <code>contarClientes()</code>, com <code>SELECT COUNT(*) FROM clientes</code>. No controle, guarde o resultado numa variável e mostre "Temos X clientes" na visão.</li>
-              <li>Explique para um colega, com o garçom, a cozinha e o prato, o caminho de um cadastro.</li>
+              <li>Explique para um colega, com o vendedor, o estoque e o balcão, o caminho de um cadastro.</li>
             </ul>
           </div>
           <p class="tutorial-commit">Funcionou? Guarde e envie para o GitHub, um comando de cada vez:</p>

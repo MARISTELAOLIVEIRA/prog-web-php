@@ -80,7 +80,7 @@
           <span class="etiqueta">Upload</span>
         </div>
         <h1>Mini Loja: a foto do produto</h1>
-        <p class="subtitulo">O produto ganha foto, e o garçom aprende a conferir tudo o que entra na loja.</p>
+        <p class="subtitulo">O produto ganha foto, e o vendedor aprende a conferir tudo o que entra na loja.</p>
       </div>
     </section>
 
@@ -119,17 +119,17 @@
               cara dele. Hoje o produto ganha <strong>foto</strong>, enviada pelo próprio formulário. Isso se chama <strong>upload</strong>.
             </p>
             <p>
-              Pense no restaurante: o garçom recebe a foto do prato e pendura no cardápio. Só que nem tudo o que chega é foto.
-              Às vezes alguém tenta pendurar um <strong>bilhete com ordens</strong> no lugar dela. Um garçom distraído pendura.
-              Um garçom esperto <strong>confere antes</strong>.
+              Pense na loja: o vendedor recebe a foto da peça e põe na vitrine. Só que nem tudo o que chega é foto.
+              Às vezes alguém tenta pôr na vitrine um <strong>bilhete com ordens</strong> no lugar dela. Um vendedor distraído põe.
+              Um vendedor esperto <strong>confere antes</strong>.
             </p>
           </div>
           <div class="tabela-rola">
             <table class="metodos">
               <caption>O que muda hoje</caption>
-              <thead><tr><th>Versão</th><th>O que acontece</th><th>O garçom...</th></tr></thead>
+              <thead><tr><th>Versão</th><th>O que acontece</th><th>O vendedor...</th></tr></thead>
               <tbody>
-                <tr><td>1</td><td>a foto entra na loja</td><td>pendura qualquer coisa (e você vai ver o perigo)</td></tr>
+                <tr><td>1</td><td>a foto entra na loja</td><td>aceita qualquer coisa (e você vai ver o perigo)</td></tr>
                 <tr><td>2</td><td>a foto é conferida antes de entrar</td><td>olha dentro do arquivo e dá um nome novo</td></tr>
                 <tr><td>3</td><td>editar troca a foto; excluir apaga a foto junto</td><td>não deixa foto esquecida na pasta</td></tr>
               </tbody>
@@ -159,16 +159,16 @@
               <span class="olho">C2</span>
               <h3>A foto mora na pasta; o banco anota o nome</h3>
               <p>A foto vai para a pasta <code>uploads</code>, com o <code>move_uploaded_file</code>. No banco entra só o <strong>nome</strong> do arquivo, numa coluna nova chamada <code>imagem</code>.</p>
-              <p>É como a etiqueta do pote na cozinha: o caderno não guarda o açúcar, guarda <strong>em que pote ele está</strong>.</p>
+              <p>É como a etiqueta da prateleira no estoque: o caderno não guarda o SSD, guarda <strong>em que prateleira ele está</strong>.</p>
               <p>A tabela já existe, então a coluna entra com <code>ALTER TABLE</code>, uma vez só. O <code>banco.php</code> faz isso sozinho.</p>
             </div>
-            <pre class="codigo" aria-label="A pasta da Mini Loja com as fotos"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html          <span class="com">// a porta</span></span><span class="linha"><span class="num">3</span>    cadastro.php        <span class="com">// o garçom: confere e guarda a foto</span></span><span class="linha"><span class="num">4</span>    banco.php           <span class="com">// a cozinha: anota o nome da foto</span></span><span class="linha"><span class="num">5</span>    tela.php            <span class="com">// o prato: mostra a foto</span></span><span class="linha"><span class="num">6</span>    mini-loja.sqlite    <span class="com">// só no computador</span></span><span class="linha"><span class="num">7</span>    uploads/            <span class="com">// NOVO: as fotos (nasce sozinha)</span></span><span class="linha"><span class="num">8</span>        a3f9c1e07b2d4e88.jpg</span></code></pre>
+            <pre class="codigo" aria-label="A pasta da Mini Loja com as fotos"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html          <span class="com">// a porta</span></span><span class="linha"><span class="num">3</span>    cadastro.php        <span class="com">// o vendedor: confere e guarda a foto</span></span><span class="linha"><span class="num">4</span>    banco.php           <span class="com">// o estoque: anota o nome da foto</span></span><span class="linha"><span class="num">5</span>    tela.php            <span class="com">// o balcão: mostra a foto</span></span><span class="linha"><span class="num">6</span>    mini-loja.sqlite    <span class="com">// só no computador</span></span><span class="linha"><span class="num">7</span>    uploads/            <span class="com">// NOVO: as fotos (nasce sozinha)</span></span><span class="linha"><span class="num">8</span>        a3f9c1e07b2d4e88.jpg</span></code></pre>
           </div>
           <div class="conceito">
             <div class="texto">
               <span class="olho">C3</span>
               <h3>O nome pode mentir; o conteúdo, não</h3>
-              <p>Qualquer um renomeia um programa para <code>bolo.jpg</code>. Por isso o garçom confere quatro coisas antes de guardar:</p>
+              <p>Qualquer um renomeia um programa para <code>bolo.jpg</code>. Por isso o vendedor confere quatro coisas antes de guardar:</p>
               <ol>
                 <li><strong>Chegou inteiro?</strong> (<code>error</code>)</li>
                 <li><strong>Cabe?</strong> Até 2 MB (<code>size</code>).</li>
@@ -177,14 +177,14 @@
               </ol>
               <p class="dica cuidado"><strong>Por quê?</strong> Um arquivo <code>.php</code> na pasta <code>uploads</code> vira um <strong>programa no servidor</strong>: quem mandou passa a dar ordens à loja. Esse é um dos ataques mais antigos da web.</p>
             </div>
-            <pre class="codigo" aria-label="O garçom conferindo a foto"><code><span class="linha"><span class="num">1</span><span class="com">// getimagesize abre o arquivo: não é imagem? devolve false</span></span><span class="linha"><span class="num">2</span><span class="var">$info</span> = <span class="fn">getimagesize</span>(<span class="var">$arquivo</span>[<span class="str">'tmp_name'</span>]);</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="com">// o tipo de verdade fica na posição 2</span></span><span class="linha"><span class="num">5</span><span class="var">$info</span>[2] === <span class="var">IMAGETYPE_JPEG</span>   <span class="com">// é uma foto JPEG?</span></span><span class="linha"><span class="num">6</span></span><span class="linha"><span class="num">7</span><span class="com">// nome novo: 16 letras e números sorteados</span></span><span class="linha"><span class="num">8</span><span class="var">$nome</span> = <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(8)) . <span class="str">'.jpg'</span>;</span></code></pre>
+            <pre class="codigo" aria-label="O vendedor conferindo a foto"><code><span class="linha"><span class="num">1</span><span class="com">// getimagesize abre o arquivo: não é imagem? devolve false</span></span><span class="linha"><span class="num">2</span><span class="var">$info</span> = <span class="fn">getimagesize</span>(<span class="var">$arquivo</span>[<span class="str">'tmp_name'</span>]);</span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="com">// o tipo de verdade fica na posição 2</span></span><span class="linha"><span class="num">5</span><span class="var">$info</span>[2] === <span class="var">IMAGETYPE_JPEG</span>   <span class="com">// é uma foto JPEG?</span></span><span class="linha"><span class="num">6</span></span><span class="linha"><span class="num">7</span><span class="com">// nome novo: 16 letras e números sorteados</span></span><span class="linha"><span class="num">8</span><span class="var">$nome</span> = <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(8)) . <span class="str">'.jpg'</span>;</span></code></pre>
           </div>
 
-          <!-- interativo: o garçom confere a foto (assets/js/interativos-php.js) -->
+          <!-- interativo: o vendedor confere a foto (assets/js/interativos-php.js) -->
           <div class="cartao interativo" data-garcom-foto>
             <span class="olho">I1 · experimente</span>
-            <h3>O garçom confere a foto <span class="garcom-placar qual-placar">0 de 6</span></h3>
-            <p>Chegaram seis arquivos pelo formulário. Você é o garçom: <strong>pendura no cardápio</strong> ou <strong>barra</strong>? Leia o nome, o tamanho e, principalmente, o que tem <strong>dentro</strong>.</p>
+            <h3>O vendedor confere a foto <span class="garcom-placar qual-placar">0 de 6</span></h3>
+            <p>Chegaram seis arquivos pelo formulário. Você é o vendedor: <strong>põe na vitrine</strong> ou <strong>barra</strong>? Leia o nome, o tamanho e, principalmente, o que tem <strong>dentro</strong>.</p>
           </div>
         </section>
 
@@ -211,7 +211,7 @@
           <div class="tutorial-passo">
             <span class="etiqueta ouro">Versão 1 · a foto entra</span>
             <h3>A foto vai para a pasta, e o nome vai para o banco</h3>
-            <p>O formulário ganha o campo da foto. O garçom guarda o arquivo na pasta <code>uploads</code>, e a lista mostra a foto ao lado do produto.</p>
+            <p>O formulário ganha o campo da foto. O vendedor guarda o arquivo na pasta <code>uploads</code>, e a lista mostra a foto ao lado do produto.</p>
           </div>
           <p><strong>Faça assim:</strong></p>
           <ol>
@@ -520,11 +520,11 @@ require __DIR__ . '/tela.php';
             <li>Cadastre um produto e, no campo da foto, escolha o <code>foto-teste.php</code> (troque o filtro da janela para "Todos os arquivos").</li>
             <li>Abra <code>http://localhost/mini-loja/uploads/foto-teste.php</code>.</li>
           </ol>
-          <p>Apareceu a frase? Então o servidor <strong>executou</strong> o arquivo que você mandou. Um atacante, no lugar da frase, poria ordens para ler o banco, apagar tudo ou tomar o servidor. O garçom pendurou um bilhete no cardápio, e o bilhete começou a mandar na cozinha.</p>
+          <p>Apareceu a frase? Então o servidor <strong>executou</strong> o arquivo que você mandou. Um atacante, no lugar da frase, poria ordens para ler o banco, apagar tudo ou tomar o servidor. O vendedor pôs um bilhete na vitrine, e o bilhete começou a mandar no estoque.</p>
           <p class="dica cuidado"><strong>Terminou o teste?</strong> Apague o <code>foto-teste.php</code> da pasta <code>uploads</code> e exclua o produto dele. A versão 2 fecha essa porta.</p>
 
           <div class="tutorial-passo">
-            <span class="etiqueta ouro">Versão 2 · o garçom confere</span>
+            <span class="etiqueta ouro">Versão 2 · o vendedor confere</span>
             <h3>Só foto de verdade, pequena e com nome novo</h3>
             <p>O <code>cadastro.php</code> ganha duas funções: uma confere a foto, a outra guarda com um nome inventado. Foto recusada volta com o aviso, e o que a pessoa digitou continua no formulário.</p>
           </div>
@@ -541,7 +541,7 @@ require __DIR__ . '/tela.php';
 // Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
 require __DIR__ . '/banco.php';
 
-// NOVO: o garçom confere a foto antes de pendurar no cardápio.
+// NOVO: o vendedor confere a foto antes de pôr na vitrine.
 // Devolve '' quando está tudo certo, ou a frase do problema.
 function conferirImagem(array $arquivo): string
 {
@@ -596,7 +596,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $preco = (float) ($_POST['preco'] ?? 0);
 
-    // escolheram uma foto? o garçom confere antes de guardar
+    // escolheram uma foto? o vendedor confere antes de guardar
     $imagem = '';
     $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
     if ($temFoto) {
@@ -1038,7 +1038,7 @@ function atualizarProduto(int $id, string $nome, float $preco, string $imagem): 
 // Recebe o formulário, pede ao modelo (banco.php) e chama a visão (tela.php).
 require __DIR__ . '/banco.php';
 
-// NOVO: o garçom confere a foto antes de pendurar no cardápio.
+// NOVO: o vendedor confere a foto antes de pôr na vitrine.
 // Devolve '' quando está tudo certo, ou a frase do problema.
 function conferirImagem(array $arquivo): string
 {
@@ -1107,7 +1107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $preco = (float) ($_POST['preco'] ?? 0);
 
-    // escolheram uma foto? o garçom confere antes de guardar
+    // escolheram uma foto? o vendedor confere antes de guardar
     $imagem = '';
     $temFoto = isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE;
     if ($temFoto) {
@@ -1438,7 +1438,7 @@ require __DIR__ . '/tela.php';
               <span class="barra-progresso"><span></span></span>
             </div>
             <ol class="checklist" id="passos-aula-14-foto">
-              <li><label><input type="checkbox"><span>Acertei os 6 do "O garçom confere a foto".</span></label></li>
+              <li><label><input type="checkbox"><span>Acertei os 6 do "O vendedor confere a foto".</span></label></li>
               <li><label><input type="checkbox"><span>Versão 1: a lista mostrou "sem foto", e cadastrei um produto com foto.</span></label></li>
               <li><label><input type="checkbox"><span>Fiz o teste do <code>foto-teste.php</code> e vi o servidor executar o arquivo.</span></label></li>
               <li><label><input type="checkbox"><span>Versão 2: o <code>foto-teste.php</code> foi recusado.</span></label></li>
@@ -1550,7 +1550,7 @@ require __DIR__ . '/tela.php';
   <script src="../assets/js/conta.js?v=7" data-disciplina="prog-web-php"></script>
   <script src="../assets/js/aulas.js?v=3"></script>
   <script src="../assets/js/tutorial-php.js?v=2"></script>
-  <script src="../assets/js/interativos-php.js?v=4"></script>
+  <script src="../assets/js/interativos-php.js?v=5"></script>
   <script src="../assets/js/matrix.js?v=2"></script>
 </body>
 </html>

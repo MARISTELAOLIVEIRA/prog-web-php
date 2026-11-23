@@ -1,5 +1,5 @@
 /* ===================================================================
-   interativos-php.js: as brincadeiras das aulas de PHP · versão 4 · 2026-11-17 ("O garçom confere a foto")
+   interativos-php.js: as brincadeiras das aulas de PHP · versão 5 · 2026-11-23 (a analogia virou a loja: "O vendedor confere a foto")
    - [data-molde-cliente]: "Laboratório do molde" (aula 11). Cada clique fabrica um objeto Cliente,
      com os mesmos atributos e métodos da classe do tutorial (primeiroNome e validar).
    - [data-fabrica-classes]: "Fábrica de classes" (aula 11). Sorteia a classe que a dupla vai criar.
@@ -7,8 +7,8 @@
      tabela (clientes, produtos ou pedidos); 10 XP por acerto e bônus de primeira.
    - [data-qual-arquivo]: "Qual arquivo faz isso?" (Mini Cadastro). Cada <li data-certo="..."> ganha um botão
      por arquivo (data-opcoes no contêiner, separados por vírgula) e responde com acerto ou curto-circuito.
-   - [data-garcom-foto]: "O garçom confere a foto" (aula 14, upload). Chegam 6 arquivos; o aluno pendura no cardápio
-     ou barra. Foto aceita ganha nome novo e entra no cardápio com um pulso de luz.
+   - [data-garcom-foto]: "O vendedor confere a foto" (aula 14, upload). Chegam 6 arquivos; o aluno põe na vitrine
+     ou barra. Foto aceita ganha nome novo e entra na vitrine com um pulso de luz.
    Os textos entram com textContent; as animações param com o botão de pausa.
    =================================================================== */
 (function () {
@@ -174,21 +174,21 @@
     });
   });
 
-  // ---------- O garçom confere a foto (upload) ----------
+  // ---------- O vendedor confere a foto (upload) ----------
   // cada arquivo: como chegou, o que tem dentro de verdade, e a resposta certa (pendurar ou barrar)
   const FOTOS = [
     { nome: "sensor-dht11.jpg", tamanho: "180 KB", dentro: "uma foto JPEG de verdade", icone: "🌡️", certo: "pendurar",
-      porque: "Foto de verdade, do tipo combinado e pequena. O garçom pendura com um nome novo, inventado por ele." },
+      porque: "Foto de verdade, do tipo combinado e pequena. O vendedor põe na vitrine com um nome novo, inventado por ele." },
     { nome: "foto.php", tamanho: "1 KB", dentro: "código PHP", icone: "📜", certo: "barrar",
       porque: "É um programa! Na pasta uploads, o Apache executaria esse arquivo: quem mandou passa a dar ordens ao servidor." },
     { nome: "bolo.jpg", tamanho: "2 KB", dentro: "código PHP", icone: "🎭", certo: "barrar",
       porque: "O nome mente: termina em .jpg, mas dentro é código. Por isso o getimagesize olha o conteúdo, não o nome." },
     { nome: "placa-esp32.png", tamanho: "6,8 MB", dentro: "uma foto PNG de verdade", icone: "🐘", certo: "barrar",
-      porque: "É foto, mas passou de 2 MB. Foto gigante enche o disco e deixa a loja lenta: o garçom pede uma menor." },
+      porque: "É foto, mas passou de 2 MB. Foto gigante enche o disco e deixa a loja lenta: o vendedor pede uma menor." },
     { nome: "led-vermelho.webp", tamanho: "90 KB", dentro: "uma foto WEBP de verdade", icone: "🔴", certo: "pendurar",
-      porque: "WEBP está na lista combinada (JPG, PNG ou WEBP) e é leve. Pode pendurar." },
+      porque: "WEBP está na lista combinada (JPG, PNG ou WEBP) e é leve. Pode pôr na vitrine." },
     { nome: "manual-arduino.pdf", tamanho: "300 KB", dentro: "um documento PDF", icone: "📄", certo: "barrar",
-      porque: "Não é foto. Cardápio de produto só aceita JPG, PNG ou WEBP." }
+      porque: "Não é foto. Vitrine de produto só aceita JPG, PNG ou WEBP." }
   ];
   function nomeNovo(nome) {
     let n = "";
@@ -199,7 +199,7 @@
     const placar = caixa.querySelector(".garcom-placar");
     const lista = el("ol", "garcom-fila");
     const cardapio = el("div", "garcom-cardapio");
-    cardapio.appendChild(el("p", "garcom-rotulo", "🖼️ O cardápio da Mini Loja (pasta uploads)"));
+    cardapio.appendChild(el("p", "garcom-rotulo", "🖼️ A vitrine da Mini Loja (pasta uploads)"));
     const penduradas = el("ul", "garcom-penduradas");
     cardapio.appendChild(penduradas);
     let acertos = 0;
@@ -213,7 +213,7 @@
       const botoes = el("div", "garcom-botoes");
       const aviso = el("p", "garcom-aviso");
       aviso.setAttribute("aria-live", "polite");
-      [["pendurar", "🖼️ Pendurar no cardápio"], ["barrar", "🚫 Barrar"]].forEach(function (par) {
+      [["pendurar", "🖼️ Pôr na vitrine"], ["barrar", "🚫 Barrar"]].forEach(function (par) {
         const b = el("button", "garcom-botao", par[1]);
         b.type = "button";
         b.addEventListener("click", function () {
@@ -226,13 +226,13 @@
           b.classList.add("escolhido");
           botoes.querySelectorAll("button").forEach(function (x) { x.disabled = true; });
           aviso.textContent = (acertou ? "Compilou de primeira! " : "Curto-circuito. ") + f.porque;
-          // pendurou uma foto boa? ela entra no cardápio com o nome novo
+          // pendurou uma foto boa? ela entra na vitrine com o nome novo
           if (par[0] === "pendurar" && f.certo === "pendurar") {
             const item = el("li", "garcom-foto" + (pausado() ? "" : " pulso"));
             item.append(el("span", "garcom-icone", f.icone), el("code", "", nomeNovo(f.nome)));
             penduradas.appendChild(item);
           }
-          // pendurou um arquivo ruim? o cardápio mostra o estrago
+          // pendurou um arquivo ruim? a vitrine mostra o estrago
           if (par[0] === "pendurar" && f.certo === "barrar") {
             const item = el("li", "garcom-foto estrago");
             item.append(el("span", "garcom-icone", "💥"), el("code", "", f.nome));
@@ -241,7 +241,7 @@
           placar.textContent = acertos + " de " + FOTOS.length;
           if (respondidas === FOTOS.length) {
             caixa.appendChild(el("p", "garcom-fim", acertos === FOTOS.length
-              ? "🏅 Garçom de confiança! Nenhum bilhete disfarçado entrou no cardápio."
+              ? "🏅 Vendedor de confiança! Nenhum bilhete disfarçado entrou na vitrine."
               : "Confira de novo os que ficaram vermelhos: o nome pode mentir, o conteúdo não."));
           }
         });

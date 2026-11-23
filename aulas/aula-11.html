@@ -137,11 +137,11 @@
             <div class="texto">
               <span class="olho">C1</span>
               <h3>Quatro arquivos, cada um com um trabalho</h3>
-              <p>A Mini Loja segue o MVC do restaurante, só que enxuto. Cada arquivo faz <strong>uma coisa só</strong>: deu problema, você já sabe onde procurar.</p>
-              <ul><li><code>index.html</code>: a <strong>porta</strong> da loja. Só HTML.</li><li><code>cadastro.php</code>: o <strong>garçom</strong> (controle). Recebe o pedido e leva a resposta.</li><li><code>banco.php</code>: a <strong>cozinha</strong> (modelo). Guarda os dados.</li><li><code>tela.php</code>: o <strong>prato</strong> (visão). Só mostra.</li></ul>
+              <p>A Mini Loja segue o MVC da loja, só que enxuto. Cada arquivo faz <strong>uma coisa só</strong>: deu problema, você já sabe onde procurar.</p>
+              <ul><li><code>index.html</code>: a <strong>porta</strong> da loja. Só HTML.</li><li><code>cadastro.php</code>: o <strong>vendedor</strong> (controle). Recebe o pedido e leva a resposta.</li><li><code>banco.php</code>: o <strong>estoque</strong> (modelo). Guarda os dados.</li><li><code>tela.php</code>: o <strong>balcão</strong> (visão). Só mostra.</li></ul>
               <p><strong>O caminho de um clique:</strong> você abre o <code>cadastro.php</code> → ele pede os produtos ao <code>banco.php</code> → recebe a lista → entrega para a <code>tela.php</code> mostrar.</p>
             </div>
-            <pre class="codigo" aria-label="Os arquivos da Mini Loja"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html      <span class="com">// a porta: a página inicial</span></span><span class="linha"><span class="num">3</span>    cadastro.php    <span class="com">// o garçom: o controle</span></span><span class="linha"><span class="num">4</span>    banco.php       <span class="com">// a cozinha: o modelo (os dados)</span></span><span class="linha"><span class="num">5</span>    tela.php        <span class="com">// o prato: a visão (o HTML)</span></span></code></pre>
+            <pre class="codigo" aria-label="Os arquivos da Mini Loja"><code><span class="linha"><span class="num">1</span>mini-loja/</span><span class="linha"><span class="num">2</span>    index.html      <span class="com">// a porta: a página inicial</span></span><span class="linha"><span class="num">3</span>    cadastro.php    <span class="com">// o vendedor: o controle</span></span><span class="linha"><span class="num">4</span>    banco.php       <span class="com">// o estoque: o modelo (os dados)</span></span><span class="linha"><span class="num">5</span>    tela.php        <span class="com">// o balcão: a visão (o HTML)</span></span></code></pre>
           </div>
           <div class="conceito">
             <div class="texto">
@@ -343,7 +343,7 @@ require __DIR__ . '/tela.php';
             <p><strong><code>cadastro.php</code></strong></p>
             <ol>
               <li><code>require</code> traz as funções do <code>banco.php</code> para cá.</li>
-              <li><code>$produtos = listarProdutos();</code>: o garçom pede a lista à cozinha.</li>
+              <li><code>$produtos = listarProdutos();</code>: o vendedor pede a lista ao estoque.</li>
               <li><code>require __DIR__ . '/tela.php'</code> chama a visão. Ela enxerga a variável <code>$produtos</code>.</li>
             </ol>
             <p><strong><code>tela.php</code></strong></p>
@@ -902,7 +902,7 @@ function listarProdutos(): array
   <script src="../assets/js/conta.js?v=7" data-disciplina="prog-web-php"></script>
   <script src="../assets/js/aulas.js?v=3"></script>
   <script src="../assets/js/tutorial-php.js?v=2"></script>
-  <script src="../assets/js/interativos-php.js?v=3"></script>
+  <script src="../assets/js/interativos-php.js?v=5"></script>
   <script src="../assets/js/matrix.js?v=2"></script>
 </body>
 </html>

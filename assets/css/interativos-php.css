@@ -79,7 +79,7 @@
 .qual-aviso { font-size: .88rem; color: var(--texto-2); min-height: 1.2em; }
 .qual-placar { font-family: var(--f-mono); color: var(--ouro-forte); }
 
-/* O garçom confere a foto (aula 14) */
+/* O vendedor confere a foto (aula 14) */
 .garcom-fila { list-style: none; padding: 0; margin: 0; display: grid; gap: .7rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
 .garcom-arquivo { display: grid; gap: .45rem; padding: .8rem .9rem; border: 1px solid var(--borda); border-radius: 12px; background: var(--superficie-2); transition: border-color .3s; }
 .garcom-arquivo.certo { border-color: var(--menta); }
