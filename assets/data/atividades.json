@@ -1,1 +1,15 @@
-[]
+[
+ {
+  "id": "escape-mini-loja",
+  "pasta": "escape/",
+  "titulo": "Escape room da Mini Loja",
+  "descricao": "🔐 Escape room da Mini Loja · Avaliação final (vale 4)\n\nAlguém invadiu o servidor da Mini Loja e estragou 5 linhas do código. A loja abre amanhã às 8h, e você é a pessoa desenvolvedora responsável por salvá-la. 💪\n\nComo funciona:\n1. Abra o link: https://maristelaoliveira.github.io/prog-web-php/escape/\n2. Entre com o seu e-mail da faculdade (@edu.df.senac.br).\n3. Em cada fechadura, teste a loja, ache a linha com defeito e conserte o código.\n4. Cada etapa vale 1 ponto se você acertar em até 2 chances. São 5 fechaduras, 10 pontos.\n5. Com as 5 abertas, a entrega vai sozinha para a professora.\n\nOs assuntos: formulário (name e $_POST), upload seguro de foto, validação, consulta preparada e senha com password_hash.\n\nCombinados:\n- Individual e em sala.\n- Leia com calma antes de clicar: não dá para voltar atrás.\n- Errou? Faz parte. Leia a explicação de cada fechadura: ela vale para a vida de dev.\n\nBoa sorte, filhotes! Eu vou estar com vocês na tela. 😉",
+  "link": "",
+  "bimestre": "2º",
+  "valor": "4,0 pontos",
+  "arquivo": "",
+  "arquivo_nome": "",
+  "imagem": false,
+  "alt": ""
+ }
+]
